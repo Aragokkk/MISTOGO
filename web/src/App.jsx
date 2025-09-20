@@ -1,4 +1,7 @@
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/Navbar.jsx";
 
 // Публічні сторінки
 import Home from "./pages/Home/Home";
@@ -40,6 +43,9 @@ import Unauthorized from "./pages/System/Unauthorized";
 function App() {
   return (
     <Router>
+      {/* Панель навігації */}
+      <Navbar />
+
       <Routes>
         {/* Публічні */}
         <Route path="/" element={<Home />} />
