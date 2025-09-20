@@ -447,7 +447,7 @@
     ]
   },
   "packageFolders": {
-    "/home/dev1/.nuget/packages/": {}
+    "/home/dev2/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
@@ -455,11 +455,11 @@
       "projectUniqueName": "/var/www/mistogo/api/api.csproj",
       "projectName": "api",
       "projectPath": "/var/www/mistogo/api/api.csproj",
-      "packagesPath": "/home/dev1/.nuget/packages/",
+      "packagesPath": "/home/dev2/.nuget/packages/",
       "outputPath": "/var/www/mistogo/api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/dev1/.nuget/NuGet/NuGet.Config"
+        "/home/dev2/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
