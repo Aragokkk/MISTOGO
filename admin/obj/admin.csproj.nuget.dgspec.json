@@ -10,11 +10,11 @@
         "projectUniqueName": "/var/www/mistogo/admin/admin.csproj",
         "projectName": "admin",
         "projectPath": "/var/www/mistogo/admin/admin.csproj",
-        "packagesPath": "/home/dev2/.nuget/packages/",
+        "packagesPath": "/home/dev1/.nuget/packages/",
         "outputPath": "/var/www/mistogo/admin/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/dev2/.nuget/NuGet/NuGet.Config"
+          "/home/dev1/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"

@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar.jsx";
 import Home from "./pages/Home/Home";
 import Transport from "./pages/Transport/Transport";
 import Mopeds from "./pages/Transport/Mopeds";
+import Avto from "./pages/Transport/Avto";
 import Scooters from "./pages/Transport/Scooters";
 import Bikes from "./pages/Transport/Bikes";
 import Zones from "./pages/Zones/Zones";
@@ -50,6 +51,7 @@ function App() {
         {/* Публічні */}
         <Route path="/" element={<Home />} />
         <Route path="/transport" element={<Transport />} />
+        <Route path="/transport/avto" element={<Avto />} />
         <Route path="/transport/mopeds" element={<Mopeds />} />
         <Route path="/transport/scooters" element={<Scooters />} />
         <Route path="/transport/bikes" element={<Bikes />} />

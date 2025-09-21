@@ -10,9 +10,10 @@ export default function Navbar() {
       name: "Транспорт",
       path: "/transport",
       submenu: [
-        { name: "Mopeds", path: "/transport/mopeds" },
-        { name: "Scooters", path: "/transport/scooters" },
-        { name: "Bikes", path: "/transport/bikes" },
+        { name: "Мопеди", path: "/transport/mopeds" },
+        { name: "Самокати", path: "/transport/scooters" },
+        { name: "Велосипеди", path: "/transport/bikes" },
+        { name: "Авто", path: "/transport/avto" },
       ],
     },
     { name: "Паркування", path: "/zones" },
