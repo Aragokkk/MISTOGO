@@ -59,7 +59,7 @@ export default function Navbar() {
             {/* Праворуч */}
             <div className="navbar-right">
               <button className="navbar-lang">UA</button>
-              <Link to="/auth/login" className="navbar-login">Вхід</Link>
+              <Link to="/auth" className="navbar-login">Вхід</Link>
             </div>
           </div>
         </div>
