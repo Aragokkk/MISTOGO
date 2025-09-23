@@ -1,10 +1,13 @@
-function Zones() {
+import BackHomeButton from "../../components/BackHomeButton";
+import BackButton from "../../components/BackButton";
+function AdminZones() {
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>Zones</h1>
-      <p>Сторінка Zones.</p>
+      <h1>Адмінпанель – Зони</h1>
+      <BackHomeButton />
+      <BackButton />
     </div>
   );
 }
 
-export default Zones;
+export default AdminZones;

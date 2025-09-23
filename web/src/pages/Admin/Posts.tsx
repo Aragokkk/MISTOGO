@@ -1,10 +1,14 @@
-function Posts() {
+import BackHomeButton from "../../components/BackHomeButton";
+import BackButton from "../../components/BackButton";
+
+function AdminPosts() {
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>Posts</h1>
-      <p>Сторінка Posts.</p>
+      <h1>Адмінпанель – Публікації</h1>
+      <BackHomeButton />
+      <BackButton />
     </div>
   );
 }
 
-export default Posts;
+export default AdminPosts;

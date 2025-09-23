@@ -1,8 +1,12 @@
+import BackHomeButton from "../../components/BackHomeButton";
+import BackButton from "../../components/BackButton";
+
 function Users() {
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>Users</h1>
-      <p>Сторінка Users.</p>
+      <h1>Адмінпанель – Користувачі</h1>
+      <BackHomeButton />
+      <BackButton />
     </div>
   );
 }

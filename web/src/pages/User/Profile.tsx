@@ -1,8 +1,12 @@
+import BackHomeButton from "../../components/BackHomeButton";
+import BackButton from "../../components/BackButton";
+
 function Profile() {
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>Profile</h1>
-      <p>Сторінка Profile.</p>
+      <h1>Профіль користувача</h1>
+      <BackHomeButton />
+      <BackButton />
     </div>
   );
 }
