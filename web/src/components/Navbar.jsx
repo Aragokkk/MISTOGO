@@ -1,7 +1,7 @@
 import { NavLink, Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
-
+//Commit 13
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const ddRef = useRef(null);
