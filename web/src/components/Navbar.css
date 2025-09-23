@@ -1,0 +1,133 @@
+.navbar-header {
+  background: #0f1d2c;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.navbar-container {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.navbar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 3.5rem;
+  flex-wrap: wrap; /* щоб не ламалося на вузькому екрані */
+}
+
+/* Лого */
+.navbar-logo {
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: #f87171;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Центр + правий блок зжимаємо вправо */
+.navbar-main {
+  display: flex;
+  align-items: center;
+  gap: 2rem; /* відстань між секціями */
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* Меню */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.navbar-link {
+  padding: 0.5rem 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+.navbar-link:hover { color: #cbd5e1; }
+.navbar-link-active { font-weight: 700; }
+
+/* Дропдаун */
+.navbar-dropdown { position: relative; }
+.navbar-dropdown-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  color: inherit;
+  font-weight: 600;
+}
+.navbar-dropdown-list {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: .25rem;
+  background: #1f2937;
+  border-radius: 8px;
+  list-style: none;
+  padding: .5rem 0;
+  min-width: 13rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  z-index: 50;
+}
+.navbar-dropdown.open .navbar-dropdown-list { display: block; }
+
+/* Правий блок */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.navbar-lang {
+  padding: .25rem .75rem;
+  background: #223046;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  color: inherit;
+}
+
+.navbar-login {
+  border: 1px solid #fff;
+  border-radius: 9999px;
+  padding: .375rem 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+.navbar-login:hover { background: rgba(255,255,255,.06); }
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .navbar-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    height: auto;
+    padding: 0.5rem 0;
+  }
+
+  .navbar-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .navbar-right {
+    align-self: flex-start;
+  }
+}
