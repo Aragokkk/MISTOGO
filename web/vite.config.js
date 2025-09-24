@@ -12,6 +12,10 @@ export default defineConfig({
       'www.mistogo.online',
       'localhost',
       '93.127.121.78'
-    ]
+    ],
+    hmr: {
+      clientPort: 5173,
+      port: 5173
+    }
   }
 })
