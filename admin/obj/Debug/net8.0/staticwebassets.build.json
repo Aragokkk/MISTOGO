@@ -1,11 +1,23 @@
 {
   "Version": 1,
-  "Hash": "eRWrDsjKuIVNLaCyBteRVk5N9x0dKIriFHAnob5WOTQ=",
+  "Hash": "Z0q/FSdjr4gDwkjW+z5HESszOcDAceyADXcj7OfT6Io=",
   "Source": "admin",
   "BasePath": "_content/admin",
   "Mode": "Default",
   "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "/var/www/mistogo/api/api.csproj",
+      "Version": 2,
+      "Source": "api",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
   "DiscoveryPatterns": [
     {
       "Name": "admin/wwwroot",

@@ -1,133 +1,452 @@
+/* ========== ЗМІННІ ========== */
+:root {
+  /* Кольори */
+  --color-text: #1e1e1e;
+  --white-nuche: #fff;
+  --color: var(--white-nuche);
+  --white-text: #fff;
+  --green: #afd06e;
+  --silver: #ededed;
+  --gray-text: #4b4b4b;
+  
+  /* Шрифти */
+  --font-family: "Montserrat", sans-serif;
+  --second-family: "Inter", sans-serif;
+}
+
+/* ========== NAVBAR HEADER ========== */
 .navbar-header {
-  background: #0f1d2c;
-  color: #fff;
+  background: linear-gradient(136deg, #8dba97 0%, #7cacab 100%);
+  color: var(--white-text);
   position: sticky;
   top: 0;
-  z-index: 40;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 66px;
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 
 .navbar-container {
-  max-width: 80rem;
+  max-width: 1920px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 44px;
+  height: 100%;
+  font-family: var(--font-family);
 }
 
 .navbar-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 3.5rem;
-  flex-wrap: wrap; /* щоб не ламалося на вузькому екрані */
+  height: 100%;
+  gap: 24px;
+}
+
+/* ========== ЛІВА СЕКЦІЯ ========== */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 48px;
 }
 
 /* Лого */
 .navbar-logo {
-  font-weight: 800;
-  font-size: 1.25rem;
-  color: #f87171;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-/* Центр + правий блок зжимаємо вправо */
-.navbar-main {
+  background: var(--white-nuche);
+  padding: 7px 40px;
+  border-radius: 60px 0;
   display: flex;
   align-items: center;
-  gap: 2rem; /* відстань між секціями */
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 182px;
+  height: 43px;
+  justify-content: center;
 }
 
-/* Меню */
+.navbar-logo:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.logo-text {
+  font-size: 34px;
+  font-weight: 600;
+  color: #1D2A62;
+  font-style: italic;
+  font-family: var(--font-family);
+}
+
+/* Меню Links */
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  flex-wrap: wrap;
+  gap: 23px;
 }
 
 .navbar-link {
-  padding: 0.5rem 0.75rem;
-  font-weight: 500;
-  white-space: nowrap;
+  color: var(--white-nuche);
   text-decoration: none;
-  color: inherit;
-  transition: color 0.2s ease;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  padding: 4px 0;
+  position: relative;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.navbar-link:hover { color: #cbd5e1; }
-.navbar-link-active { font-weight: 700; }
 
-/* Дропдаун */
-.navbar-dropdown { position: relative; }
+/* Індивідуальні ширини кнопок */
+.navbar-link[href="/zones"] {
+  width: 150px;
+}
+
+.navbar-link[href="/blog"] {
+  width: 71px;
+}
+
+.navbar-link[href="/support"] {
+  width: 135px;
+}
+
+.navbar-link[href="/faq"] {
+  width: 170px;
+}
+
+.navbar-link:hover {
+  opacity: 0.85;
+}
+
+.navbar-link-active {
+  font-weight: 600;
+}
+
+.navbar-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--white-text);
+  border-radius: 2px;
+}
+
+/* ========== DROPDOWN ТРАНСПОРТ ========== */
+.navbar-dropdown {
+  position: relative;
+}
+
 .navbar-dropdown-btn {
   background: transparent;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: .35rem;
-  color: inherit;
+  justify-content: center;
+  gap: 8px;
+  color: var(--white-nuche);
+  font-size: 20px;
   font-weight: 600;
+  font-family: var(--font-family);
+  padding: 4px 0;
+  transition: opacity 0.2s;
+  width: 134px;
+  height: 44px;
 }
+
+.navbar-dropdown-btn:hover {
+  opacity: 0.85;
+}
+
+.dropdown-arrow {
+  font-size: 10px;
+  transition: transform 0.3s;
+}
+
+.navbar-dropdown.open .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
 .navbar-dropdown-list {
   display: none;
   position: absolute;
-  top: 100%;
+  top: calc(100% + 8px);
   left: 0;
-  margin-top: .25rem;
-  background: #1f2937;
-  border-radius: 8px;
+  background: #FFFFFF;
+  border-radius: 12px;
   list-style: none;
-  padding: .5rem 0;
-  min-width: 13rem;
-  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  padding: 8px 0;
+  min-width: 200px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   z-index: 50;
 }
-.navbar-dropdown.open .navbar-dropdown-list { display: block; }
 
-/* Правий блок */
+.navbar-dropdown.open .navbar-dropdown-list {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar-dropdown-list li {
+  margin: 0;
+}
+
+.navbar-dropdown-list .navbar-link {
+  display: block;
+  padding: 12px 20px;
+  color: #1D2A62;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.2s;
+  width: auto;
+  height: auto;
+}
+
+.navbar-dropdown-list .navbar-link:hover {
+  background: #D9D9D9;
+  color: #1D2A62;
+  opacity: 1;
+  border-radius: 8px;
+}
+
+.navbar-dropdown-list .navbar-link-active {
+  background: #FAE9B1;
+  color: #1D2A62;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.navbar-dropdown-list .navbar-link-active::after {
+  display: none;
+}
+
+/* ========== ПРАВА СЕКЦІЯ ========== */
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 24px;
 }
 
-.navbar-lang {
-  padding: .25rem .75rem;
-  background: #223046;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  color: inherit;
+/* Мова та валюта */
+.lang-currency {
+  color: var(--white-text);
+  font-size: 20px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  user-select: none;
+  white-space: nowrap;
+  width: 151px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
 
+.lang-currency:hover {
+  opacity: 0.85;
+}
+
+/* Перемикач теми */
+.theme-toggle {
+  width: 59px;
+  height: 31px;
+  background: transparent;
+  border: none;
+  border-radius: 14px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s;
+  overflow: visible;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  opacity: 0.85;
+}
+
+.theme-toggle svg {
+  width: 59px;
+  height: 31px;
+  overflow: visible;
+}
+
+.theme-toggle .toggle-circle {
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Кнопка входу */
 .navbar-login {
-  border: 1px solid #fff;
-  border-radius: 9999px;
-  padding: .375rem 1rem;
+  background: transparent;
+  color: var(--white-text);
+  border: 3px solid var(--white-text);
+  border-radius: 30px;
+  padding: 0;
+  width: 82px;
+  height: 42px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: var(--font-family);
   text-decoration: none;
-  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-sizing: border-box;
 }
-.navbar-login:hover { background: rgba(255,255,255,.06); }
 
-/* Адаптивність */
+.navbar-login:hover {
+  transform: translateY(-1px);
+  background: var(--green);
+  color: #1D2A62;
+  border-color: var(--green);
+}
+
+.navbar-login:active {
+  transform: translateY(0);
+  background: var(--green);
+  color: #1D3A17;
+  border-color: #1D3A17;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .navbar-container {
+    padding: 0 24px;
+  }
+
+  .navbar-left {
+    gap: 24px;
+  }
+
+  .navbar-links {
+    gap: 20px;
+  }
+
+  .navbar-right {
+    gap: 16px;
+  }
+
+  .navbar-link,
+  .navbar-dropdown-btn {
+    font-size: 14px;
+  }
+
+  .logo-text {
+    font-size: 20px;
+  }
+
+  .navbar-login {
+    padding: 8px 20px;
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 16px;
+  }
+
   .navbar-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
-    height: auto;
-    padding: 0.5rem 0;
+    gap: 16px;
+    padding: 12px 0;
   }
 
-  .navbar-main {
+  .navbar-left {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
     width: 100%;
   }
 
   .navbar-right {
-    align-self: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .navbar-dropdown-list {
+    position: static;
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.95);
+    margin-top: 8px;
+    border-radius: 8px;
+  }
+
+  .theme-toggle {
+    display: none;
+  }
+
+  .logo-text {
+    font-size: 18px;
+  }
+
+  .navbar-login {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-container {
+    padding: 0 12px;
+  }
+
+  .navbar-row {
+    padding: 10px 0;
+  }
+
+  .logo-text {
+    font-size: 16px;
+  }
+
+  .navbar-logo {
+    padding: 6px 16px;
+  }
+
+  .navbar-link,
+  .navbar-dropdown-btn {
+    font-size: 13px;
+  }
+
+  .navbar-login {
+    padding: 6px 14px;
+    font-size: 12px;
   }
 }

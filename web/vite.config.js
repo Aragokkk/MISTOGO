@@ -13,9 +13,6 @@ export default defineConfig({
       'localhost',
       '93.127.121.78'
     ],
-    hmr: {
-      clientPort: 5173,
-      port: 5173
-    }
+    hmr: false  // ← Вимкнути HMR на production
   }
 })

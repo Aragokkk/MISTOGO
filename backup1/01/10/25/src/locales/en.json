@@ -1,0 +1,14 @@
+{
+  "navbar": {
+    "transport": "Transport",
+    "cars": "Cars",
+    "mopeds": "Mopeds",
+    "scooters": "Scooters",
+    "bikes": "Bikes",
+    "zones": "Parking",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "support": "Support",
+    "login": "Login"
+  }
+}

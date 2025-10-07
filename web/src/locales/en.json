@@ -1,0 +1,110 @@
+{
+  "home_title": "Welcome to MistoGo",
+  "home_description": "We offer convenient transportation in your city.",
+  "home_cta": "Learn more",
+
+  "hero": {
+    "title": "Discover the city in a new way with eco-transport",
+    "description": "Cars, bikes, scooters and mopeds — your transport for any task here and now",
+    "button": "Choose transport",
+    "footer": "Choose your transport",
+    "imageAlt": "Eco Transport - Car and Bike"
+  },
+
+  "transport": "Transport",
+  "cars": "Cars",
+  "mopeds": "Mopeds",
+  "scooters": "Scooters",
+  "bikes": "Bikes",
+
+ 
+  "blog": "Blog",
+
+  
+  "contacts": "Contacts",
+  "lang_ua": "UA",
+  "lang_en": "EN",
+
+  "support": {
+    "title": "Contacts / Support",
+    "text": "Contact us for help.",
+    "support": "Support"
+  },
+
+ "faq": {
+  "short": "FAQ",
+  "title": "Frequently Asked Questions",
+  "description": "Here you will find answers to the most common questions."
+},
+
+"blog_page": {
+  "title": "Blog",
+  "description": "List of articles and updates.",
+  "read_button": "Read article"
+},
+"zones": {
+  "short_zone":"Parking",
+  "title": "MISTOGO Parking Zones Map",
+  "subtitle": "Geofencing zones for ending rentals • Available transport nearby",
+  "price_modifier": "Additional fee",
+  "vehicle": {
+    "price": "Rate",
+    "battery": "Battery",
+    "fuel": "Fuel",
+    "book": "Book"
+  },
+  "city_center": { "name": "City Center", "desc": "Standard zone for trip ending" },
+  "pechersk": { "name": "Premium Zone — Pechersk", "desc": "Premium area (+2₴/min to tariff)" },
+  "gov": { "name": "Restricted Zone — Government Quarter", "desc": "Parking not allowed here" }
+},
+"login": {
+  "title": "Login",
+  "email": "Email",
+  "password": "Password",
+  "submit": "Sign in",
+  "loading": "Signing in...",
+  "fill_all_fields": "Please fill in all fields",
+  "invalid_server_response": "Invalid server response",
+  "error": "Login error",
+  "forgot_password": "Forgot password?",
+  "no_account": "No account?",
+  "register": "Register"
+},
+
+"register": {
+  "title": "Register",
+  "full_name_optional": "Full Name (optional)",
+  "email_required": "Email *",
+  "phone_optional": "Phone +380XXXXXXXXX (optional)",
+  "password_required": "Password (min. 6 characters) *",
+  "confirm_password": "Confirm Password *",
+  "submit": "Register",
+  "loading": "Registering...",
+  "fill_required_fields": "Please fill in all required fields",
+  "invalid_email": "Invalid email format",
+  "password_length": "Password must be at least 6 characters",
+  "password_mismatch": "Passwords do not match",
+  "invalid_phone": "Invalid phone format. Use +380XXXXXXXXX",
+  "error": "Registration error",
+  "already_have_account": "Already have an account?",
+  "login": "Login"
+},
+
+"forgotPassword": {
+  "title": "Forgot Password",
+  "enter_email": "Enter the email address you used to register",
+  "email_placeholder": "Enter your Email",
+  "submit": "Send Instructions",
+  "sending": "Sending...",
+  "email_required": "Please enter your email address",
+  "invalid_email": "Invalid email format",
+  "success_message": "Check your email for instructions",
+  "back_to_login": "Return to login"
+}
+
+
+
+
+
+
+}

@@ -15,14 +15,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Додаємо CORS
+// Додаємо CORS для production та development
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReact", policy =>
     {
-        policy.WithOrigins("http://93.127.121.78:5173") // React dev server
+        policy.WithOrigins(
+                "https://mistogo.online",           // Production frontend
+                "https://www.mistogo.online",       // Production з www
+                "http://93.127.121.78:5173",        // Dev server IP
+                "http://localhost:5173"             // Local dev
+              )
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -32,7 +38,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// Використовуємо CORS
+// ВАЖЛИВО: UseCors має бути перед UseAuthorization
 app.UseCors("AllowReact");
 
 app.UseHttpsRedirection();

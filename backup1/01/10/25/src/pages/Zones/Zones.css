@@ -1,0 +1,400 @@
+/* ========================================
+   MISTOGO - Zones Page Styles
+   ======================================== */
+
+/* Основний контейнер */
+.zones-container {
+  padding: 2rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+}
+
+/* Заголовок секції */
+.zones-header {
+  margin-bottom: 1rem;
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.zones-title {
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.zones-subtitle {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Інформаційна панель */
+.zones-info-panel {
+  background: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease-out;
+}
+
+.zones-info-panel-title {
+  margin: 0 0 0.5rem 0;
+}
+
+.zones-info-panel-content {
+  margin: 0.25rem 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+.zones-close-button {
+  margin-top: 0.5rem;
+  padding: 8px 16px;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.zones-close-button:hover {
+  background: #34495e;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Кнопка дії (забронювати) */
+.zones-action-button {
+  padding: 8px 16px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: bold;
+  flex: 1;
+}
+
+.zones-action-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  filter: brightness(1.1);
+}
+
+/* Контейнер карти */
+.zones-map-container {
+  flex: 1;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: white;
+  position: relative;
+  min-height: 400px;
+}
+
+/* Кнопки навігації */
+.zones-navigation-buttons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   Leaflet Custom Styles
+   ======================================== */
+
+/* Легенда карти */
+.info.legend {
+  background: white !important;
+  padding: 12px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.info.legend h4 {
+  margin: 0 0 10px 0 !important;
+  color: #2c3e50;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Маркери транспорту */
+.vehicle-marker {
+  background: none !important;
+  border: none !important;
+}
+
+.vehicle-marker div {
+  transition: all 0.2s ease;
+}
+
+.vehicle-marker div:hover {
+  transform: scale(1.15);
+  filter: brightness(1.1);
+}
+
+/* Маркер локації користувача */
+.user-location {
+  background: none !important;
+  border: none !important;
+  animation: pulse 2s infinite;
+}
+
+.user-location-marker {
+  width: 12px;
+  height: 12px;
+  background: #007bff;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Попап транспорту */
+.vehicle-popup {
+  min-width: 220px;
+}
+
+.vehicle-popup h4 {
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.vehicle-popup-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.vehicle-popup-status {
+  margin: 8px 0;
+}
+
+.status-available {
+  color: #28a745;
+}
+
+.status-busy {
+  color: #dc3545;
+}
+
+.popup-book-button {
+  width: 100%;
+  padding: 8px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.popup-book-button:hover {
+  background: #218838;
+}
+
+/* Легенда */
+.legend-item {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+.legend-color {
+  display: inline-block;
+  width: 20px;
+  height: 10px;
+  margin-right: 5px;
+}
+
+.legend-restricted {
+  border: 1px dashed #fff;
+}
+
+.legend-divider {
+  margin: 10px 0;
+  border-color: #ddd;
+}
+
+/* Попапи Leaflet */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+.leaflet-popup-content {
+  margin: 12px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.leaflet-popup-content h3,
+.leaflet-popup-content h4 {
+  margin: 0 0 8px 0 !important;
+}
+
+.leaflet-popup-content p {
+  margin: 6px 0 !important;
+  line-height: 1.4;
+}
+
+/* Попап зони */
+.zone-popup {
+  min-width: 200px;
+}
+
+.zone-popup h3 {
+  margin: 0 0 10px 0;
+}
+
+.zone-popup p {
+  margin: 5px 0;
+}
+
+.zone-price-modifier {
+  font-weight: bold;
+}
+
+/* Кнопка в попапі */
+.leaflet-popup-content button {
+  width: 100%;
+  padding: 8px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
+
+.leaflet-popup-content button:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+/* Кнопка геолокації */
+.leaflet-bar.leaflet-control a {
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  font-size: 20px;
+  text-decoration: none;
+  color: #333;
+}
+
+.leaflet-bar.leaflet-control a:hover {
+  background: #f4f4f4;
+}
+
+/* ========================================
+   Animations
+   ======================================== */
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 768px) {
+  .zones-container {
+    padding: 1rem;
+  }
+
+  .zones-header {
+    padding: 1rem;
+  }
+
+  .zones-title {
+    font-size: 1.5rem;
+  }
+
+  .zones-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .zones-navigation-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .zones-map-container {
+    min-height: 300px;
+  }
+
+  .info.legend {
+    font-size: 12px !important;
+    padding: 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .zones-container {
+    padding: 0.5rem;
+  }
+
+  .zones-title {
+    font-size: 1.25rem;
+  }
+
+  .zones-header {
+    padding: 0.75rem;
+  }
+
+  .zones-info-panel {
+    padding: 0.75rem;
+  }
+
+  .zones-navigation-buttons {
+    padding: 0.75rem;
+  }
+
+  .leaflet-popup-content {
+    font-size: 14px;
+  }
+}

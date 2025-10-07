@@ -6,4 +6,26 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Адмінка використовує API як бібліотеку -->
+    <ProjectReference Include="..\api\api.csproj" />
+  </ItemGroup>
+
+  <!-- Фікс для дублю appsettings.json при публікації -->
+  <Target Name="RemoveDuplicateAppSettings" 
+          AfterTargets="ComputeFilesToPublish" 
+          BeforeTargets="_CopyResolvedFilesToPublishPreserveNewest">
+    <ItemGroup>
+      <!-- Видаляємо appsettings.json з API проекту -->
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" 
+        Condition="'%(ResolvedFileToPublish.RelativePath)'=='appsettings.json' 
+                   and !$([System.String]::Copy('%(ResolvedFileToPublish.SourcePath)').Contains('admin'))" />
+      
+      <!-- Видаляємо appsettings.Development.json з API проекту -->
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" 
+        Condition="'%(ResolvedFileToPublish.RelativePath)'=='appsettings.Development.json' 
+                   and !$([System.String]::Copy('%(ResolvedFileToPublish.SourcePath)').Contains('admin'))" />
+    </ItemGroup>
+  </Target>
+
 </Project>
