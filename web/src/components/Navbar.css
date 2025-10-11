@@ -1,5 +1,10 @@
-/* ========== ЗМІННІ ========== */
+/* ================== ЗМІННІ ================== */
 :root {
+  /* Масштаб навбара: 0.50 на 320px → 1.00 на 1920px */
+  --nav-scale: clamp(0.50, (100vw - 320px) / (1920 - 320), 1);
+  /* керована висота хедера (щоб не “накладалося” на Hero) */
+  --nav-h: clamp(52px, 5.2vw, 66px);
+
   /* Кольори */
   --color-text: #1e1e1e;
   --white-nuche: #fff;
@@ -8,13 +13,13 @@
   --green: #afd06e;
   --silver: #ededed;
   --gray-text: #4b4b4b;
-  
+
   /* Шрифти */
   --font-family: "Montserrat", sans-serif;
   --second-family: "Inter", sans-serif;
 }
 
-/* ========== NAVBAR HEADER ========== */
+/* =============== БАЗА HEADER =============== */
 .navbar-header {
   background: linear-gradient(136deg, #8dba97 0%, #7cacab 100%);
   color: var(--white-text);
@@ -22,59 +27,67 @@
   top: 0;
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  height: 66px;
   width: 100%;
-  max-width: 1920px;
-  margin: 0 auto;
+  min-height: var(--nav-h);
+  padding-top: env(safe-area-inset-top);
 }
 
 .navbar-container {
-  max-width: 1920px;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 44px;
-  height: 100%;
+  padding: 0 clamp(12px, 3vw, 44px);
   font-family: var(--font-family);
 }
 
-.navbar-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-  gap: 24px;
+/* ====== Обгортка для пропорційного масштабування ====== */
+.navbar-fit {
+  width: 100%;
 }
 
-/* ========== ЛІВА СЕКЦІЯ ========== */
+/* Масштабування */
+.navbar-inner {
+  width: calc(100% / var(--nav-scale));
+  transform: scale(var(--nav-scale));
+  transform-origin: left center;
+  height: var(--nav-h);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(6px, 1.2vw, 20px);
+  transition: transform 0.3s ease;
+}
+
+/* =============== ЛІВА СЕКЦІЯ =============== */
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 48px;
+  gap: clamp(12px, 2.5vw, 48px);
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 /* Лого */
 .navbar-logo {
   background: var(--white-nuche);
-  padding: 7px 40px;
+  padding: 7px clamp(16px, 2.2vw, 40px);
   border-radius: 60px 0;
   display: flex;
   align-items: center;
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  justify-content: center;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   text-decoration: none;
   transition: transform 0.2s, box-shadow 0.2s;
-  width: 182px;
   height: 43px;
-  justify-content: center;
 }
-
 .navbar-logo:hover {
   transform: translateY(-1px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
 }
-
 .logo-text {
-  font-size: 34px;
+  font-size: clamp(22px, 2.2vw, 34px);
   font-weight: 600;
-  color: #1D2A62;
+  color: #1d2a62;
   font-style: italic;
   font-family: var(--font-family);
 }
@@ -83,52 +96,33 @@
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 23px;
+  gap: clamp(10px, 1.6vw, 23px);
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .navbar-link {
   color: var(--white-nuche);
   text-decoration: none;
-  font-size: 20px;
+  font-size: clamp(14px, 1.6vw, 20px);
   font-weight: 600;
   font-family: var(--font-family);
   padding: 4px 0;
   position: relative;
   transition: opacity 0.2s;
-  white-space: nowrap;
   height: 44px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-
-/* Індивідуальні ширини кнопок */
-.navbar-link[href="/zones"] {
-  width: 150px;
-}
-
-.navbar-link[href="/blog"] {
-  width: 71px;
-}
-
-.navbar-link[href="/support"] {
-  width: 135px;
-}
-
-.navbar-link[href="/faq"] {
-  width: 170px;
-}
-
 .navbar-link:hover {
   opacity: 0.85;
 }
-
 .navbar-link-active {
   font-weight: 600;
 }
-
 .navbar-link-active::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -4px;
   left: 0;
@@ -138,38 +132,43 @@
   border-radius: 2px;
 }
 
-/* ========== DROPDOWN ТРАНСПОРТ ========== */
+/* Забираємо фіксовані ширини */
+.navbar-link[href="/zones"],
+.navbar-link[href="/blog"],
+.navbar-link[href="/support"],
+.navbar-link[href="/faq"] {
+  width: auto !important;
+  min-width: 0 !important;
+}
+
+/* =============== DROPDOWN =============== */
 .navbar-dropdown {
   position: relative;
 }
-
 .navbar-dropdown-btn {
   background: transparent;
   border: none;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   color: var(--white-nuche);
-  font-size: 20px;
+  font-size: clamp(14px, 1.6vw, 20px);
   font-weight: 600;
   font-family: var(--font-family);
   padding: 4px 0;
-  transition: opacity 0.2s;
-  width: 134px;
+  width: auto;
   height: 44px;
+  transition: opacity 0.2s;
 }
-
 .navbar-dropdown-btn:hover {
   opacity: 0.85;
 }
-
 .dropdown-arrow {
   font-size: 10px;
   transition: transform 0.3s;
 }
-
 .navbar-dropdown.open .dropdown-arrow {
   transform: rotate(180deg);
 }
@@ -179,7 +178,7 @@
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 12px;
   list-style: none;
   padding: 8px 0;
@@ -187,7 +186,6 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   z-index: 50;
 }
-
 .navbar-dropdown.open .navbar-dropdown-list {
   display: block;
   animation: fadeIn 0.2s ease;
@@ -204,70 +202,61 @@
   }
 }
 
-.navbar-dropdown-list li {
-  margin: 0;
-}
-
 .navbar-dropdown-list .navbar-link {
   display: block;
   padding: 12px 20px;
-  color: #1D2A62;
+  color: #1d2a62;
   font-size: 15px;
   font-weight: 500;
   transition: background 0.2s;
-  width: auto;
   height: auto;
 }
-
 .navbar-dropdown-list .navbar-link:hover {
-  background: #D9D9D9;
-  color: #1D2A62;
+  background: #d9d9d9;
+  color: #1d2a62;
   opacity: 1;
   border-radius: 8px;
 }
-
 .navbar-dropdown-list .navbar-link-active {
-  background: #FAE9B1;
-  color: #1D2A62;
+  background: #fae9b1;
+  color: #1d2a62;
   font-weight: 600;
   border-radius: 8px;
 }
-
 .navbar-dropdown-list .navbar-link-active::after {
   display: none;
 }
 
-/* ========== ПРАВА СЕКЦІЯ ========== */
+/* =============== ПРАВА СЕКЦІЯ =============== */
 .navbar-right {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 24px;
+  gap: clamp(8px, 1.4vw, 20px);
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
-/* Мова та валюта */
 .lang-currency {
   color: var(--white-text);
-  font-size: 20px;
+  font-size: clamp(14px, 1.6vw, 20px);
   font-weight: 600;
   font-family: var(--font-family);
   user-select: none;
   white-space: nowrap;
-  width: 151px;
   height: 44px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   background: transparent;
   border: none;
   cursor: pointer;
   transition: opacity 0.2s;
+  padding: 0 clamp(8px, 1.2vw, 12px);
 }
-
 .lang-currency:hover {
   opacity: 0.85;
 }
 
-/* Перемикач теми */
 .theme-toggle {
   width: 59px;
   height: 31px;
@@ -279,39 +268,34 @@
   transition: all 0.3s;
   overflow: visible;
   padding: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-
 .theme-toggle:hover {
   opacity: 0.85;
 }
-
+.theme-toggle:active {
+  transform: scale(0.95);
+}
 .theme-toggle svg {
   width: 59px;
   height: 31px;
   overflow: visible;
 }
-
 .theme-toggle .toggle-circle {
   transition: transform 0.3s ease;
 }
 
-.theme-toggle:active {
-  transform: scale(0.95);
-}
-
-/* Кнопка входу */
 .navbar-login {
   background: transparent;
   color: var(--white-text);
   border: 3px solid var(--white-text);
   border-radius: 30px;
-  padding: 0;
-  width: 82px;
+  width: auto;
   height: 42px;
-  font-size: 18px;
+  padding: 0 clamp(12px, 1.6vw, 20px);
+  font-size: clamp(14px, 1.6vw, 18px);
   font-weight: 600;
   font-family: var(--font-family);
   text-decoration: none;
@@ -322,131 +306,130 @@
   transition: all 0.2s;
   box-sizing: border-box;
 }
-
 .navbar-login:hover {
   transform: translateY(-1px);
   background: var(--green);
-  color: #1D2A62;
+  color: #1d2a62;
   border-color: var(--green);
 }
-
 .navbar-login:active {
   transform: translateY(0);
   background: var(--green);
-  color: #1D3A17;
-  border-color: #1D3A17;
+  color: #1d3a17;
+  border-color: #1d3a17;
 }
 
-/* ========== RESPONSIVE ========== */
-@media (max-width: 1024px) {
-  .navbar-container {
-    padding: 0 24px;
+/* ============ МІКРО-ПІДГОНИ ДЛЯ ВУЗЬКИХ ============ */
+@media (max-width: 420px) {
+  :root {
+    --nav-scale: clamp(0.47, (100vw - 320px) / (1920 - 320), 1);
+  }
+
+  .navbar-inner {
+    gap: 6px;
   }
 
   .navbar-left {
-    gap: 24px;
+    gap: 8px;
   }
 
   .navbar-links {
-    gap: 20px;
+    gap: 8px;
   }
 
-  .navbar-right {
-    gap: 16px;
+  .logo-text {
+    font-size: clamp(16px, 2.2vw, 26px);
   }
 
   .navbar-link,
   .navbar-dropdown-btn {
-    font-size: 14px;
-  }
-
-  .logo-text {
-    font-size: 20px;
+    font-size: clamp(11px, 1.6vw, 15px);
   }
 
   .navbar-login {
-    padding: 8px 20px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 768px) {
-  .navbar-container {
-    padding: 0 16px;
+    height: 34px;
+    font-size: 12px;
+    padding: 0 10px;
+    border-width: 2px;
   }
 
-  .navbar-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 12px 0;
-  }
-
-  .navbar-left {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    width: 100%;
-  }
-
-  .navbar-links {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    width: 100%;
-  }
-
-  .navbar-right {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .navbar-dropdown-list {
-    position: static;
-    box-shadow: none;
-    background: rgba(255, 255, 255, 0.95);
-    margin-top: 8px;
-    border-radius: 8px;
+  .lang-currency {
+    height: 36px;
+    font-size: 12px;
   }
 
   .theme-toggle {
-    display: none;
-  }
-
-  .logo-text {
-    font-size: 18px;
-  }
-
-  .navbar-login {
-    padding: 8px 16px;
-    font-size: 13px;
+    transform: scale(0.8);
   }
 }
+/* ==== ULTRA-COMPACT NAVBAR (append at the very end) ==== */
 
-@media (max-width: 480px) {
-  .navbar-container {
-    padding: 0 12px;
-  }
+/* сильніше стискаємо весь navbar через scale */
+:root{
+  /* мінімальний масштаб тепер 0.38 (було 0.50) */
+  --nav-scale: clamp(0.38, (100vw - 320px) / (1920 - 320), 1);
+  --nav-h: clamp(48px, 5vw, 66px);
+}
 
-  .navbar-row {
-    padding: 10px 0;
-  }
+/* додаткові щаблі для найвужчих телефонів */
+@media (max-width: 390px){
+  :root{ --nav-scale: 0.36; }
+}
+@media (max-width: 360px){
+  :root{ --nav-scale: 0.34; }
+}
+@media (max-width: 340px){
+  :root{ --nav-scale: 0.32; }
+}
 
-  .logo-text {
-    font-size: 16px;
-  }
+/* дрібне ущільнення елементів */
+.navbar-header{ overflow: clip; }
 
-  .navbar-logo {
-    padding: 6px 16px;
-  }
+.navbar-inner{
+  height: var(--nav-h);
+  gap: 2px !important;                 /* мінімальні відступи між елементами */
+  letter-spacing: -0.01em;             /* трохи ущільнити текст */
+  transition: transform .25s ease;     /* плавність при повороті екрана */
+}
 
+.navbar-left{ gap: 8px !important; }
+.navbar-links{ gap: 8px !important; }
+
+/* логотип компактніше */
+.navbar-logo{
+  padding: 4px 12px !important;
+  height: 36px !important;
+  border-radius: 40px 0 !important;
+}
+.logo-text{ font-size: 22px !important; }
+
+/* тексти/кнопки компактніше */
+.navbar-link,
+.navbar-dropdown-btn,
+.lang-currency{
+  font-size: 12px !important;
+  height: 32px !important;
+  padding: 0 4px !important;
+}
+
+/* кнопка входу компактніше */
+.navbar-login{
+  height: 32px !important;
+  font-size: 12px !important;
+  padding: 0 10px !important;
+  border-width: 2px !important;
+}
+
+/* свіч теми менший */
+.theme-toggle{ transform: scale(.7); }
+
+/* краще стискаються емодзі/іконки у дропдауні */
+.navbar-dropdown-list .navbar-link{ font-size: 14px !important; }
+
+/* iPhone “mini/SE” — ще трохи піджати */
+@media (max-width: 375px){
+  .logo-text{ font-size: 20px !important; }
   .navbar-link,
-  .navbar-dropdown-btn {
-    font-size: 13px;
-  }
-
-  .navbar-login {
-    padding: 6px 14px;
-    font-size: 12px;
-  }
+  .navbar-dropdown-btn,
+  .lang-currency{ font-size: 11px !important; }
 }

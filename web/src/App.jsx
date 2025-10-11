@@ -1,14 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-//import { I18nextProvider } from "react-i18next";
-//import i18n from "./i18n";
 import Navbar from "./components/Navbar.jsx";
 
 // Публічні сторінки
 import Home from "./pages/Home/Home";
 import Transport from "./pages/Transport/Transport";
 import Mopeds from "./pages/Transport/Mopeds";
-import Avto from "./pages/Transport/Cars";
 import Scooters from "./pages/Transport/Scooters";
 import Bikes from "./pages/Transport/Bikes";
 import Zones from "./pages/Zones/Zones";
