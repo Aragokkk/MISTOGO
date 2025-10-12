@@ -100,7 +100,67 @@
   "invalid_email": "Invalid email format",
   "success_message": "Check your email for instructions",
   "back_to_login": "Return to login"
-}
+},
+
+
+
+  "about": {
+    "title": "About Us",
+    "text1": "We provide eco-friendly transport rental services in your city. We offer hybrid cars, bicycles and e-scooters for short and long-term trips. Rental is simple and fast — just pass a simplified document verification.",
+    "text2": "Our mission is to make travel comfortable and accessible while reducing harmful emissions. By choosing our transport, you get freedom of movement and help keep the city cleaner. Together we create a city that is modern, mobile and nature-friendly."
+  },
+
+  "advantages": {
+    "title": "Our Advantages",
+    "item1": {
+      "title": "Quick Start",
+      "description": "Simplified document verification — no extra formalities."
+    },
+    "item2": {
+      "title": "Eco-Friendly",
+      "description": "Fewer emissions — cleaner city."
+    },
+    "item3": {
+      "title": "Transparent Terms",
+      "description": "No hidden fees or surprises."
+    },
+    "item4": {
+      "title": "Bonuses and Loyalty",
+      "description": "Pleasant rewards for regular customers."
+    },
+    "item5": {
+      "title": "24/7 Support",
+      "description": "We're always here when you need us."
+    },
+    "item6": {
+      "title": "Instant Booking",
+      "description": "Just 2-3 clicks online, no calls or waiting."
+    },
+    "item7": {
+      "title": "Flexible Payments",
+      "description": "Cards, Apple Pay, Google Pay, cryptocurrencies."
+    }
+  },
+
+  "promo": {
+    "title": "Try eco-transport today — get 10% discount on your first booking!",
+    "subtitle": "Fast, convenient and profitable."
+  },
+
+  "reviews": {
+    "title": "Customer Reviews",
+    "subtitle": "We care about the convenience and reliability of our service. Here's what those who have already used our rental say:",
+    "addReview": "Add Review"
+  },
+
+  
+
+  "footer": {
+    "tagline": "«Car, bike and scooter rental in your city. Fast, convenient and hassle-free.»",
+    "terms": "Terms and Conditions",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookie Policy"
+  }
 
 
 

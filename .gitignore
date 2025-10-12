@@ -1,0 +1,34 @@
+# Node / frontend
+**/node_modules/
+**/.cache/
+**/dist/
+**/out/
+
+# .NET build
+**/bin/
+**/obj/
+
+# Logs, dumps, backups
+**/*.log
+*.sql
+*.sql.gz
+/root/backups/
+**/backups/
+
+# Env + конфиги с секретами
+.env
+.env.*
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/appsettings.*.secret.json
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Git
+.git/

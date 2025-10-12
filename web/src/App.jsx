@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
+import Footer from './components/Footer.jsx';
 
 // Публічні сторінки
 import Home from "./pages/Home/Home";
@@ -45,6 +46,7 @@ function App() {
     <Router>
       {/* Панель навігації */}
       <Navbar />
+      <main>
 
       <Routes>
         {/* Публічні */}
@@ -85,6 +87,10 @@ function App() {
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </main>
+
+      {/* Глобальний Footer */}
+      <Footer />
     </Router>
   );
 }
