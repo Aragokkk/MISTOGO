@@ -1,288 +1,363 @@
 /* ================= VARS ================= */
-:root{
-  --container: 1920px;
-  --navbar-width: 1920px; /* базова ширина navbar */
-  --gutter: 24px; /* зменшені відступи для розтягування */
+:root {
+  --navbar-width: 1920px;
+  --navbar-height: 66px;
+  --color-text: #1e1e1e;
+  --white: #fff;
+  --green: #afd06e;
+  --silver: #ededed;
+  --gray: #4b4b4b;
+  --ff: "Montserrat", sans-serif;
+  --ff2: "Inter", sans-serif;
+  
+  /* Градієнт для навбара - світла тема */
+  --navbar-gradient: linear-gradient(136deg, #8dba97 0%, #7cacab 100%);
+}
 
-  --color-text:#1e1e1e;
-  --white:#fff;
-  --green:#afd06e;
-  --silver:#ededed;
-  --gray:#4b4b4b;
-
-  --ff:"Montserrat",sans-serif;
-  --ff2:"Inter",sans-serif;
+/* Темна тема */
+[data-theme="dark"] {
+  /* Градієнт для навбара - темна тема */
+  --navbar-gradient: linear-gradient(136deg, #5B7560 0%, #416470 100%);
 }
 
 /* ================= HEADER (full width) ================= */
-.navbar-header{
-  position: sticky; 
-  top:0; 
-  z-index:100;
-  width:100%;
-  background: linear-gradient(136deg,#8dba97 0%,#7cacab 100%);
-  color:#fff;
-  box-shadow:0 2px 8px rgba(0,0,0,.1);
+.navbar-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: var(--navbar-gradient);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow-x: hidden;
 }
 
 /* Контейнер - центрує і масштабує */
-.navbar-container{
+.navbar-container {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0;
-  height: 66px;
+  height: var(--navbar-height);
 }
 
 /* Обгортка - масштабується */
-.navbar-fit{
+.navbar-fit {
   width: var(--navbar-width);
   transform-origin: center center;
 }
 
-/* Внутрішній контент - фіксована ширина і висота */
-.navbar-inner{
+/* Внутрішній контент */
+.navbar-inner {
   width: var(--navbar-width);
-  padding: 0 var(--gutter);
+  padding: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  height: 66px;
+  height: var(--navbar-height);
   font-family: var(--ff);
+  position: relative;
 }
 
 /* Масштабування для екранів менше базової ширини */
-@media (max-width: 1920px){
-  .navbar-fit{
+@media (max-width: 1920px) {
+  .navbar-fit {
     transform: scale(calc(100vw / var(--navbar-width)));
   }
 }
 
-/* ========== LEFT ========== */
-.navbar-left{
-  display:flex;
-  align-items:center;
-  gap:24px;
+/* ========== LOGO ========== */
+.navbar-header .navbar-logo {
+  position: absolute;
+  left: 90px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 43px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: #fff;
+  border-radius: 60px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 40px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.navbar-logo{
-  background:#fff; 
-  color:#1D2A62;
-  padding:7px 24px;
-  border-radius:60px 0;
-  display:flex; 
-  align-items:center; 
-  justify-content:center;
-  height:43px; 
-  text-decoration:none;
-  box-shadow:0 4px 4px rgba(0,0,0,.25);
-  transition:transform .2s, box-shadow .2s;
+.navbar-header .navbar-logo:hover {
+  transform: translateY(-50%) translateY(-1px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
 }
-.navbar-logo:hover{
-  transform:translateY(-1px);
-  box-shadow:0 5px 15px rgba(0,0,0,.12);
-}
-.logo-text{
-  font:600 italic 28px/1 var(--ff);
+
+.navbar-header .logo-text {
+  color: #1d2a62;
+  font-family: "Inter", Helvetica, sans-serif;
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: normal;
   white-space: nowrap;
+  margin-top: -1px;
+  width: fit-content;
 }
 
-/* Лінки меню */
-.navbar-links{
-  display:flex;
-  align-items:center;
-  gap:16px;
+/* ========== NAVIGATION LINKS ========== */
+.navbar-links {
+  position: absolute;
+  left: 306px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
-.navbar-link{
-  color:#fff; 
-  text-decoration:none;
-  font:600 18px/1 var(--ff);
-  padding:10px 14px;
-  position:relative; 
-  white-space:nowrap;
-  height:44px; 
-  display:flex; 
-  align-items:center; 
-  justify-content:center;
-  transition:opacity .2s;
+
+.navbar-link {
+  color: #fff;
+  text-decoration: none;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 10px 14px;
+  position: relative;
+  white-space: nowrap;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
 }
-.navbar-link:hover{
-  opacity:.85;
+
+.navbar-link:hover {
+  opacity: 0.85;
 }
-.navbar-link-active::after{
-  content:""; 
-  position:absolute; 
-  left:14px; 
-  right:14px; 
-  bottom:4px;
-  height:2px; 
-  background:#fff; 
-  border-radius:2px;
+
+.navbar-link-active::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 4px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
 }
 
 /* ========== DROPDOWN ========== */
-.navbar-dropdown{
-  position:relative;
-}
-.navbar-dropdown-btn{
-  background:transparent; 
-  border:0; 
-  color:#fff; 
-  cursor:pointer;
-  font:600 18px/1 var(--ff);
-  height:44px; 
-  padding:10px 14px; 
-  display:flex; 
-  align-items:center; 
-  gap:8px;
-  transition:opacity .2s;
-  white-space: nowrap;
-}
-.navbar-dropdown-btn:hover{
-  opacity:.85;
-}
-.dropdown-arrow{
-  font-size:10px; 
-  transition:transform .3s;
-}
-.navbar-dropdown.open .dropdown-arrow{
-  transform:rotate(180deg);
-}
-
-.navbar-dropdown-list{
-  display:none; 
-  position:absolute; 
-  top:calc(100% + 8px); 
-  left:0;
-  background:#fff; 
-  border-radius:12px; 
-  list-style:none; 
-  padding:8px 0;
-  min-width:220px; 
-  white-space:nowrap;
-  box-shadow:0 8px 24px rgba(0,0,0,.15); 
-  z-index:50;
-}
-.navbar-dropdown.open .navbar-dropdown-list{
-  display:block; 
-  animation:fadeIn .2s ease;
-}
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(-8px)} 
-  to{opacity:1; transform:translateY(0)}
-}
-.navbar-dropdown-list .navbar-link{
-  color:#1D2A62; 
-  font:500 15px var(--ff); 
-  height:auto; 
-  padding:12px 18px;
-}
-.navbar-dropdown-list .navbar-link:hover{
-  background:#D9D9D9; 
-  border-radius:8px; 
-  opacity:1;
-}
-.navbar-dropdown-list .navbar-link-active{
-  background:#FAE9B1; 
-  border-radius:8px;
-}
-.navbar-dropdown-list .navbar-link-active::after{
-  display:none;
-}
-
-/* ========== RIGHT ========== */
-.navbar-right{
-  display:flex;
-  align-items:center;
-  gap:12px;
+.navbar-dropdown {
   position: relative;
-  right: 50px; /* ЗСУВ ВЛІВО - змініть це значення: 100px, 200px, 300px */
 }
 
-.lang-currency{
-  background:transparent; 
-  border:0; 
-  cursor:pointer;
-  color:#fff; 
-  font:600 16px var(--ff);
-  height:44px; 
-  padding:0 10px; 
-  display:flex; 
-  align-items:center;
-  transition:opacity .2s;
+.navbar-dropdown-btn {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  height: 44px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s;
   white-space: nowrap;
 }
-.lang-currency:hover{
-  opacity:.85;
+
+.navbar-dropdown-btn:hover {
+  opacity: 0.85;
 }
 
-.theme-toggle{
-  width:59px; 
-  height:31px; 
-  background:transparent; 
-  border:0; 
-  padding:0;
-  display:flex; 
-  align-items:center; 
-  justify-content:center; 
-  cursor:pointer;
-  transition:transform .1s; 
-  overflow:visible;
-}
-.theme-toggle:active{
-  transform:scale(.96);
-}
-.theme-toggle svg{
-  display:block; 
-  width:59px; 
-  height:31px;
-}
-.theme-toggle .toggle-circle{
-  transition:transform .3s ease;
+.dropdown-arrow {
+  font-size: 10px;
+  transition: transform 0.3s;
 }
 
-.navbar-login{
-  background:transparent; 
-  color:#fff;
-  border:3px solid #fff; 
-  border-radius:30px;
-  width:82px; 
-  height:42px;
-  font:600 16px var(--ff);
-  display:inline-flex; 
-  align-items:center; 
-  justify-content:center;
-  text-decoration:none; 
-  transition:.2s;
+.navbar-dropdown.open .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.navbar-dropdown-list {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: #fff;
+  border-radius: 12px;
+  list-style: none;
+  padding: 8px 0;
+  min-width: 220px;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  z-index: 50;
+}
+
+.navbar-dropdown.open .navbar-dropdown-list {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar-dropdown-list .navbar-link {
+  color: #1d2a62;
+  font-size: 15px;
+  font-weight: 500;
+  height: auto;
+  padding: 12px 18px;
+}
+
+.navbar-dropdown-list .navbar-link:hover {
+  background: #d9d9d9;
+  border-radius: 8px;
+  opacity: 1;
+}
+
+.navbar-dropdown-list .navbar-link-active {
+  background: #fae9b1;
+  border-radius: 8px;
+}
+
+.navbar-dropdown-list .navbar-link-active::after {
+  display: none;
+}
+
+/* ========== RIGHT SECTION ========== */
+.navbar-right {
+  position: absolute;
+  right: 90px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Підтримка та FAQ */
+.navbar-right .navbar-link {
+  position: static;
+  transform: none;
+}
+
+/* ========== THEME TOGGLE ========== */
+.theme-toggle {
+  width: 59px;
+  height: 31px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.1s;
+  overflow: visible;
+}
+
+.theme-toggle:active {
+  transform: scale(0.96);
+}
+
+.theme-toggle svg {
+  display: block;
+  width: 59px;
+  height: 31px;
+}
+
+.theme-toggle .toggle-circle {
+  transition: transform 0.3s ease;
+}
+
+/* ========== LANGUAGE & CURRENCY ========== */
+.lang-currency {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: #fff;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  height: 44px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  position: relative;
+}
+
+.lang-currency:hover {
+  opacity: 0.85;
+}
+
+.lang-text,
+.currency-text {
+  color: #fff;
+}
+
+.separator {
+  width: 3px;
+  height: 17px;
+  background-color: #fff;
+  margin: 0 4px;
+}
+
+/* ========== LOGIN BUTTON ========== */
+.navbar-login {
+  background: transparent;
+  color: #fff;
+  border: 3px solid #fff;
+  border-radius: 30px;
+  width: 82px;
+  height: 42px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: 0.2s;
   white-space: nowrap;
 }
-.navbar-login:hover{
-  transform:translateY(-1px); 
-  background:var(--green); 
-  color:#1D2A62; 
-  border-color:var(--green);
+
+.navbar-login:hover {
+  transform: translateY(-1px);
+  background: var(--green);
+  color: #1d2a62;
+  border-color: var(--green);
 }
-.navbar-login:active{
-  transform:none;
+
+.navbar-login:active {
+  transform: none;
 }
 
 /* ========== RESPONSIVE ========== */
-/* Для планшетів - вимкнути масштабування і перейти на адаптив */
-@media (max-width:768px){
-  .navbar-container{
+@media (max-width: 768px) {
+  .navbar-container {
     padding: 0;
     min-height: auto;
   }
 
-  .navbar-fit{
+  .navbar-fit {
     transform: none !important;
     width: 100%;
   }
-  
-  .navbar-inner{
+
+  .navbar-inner {
     width: 100%;
     height: auto;
     flex-direction: column;
@@ -290,51 +365,51 @@
     gap: 12px;
     padding: 12px 16px;
   }
-  
-  .navbar-left{
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    width: 100%;
+
+  .navbar-logo {
+    position: static;
+    transform: none;
+    margin: 0 auto;
   }
-  
-  .navbar-links{
+
+  .navbar-links {
+    position: static;
+    transform: none;
     flex-wrap: wrap;
     gap: 8px;
+    width: 100%;
   }
-  
-  .navbar-right{
+
+  .navbar-right {
+    position: static;
+    transform: none;
     width: 100%;
     justify-content: space-between;
     flex-wrap: wrap;
-    right: 0; /* прибрати зсув на мобільних */
-    position: static;
   }
-  
-  .theme-toggle{
+
+  .theme-toggle {
     display: none;
   }
-  
-  .logo-text{
-    font-size: 22px;
-  }
-  
-  .navbar-link, .navbar-dropdown-btn{
+
+  .navbar-link,
+  .navbar-dropdown-btn {
     font-size: 16px;
   }
 }
 
-@media (max-width:480px){
-  .navbar-inner{
+@media (max-width: 480px) {
+  .navbar-inner {
     padding: 8px 12px;
   }
-  
-  .logo-text{
-    font-size: 18px;
-  }
-  
-  .navbar-link, .navbar-dropdown-btn{
+
+  .navbar-link,
+  .navbar-dropdown-btn {
     font-size: 14px;
     padding: 8px 10px;
+  }
+
+  .lang-currency {
+    font-size: 16px;
   }
 }

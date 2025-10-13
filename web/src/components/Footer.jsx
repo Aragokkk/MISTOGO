@@ -1,10 +1,8 @@
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./Footer.css";
 
-export default function Footer() {
-  const { t, i18n } = useTranslation();
+function Footer() {
   const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -13,37 +11,32 @@ export default function Footer() {
     document.body.classList.toggle('dark-mode');
   };
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'uk' ? 'en' : 'uk';
-    i18n.changeLanguage(newLang);
-  };
-
   return (
     <footer className="footer-section">
       <div className="footer-top">
         <nav className="footer-nav">
-          <a href="/transport" onClick={(e) => { e.preventDefault(); navigate('/transport'); }}>{t('transport')}</a>
-          <a href="/zones" onClick={(e) => { e.preventDefault(); navigate('/zones'); }}>{t('zones.short_zone')}</a>
-          <a href="/blog" onClick={(e) => { e.preventDefault(); navigate('/blog'); }}>{t('blog')}</a>
-          <a href="/support" onClick={(e) => { e.preventDefault(); navigate('/support'); }}>{t('contacts')}</a>
+          <a href="/transport" onClick={(e) => { e.preventDefault(); navigate('/transport'); }}>Транспорт</a>
+          <a href="/zones" onClick={(e) => { e.preventDefault(); navigate('/zones'); }}>Паркування</a>
+          <a href="/blog" onClick={(e) => { e.preventDefault(); navigate('/blog'); }}>Блог</a>
+          <a href="/support" onClick={(e) => { e.preventDefault(); navigate('/support'); }}>Підтримка</a>
         </nav>
+        
         <div className="footer-center">
           <h2 className="footer-logo">MistoGo</h2>
           <p className="footer-tagline">
-            {t('footer.tagline')}
+            «Оренда авто, велосипедів та самокатів у вашому місті. Швидко, зручно та без зайвих турбот.»
           </p>
         </div>
+        
         <div className="footer-right">
           <span className="footer-questions" onClick={() => navigate('/faq')} style={{cursor: 'pointer'}}>
-            {t('faq.short')}
+            Часті питання
           </span>
-          <button className="footer-language" onClick={toggleLanguage} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', padding: 0 }}>
-            {i18n.language === 'uk' ? 'UKR | ₴ UAH' : 'ENG | $ USD'}
-          </button>
+          <span className="footer-language">UKR | ₴ UAH</span>
           <button className="footer-login" onClick={() => navigate('/auth/login')}>
-            {t('login.title')}
+            Вхід
           </button>
-          <button
+          <button 
             className={`footer-theme-toggle ${isDarkMode ? 'dark' : ''}`}
             onClick={toggleTheme}
             aria-label="Toggle theme"
@@ -73,11 +66,13 @@ export default function Footer() {
           </button>
         </div>
       </div>
+      
       <div className="footer-bottom">
         <div className="footer-legal">
-          <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate('/privacy'); }}>{t('footer.terms')}</a>
-          <a href="/confidentiality" onClick={(e) => { e.preventDefault(); navigate('/confidentiality'); }}>{t('footer.privacy')}</a>
+          <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate('/privacy'); }}>Правила та Умови</a>
+          <a href="/confidentiality" onClick={(e) => { e.preventDefault(); navigate('/confidentiality'); }}>Конфіденційність</a>
         </div>
+        
         <div className="footer-social">
           <a href="mailto:hello@mistogo.com" className="footer-email">
             hello@mistogo.com
@@ -95,11 +90,14 @@ export default function Footer() {
             </a>
           </div>
         </div>
+        
         <div className="footer-credits">
-          <span className="footer-cookies" style={{cursor: 'pointer'}}>{t('footer.cookies')}</span>
+          <span className="footer-cookies" style={{cursor: 'pointer'}}>Файли Cookies</span>
           <span className="footer-copyright">© 2025 MistoGo</span>
         </div>
       </div>
     </footer>
   );
 }
+
+export default Footer;

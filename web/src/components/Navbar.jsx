@@ -34,81 +34,82 @@ export default function Navbar() {
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
-    document.body.classList.toggle("dark-mode");
+    document.documentElement.setAttribute(
+      'data-theme',
+      !isDarkMode ? 'dark' : 'light'
+    );
   };
 
   return (
     <header className="navbar-header">
       <nav className="navbar-container">
-        {/* ОБОВʼЯЗКОВО: обгортка для масштабування */}
         <div className="navbar-fit">
           <div className="navbar-inner">
-            {/* Ліва секція - Лого + Меню */}
-            <div className="navbar-left">
-              <Link to="/" className="navbar-logo">
-                <span className="logo-text">MistoGo</span>
-              </Link>
+            {/* Лого */}
+            <Link to="/" className="navbar-logo">
+              <span className="logo-text">MistoGo</span>
+            </Link>
 
-              <div className="navbar-links">
-                {/* Dropdown Транспорт */}
-                <div
-                  ref={ddRef}
-                  className={`navbar-dropdown ${open ? "open" : ""}`}
+            {/* Меню навігації */}
+            <div className="navbar-links">
+              {/* Dropdown Транспорт */}
+              <div
+                ref={ddRef}
+                className={`navbar-dropdown ${open ? "open" : ""}`}
+              >
+                <button
+                  className="navbar-dropdown-btn"
+                  onClick={() => setOpen((v) => !v)}
                 >
-                  <button
-                    className="navbar-dropdown-btn"
-                    onClick={() => setOpen((v) => !v)}
-                  >
-                    {t("transport")}
-                    <span className="dropdown-arrow">{open ? "▲" : "▼"}</span>
-                  </button>
-                  <ul className="navbar-dropdown-list">
-                    <li>
-                      <NavLink
-                        to="/transport/cars"
-                        className={linkClass}
-                        onClick={() => setOpen(false)}
-                      >
-                        🚗 {t("cars")}
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="/transport/mopeds"
-                        className={linkClass}
-                        onClick={() => setOpen(false)}
-                      >
-                        🛵 {t("mopeds")}
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="/transport/scooters"
-                        className={linkClass}
-                        onClick={() => setOpen(false)}
-                      >
-                        🛴 {t("scooters")}
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="/transport/bikes"
-                        className={linkClass}
-                        onClick={() => setOpen(false)}
-                      >
-                        🚴 {t("bikes")}
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
-
-                <NavLink to="/zones" className={linkClass}>
-                  {t("zones.short_zone")}
-                </NavLink>
-                <NavLink to="/blog" className={linkClass}>
-                  {t("blog")}
-                </NavLink>
+                  {t("transport")}
+                  <span className="dropdown-arrow">{open ? "▲" : "▼"}</span>
+                </button>
+                <ul className="navbar-dropdown-list">
+                  <li>
+                    <NavLink
+                      to="/transport/cars"
+                      className={linkClass}
+                      onClick={() => setOpen(false)}
+                    >
+                      🚗 {t("cars")}
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/transport/mopeds"
+                      className={linkClass}
+                      onClick={() => setOpen(false)}
+                    >
+                      🛵 {t("mopeds")}
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/transport/scooters"
+                      className={linkClass}
+                      onClick={() => setOpen(false)}
+                    >
+                      🛴 {t("scooters")}
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/transport/bikes"
+                      className={linkClass}
+                      onClick={() => setOpen(false)}
+                    >
+                      🚴 {t("bikes")}
+                    </NavLink>
+                  </li>
+                </ul>
               </div>
+
+              <NavLink to="/zones" className={linkClass}>
+                {t("zones.short_zone")}
+              </NavLink>
+              <NavLink to="/blog" className={linkClass}>
+                {t("blog")}
+              </NavLink>
             </div>
 
             {/* Права секція */}
@@ -119,11 +120,6 @@ export default function Navbar() {
               <NavLink to="/faq" className="navbar-link">
                 {t("faq.short")}
               </NavLink>
-
-              {/* Мова та валюта */}
-              <button className="lang-currency" onClick={toggleLanguage}>
-                {i18n.language === "uk" ? "UKR | ₴ UAH" : "ENG | $ USD"}
-              </button>
 
               {/* Перемикач теми */}
               <button
@@ -157,71 +153,88 @@ export default function Navbar() {
                         transition: "transform 0.3s ease",
                       }}
                     >
-                      <circle
-                        cx="15.5"
-                        cy="15.5"
-                        r="12.5"
-                        stroke="white"
-                        strokeWidth="3"
-                      />
-                      <circle cx="15.5" cy="15.5" r="3.5" fill="white" />
-                      <ellipse cx="22.5" cy="15.639" rx="1.5" ry="0.5" fill="white" />
-                      <ellipse
-                        cx="8.5"
-                        cy="15.639"
-                        rx="1.5"
-                        ry="0.5"
-                        transform="rotate(180 8.5 15.639)"
-                        fill="white"
-                      />
-                      <ellipse
-                        cx="15.5"
-                        cy="8.63898"
-                        rx="1.5"
-                        ry="0.5"
-                        transform="rotate(-90 15.5 8.63898)"
-                        fill="white"
-                      />
-                      <ellipse
-                        cx="15.5"
-                        cy="22.639"
-                        rx="1.5"
-                        ry="0.5"
-                        transform="rotate(90 15.5 22.639)"
-                        fill="white"
-                      />
-                      <ellipse
-                        cx="20.7354"
-                        cy="20.8927"
-                        rx="1.49622"
-                        ry="0.641236"
-                        transform="rotate(45 20.7354 20.8927)"
-                        fill="white"
-                      />
-                      <ellipse
-                        cx="10.2646"
-                        cy="10.6632"
-                        rx="1.49622"
-                        ry="0.641236"
-                        transform="rotate(-135 10.2646 10.6632)"
-                        fill="white"
-                      />
-                      <ellipse
-                        cx="20.7355"
-                        cy="10.422"
-                        rx="1.47102"
-                        ry="0.630439"
-                        transform="rotate(-45 20.7355 10.422)"
-                        fill="white"
-                      />
-                      <ellipse
-                        cx="10.2645"
-                        cy="21.1339"
-                        rx="1.47102"
-                        ry="0.630439"
-                        transform="rotate(135 10.2645 21.1339)"
-                        fill="white"
-                      />
+                      {/* Світла тема - Сонце */}
+                      {!isDarkMode && (
+                        <>
+                          <circle
+                            cx="15.5"
+                            cy="15.5"
+                            r="12.5"
+                            stroke="white"
+                            strokeWidth="3"
+                          />
+                          <circle cx="15.5" cy="15.5" r="3.5" fill="white" />
+                          <ellipse cx="22.5" cy="15.639" rx="1.5" ry="0.5" fill="white" />
+                          <ellipse
+                            cx="8.5"
+                            cy="15.639"
+                            rx="1.5"
+                            ry="0.5"
+                            transform="rotate(180 8.5 15.639)"
+                            fill="white"
+                          />
+                          <ellipse
+                            cx="15.5"
+                            cy="8.63898"
+                            rx="1.5"
+                            ry="0.5"
+                            transform="rotate(-90 15.5 8.63898)"
+                            fill="white"
+                          />
+                          <ellipse
+                            cx="15.5"
+                            cy="22.639"
+                            rx="1.5"
+                            ry="0.5"
+                            transform="rotate(90 15.5 22.639)"
+                            fill="white"
+                          />
+                          <ellipse
+                            cx="20.7354"
+                            cy="20.8927"
+                            rx="1.49622"
+                            ry="0.641236"
+                            transform="rotate(45 20.7354 20.8927)"
+                            fill="white"
+                          />
+                          <ellipse
+                            cx="10.2646"
+                            cy="10.6632"
+                            rx="1.49622"
+                            ry="0.641236"
+                            transform="rotate(-135 10.2646 10.6632)"
+                            fill="white"
+                          />
+                          <ellipse
+                            cx="20.7355"
+                            cy="10.422"
+                            rx="1.47102"
+                            ry="0.630439"
+                            transform="rotate(-45 20.7355 10.422)"
+                            fill="white"
+                          />
+                          <ellipse
+                            cx="10.2645"
+                            cy="21.1339"
+                            rx="1.47102"
+                            ry="0.630439"
+                            transform="rotate(135 10.2645 21.1339)"
+                            fill="white"
+                          />
+                        </>
+                      )}
+
+                      {/* Темна тема - Місяць */}
+                      {isDarkMode && (
+                        <circle
+                          cx="14.5"
+                          cy="14.5"
+                          r="12.5"
+                          stroke="white"
+                          strokeWidth="3"
+                          fill="none"
+                        />
+                      )}
                     </g>
                   </g>
                   <defs>
@@ -230,6 +243,17 @@ export default function Navbar() {
                     </clipPath>
                   </defs>
                 </svg>
+              </button>
+
+              {/* Мова та валюта */}
+              <button className="lang-currency" onClick={toggleLanguage}>
+                <span className="lang-text">
+                  {i18n.language === "uk" ? "UKR" : "ENG"}
+                </span>
+                <span className="separator"></span>
+                <span className="currency-text">
+                  {i18n.language === "uk" ? "₴ UAH" : "$ USD"}
+                </span>
               </button>
 
               {/* Кнопка входу */}
