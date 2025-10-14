@@ -18,6 +18,23 @@
   /* Колір карточок */
   --card-bg: #EDEDED;
   --card-text: #2C3E50;
+  
+  /* Колір фону секцій */
+  --section-bg: rgba(255, 255, 255, 1);
+  
+  /* Колір бейджів та куточків */
+  --badge-bg: #d9d9d9;
+  --badge-text: #4B4B4B;
+  --badge-icon: #4B4B4B;
+  
+  /* Колір стрілки навігації */
+  --arrow-bg: #FFFFFF;
+  --arrow-color: #AFD06E;
+  
+  /* Колір кнопки "Обрати" */
+  --select-btn-bg: #CACACA;
+  --select-btn-text: #FFFFFF;
+  --select-btn-hover: #b8b8b8;
 }
 
 /* Темна тема */
@@ -37,6 +54,23 @@
   /* Колір карточок */
   --card-bg: #3F4D4E;
   --card-text: #FFFFFF;
+  
+  /* Колір фону секцій */
+  --section-bg: rgba(91, 120, 96, 1);
+  
+  /* Колір бейджів та куточків */
+  --badge-bg: #303c3a;
+  --badge-text: #FFFFFF;
+  --badge-icon: #FFFFFF;
+  
+  /* Колір стрілки навігації */
+  --arrow-bg: #2B3136;
+  --arrow-color: #AFD06E;
+  
+  /* Колір кнопки "Обрати" */
+  --select-btn-bg: #3B444B;
+  --select-btn-text: #FFFFFF;
+  --select-btn-hover: #2a3137;
 }
 
 .home-page {
@@ -82,7 +116,7 @@
 }
 
 .hero-description {
-  color: var(--variable-collection-white);
+  color: var(--variable-collection-white-text);
   font-family: var(--font-family);
   font-size: 24px;
   font-weight: 500;
@@ -358,7 +392,7 @@
   min-height: auto;
   margin: 0;
   padding: 80px 90px;
-  background: var(--variable-collection-white);
+  background: var(--section-bg);
   box-sizing: border-box;
 }
 
@@ -452,7 +486,7 @@
   width: 100%;
   margin: 0;
   padding: 0 90px 80px;
-  background: var(--variable-collection-white);
+  background: var(--section-bg);
   box-sizing: border-box;
 }
 
@@ -576,12 +610,12 @@
   min-height: auto;
   margin: 0;
   padding: 80px 90px;
-  background: var(--variable-collection-white);
+  background: var(--section-bg);
   box-sizing: border-box;
 }
 
 .popular-title {
-  color: var(--variable-collection-gray-text);
+  color: var(--card-text);
   margin-bottom: 140px;
 }
 
@@ -621,7 +655,7 @@
   padding: 17px 24px;
   width: 257px;
   min-height: 89px;
-  background: #CACACA;
+  background: var(--badge-bg); /* ⬅️ Використовуємо змінну */
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -637,7 +671,7 @@
 }
 
 .card-badge svg path {
-  stroke: #4B4B4B;
+  stroke: var(--badge-icon); /* ⬅️ Використовуємо змінну */
 }
 
 .card-badge span {
@@ -645,7 +679,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 130%;
-  color: #4B4B4B;
+  color: var(--badge-text); /* ⬅️ Використовуємо змінну */
 }
 
 .card-image {
@@ -729,14 +763,14 @@
 .card-button-white {
   width: 146px;
   height: 53px;
-  background: #cacaca;
+  background: var(--select-btn-bg); /* ⬅️ Використовуємо змінну для фону */
   border: none;
   border-radius: 30px;
   padding: 15px 20px;
   font-family: var(--font-family);
   font-weight: 600;
   font-size: 16px;
-  color: var(--variable-collection-gray-text);
+  color: var(--select-btn-text); /* ⬅️ Використовуємо змінну для тексту */
   cursor: pointer;
   transition: all 0.3s ease;
   box-sizing: border-box;
@@ -811,7 +845,7 @@
   font-weight: 700;
   font-size: 36px;
   text-align: center;
-  color: var(--variable-collection-white);
+  color: var(--variable-collection-white-text);
   margin: 0 auto 20px;
 }
 
@@ -821,7 +855,7 @@
   font-weight: 500;
   font-size: 16px;
   text-align: center;
-  color: var(--variable-collection-white);
+  color: var(--variable-collection-white-text);
   margin: 0 auto 50px;
   opacity: 0.95;
 }
@@ -899,7 +933,7 @@
 .review-vehicle {
   width: 307px;
   height: 72px;
-  background: #D9D9D9;
+  background: var(--badge-bg); /* ⬅️ Використовуємо змінну */
   border-radius: 0 30px 0 30px;
   display: flex;
   align-items: center;
@@ -918,7 +952,7 @@
   font-weight: 600;
   font-size: 16px;
   text-align: center;
-  color: #4B4B4B;
+  color: var(--badge-text); /* ⬅️ Використовуємо змінну */
 }
 
 .review-text {
@@ -980,12 +1014,12 @@
   width: 288px;
   height: 59px;
   background: transparent;
-  border: 2px solid var(--variable-collection-white);
+  border: 2px solid var(--variable-collection-white-text);
   border-radius: 30px;
   font-family: var(--font-family);
   font-weight: 600;
   font-size: 16px;
-  color: var(--variable-collection-white);
+  color: var(--variable-collection-white-text);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -995,7 +1029,7 @@
 }
 
 .add-review-button:hover {
-  background: var(--variable-collection-white);
+  background: var(--variable-collection-white-text);
   color: #8DBA97;
   transform: translateY(-2px);
 }
@@ -1012,7 +1046,7 @@
 .navigation-arrow {
   width: 70px;
   height: 70px;
-  background: var(--variable-collection-white);
+  background: var(--arrow-bg); /* ⬅️ Використовуємо змінну для фону */
   border: none;
   border-radius: 17px;
   cursor: pointer;
@@ -1032,6 +1066,10 @@
 .navigation-arrow svg {
   width: 38px;
   height: 36px;
+}
+
+.navigation-arrow svg path {
+  stroke: var(--arrow-color); /* ⬅️ Використовуємо змінну для кольору стрілки */
 }
 
 @media (max-width: 1024px) {

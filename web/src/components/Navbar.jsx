@@ -9,6 +9,24 @@ export default function Navbar() {
   const ddRef = useRef(null);
   const { t, i18n } = useTranslation();
 
+  // Синхронізація теми при завантаженні
+  useEffect(() => {
+    // Перевірити збережену тему - ЦЕ ВАЖЛИВО!
+    const savedTheme = localStorage.getItem('theme');
+    const currentTheme = savedTheme || document.documentElement.getAttribute('data-theme') || 'light';
+    
+    setIsDarkMode(currentTheme === 'dark');
+    document.documentElement.setAttribute('data-theme', currentTheme);
+
+    // Слухати зміни теми з інших компонентів
+    const handleThemeChange = (e) => {
+      setIsDarkMode(e.detail === 'dark');
+    };
+
+    window.addEventListener('themeChange', handleThemeChange);
+    return () => window.removeEventListener('themeChange', handleThemeChange);
+  }, []);
+
   useEffect(() => {
     function onDocClick(e) {
       if (ddRef.current && !ddRef.current.contains(e.target)) setOpen(false);
@@ -33,11 +51,15 @@ export default function Navbar() {
   };
 
   const toggleTheme = () => {
+    const newTheme = !isDarkMode ? 'dark' : 'light';
     setIsDarkMode(!isDarkMode);
-    document.documentElement.setAttribute(
-      'data-theme',
-      !isDarkMode ? 'dark' : 'light'
-    );
+    document.documentElement.setAttribute('data-theme', newTheme);
+    
+    // Зберегти в localStorage
+    localStorage.setItem('theme', newTheme);
+    
+    // Відправити подію для синхронізації інших компонентів
+    window.dispatchEvent(new CustomEvent('themeChange', { detail: newTheme }));
   };
 
   return (
@@ -226,14 +248,13 @@ export default function Navbar() {
 
                       {/* Темна тема - Місяць */}
                       {isDarkMode && (
-                        <circle
-                          cx="14.5"
-                          cy="14.5"
-                          r="12.5"
-                          stroke="white"
-                          strokeWidth="3"
-                          fill="none"
-                        />
+                        <>
+                          <circle cx="15.5" cy="15.5" r="12.5" stroke="white" strokeWidth="3" fill="none" />
+                          <path 
+                            d="M12.5557 8.60059C11.583 9.80276 11 11.3332 11 13C11 16.866 14.134 20 18 20C19.6668 20 21.1963 19.416 22.3984 18.4434C21.254 21.1221 18.5971 23 15.5 23C11.3579 23 8 19.6421 8 15.5C8 12.4031 9.87722 9.74509 12.5557 8.60059Z" 
+                            fill="white"
+                          />
+                        </>
                       )}
                     </g>
                   </g>

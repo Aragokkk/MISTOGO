@@ -1,40 +1,82 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import "./Footer.css";
 
 function Footer() {
   const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const { t, i18n } = useTranslation();
+
+  // Синхронізація теми при завантаженні
+  useEffect(() => {
+    // Перевірити збережену тему
+    const savedTheme = localStorage.getItem('theme');
+    const currentTheme = savedTheme || document.documentElement.getAttribute('data-theme') || 'light';
+    
+    setIsDarkMode(currentTheme === 'dark');
+    document.documentElement.setAttribute('data-theme', currentTheme);
+
+    // Слухати зміни теми з інших компонентів
+    const handleThemeChange = (e) => {
+      setIsDarkMode(e.detail === 'dark');
+    };
+
+    window.addEventListener('themeChange', handleThemeChange);
+    return () => window.removeEventListener('themeChange', handleThemeChange);
+  }, []);
 
   const toggleTheme = () => {
+    const newTheme = !isDarkMode ? 'dark' : 'light';
     setIsDarkMode(!isDarkMode);
-    document.body.classList.toggle('dark-mode');
+    document.documentElement.setAttribute('data-theme', newTheme);
+    
+    // Зберегти в localStorage
+    localStorage.setItem('theme', newTheme);
+    
+    // Відправити подію для синхронізації інших компонентів
+    window.dispatchEvent(new CustomEvent('themeChange', { detail: newTheme }));
+  };
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === "uk" ? "en" : "uk";
+    i18n.changeLanguage(newLang);
   };
 
   return (
     <footer className="footer-section">
       <div className="footer-top">
         <nav className="footer-nav">
-          <a href="/transport" onClick={(e) => { e.preventDefault(); navigate('/transport'); }}>Транспорт</a>
-          <a href="/zones" onClick={(e) => { e.preventDefault(); navigate('/zones'); }}>Паркування</a>
-          <a href="/blog" onClick={(e) => { e.preventDefault(); navigate('/blog'); }}>Блог</a>
-          <a href="/support" onClick={(e) => { e.preventDefault(); navigate('/support'); }}>Підтримка</a>
+          <a href="/transport" onClick={(e) => { e.preventDefault(); navigate('/transport'); }}>
+            {t("transport")}
+          </a>
+          <a href="/zones" onClick={(e) => { e.preventDefault(); navigate('/zones'); }}>
+            {t("zones.short_zone")}
+          </a>
+          <a href="/blog" onClick={(e) => { e.preventDefault(); navigate('/blog'); }}>
+            {t("blog")}
+          </a>
+          <a href="/support" onClick={(e) => { e.preventDefault(); navigate('/support'); }}>
+            {t("contacts")}
+          </a>
         </nav>
         
         <div className="footer-center">
           <h2 className="footer-logo">MistoGo</h2>
           <p className="footer-tagline">
-            «Оренда авто, велосипедів та самокатів у вашому місті. Швидко, зручно та без зайвих турбот.»
+            {t("footer.tagline")}
           </p>
         </div>
         
         <div className="footer-right">
           <span className="footer-questions" onClick={() => navigate('/faq')} style={{cursor: 'pointer'}}>
-            Часті питання
+            {t("faq.title")}
           </span>
-          <span className="footer-language">UKR | ₴ UAH</span>
+          <button className="footer-language" onClick={toggleLanguage}>
+            {i18n.language === "uk" ? "UKR" : "ENG"} | {i18n.language === "uk" ? "₴ UAH" : "$ USD"}
+          </button>
           <button className="footer-login" onClick={() => navigate('/auth/login')}>
-            Вхід
+            {t("login.title")}
           </button>
           <button 
             className={`footer-theme-toggle ${isDarkMode ? 'dark' : ''}`}
@@ -44,17 +86,39 @@ function Footer() {
             <svg width="59" height="31" viewBox="0 0 59 31" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clipPath="url(#clip0_footer)">
                 <rect x="1.5" y="1.5" width="56" height="28" rx="14" stroke="white" strokeWidth="3" />
-                <g style={{ transform: isDarkMode ? 'translateX(28px)' : 'translateX(0)', transition: 'transform 0.3s ease' }}>
-                  <circle cx="15.5" cy="15.5" r="11" stroke="white" strokeWidth="3" />
-                  <circle cx="15.5" cy="15.5" r="3.5" fill="white" />
-                  <ellipse cx="22.5" cy="15.6392" rx="1.5" ry="0.5" fill="white" />
-                  <ellipse cx="8.5" cy="15.6392" rx="1.5" ry="0.5" transform="rotate(180 8.5 15.6392)" fill="white" />
-                  <ellipse cx="15.5" cy="8.63916" rx="1.5" ry="0.5" transform="rotate(-90 15.5 8.63916)" fill="white" />
-                  <ellipse cx="15.5" cy="22.6392" rx="1.5" ry="0.5" transform="rotate(90 15.5 22.6392)" fill="white" />
-                  <ellipse cx="20.7354" cy="20.8928" rx="1.49622" ry="0.641236" transform="rotate(45 20.7354 20.8928)" fill="white" />
-                  <ellipse cx="10.2646" cy="10.6634" rx="1.49622" ry="0.641236" transform="rotate(-135 10.2646 10.6634)" fill="white" />
-                  <ellipse cx="20.7355" cy="10.4222" rx="1.47102" ry="0.630439" transform="rotate(-45 20.7355 10.4222)" fill="white" />
-                  <ellipse cx="10.2645" cy="21.1339" rx="1.47102" ry="0.630439" transform="rotate(135 10.2645 21.1339)" fill="white" />
+                <g 
+                  className="toggle-circle"
+                  style={{ 
+                    transform: isDarkMode ? 'translateX(28px)' : 'translateX(0)', 
+                    transition: 'transform 0.3s ease' 
+                  }}
+                >
+                  {/* Світла тема - Сонце */}
+                  {!isDarkMode && (
+                    <>
+                      <circle cx="15.5" cy="15.5" r="12.5" stroke="white" strokeWidth="3" />
+                      <circle cx="15.5" cy="15.5" r="3.5" fill="white" />
+                      <ellipse cx="22.5" cy="15.639" rx="1.5" ry="0.5" fill="white" />
+                      <ellipse cx="8.5" cy="15.639" rx="1.5" ry="0.5" transform="rotate(180 8.5 15.639)" fill="white" />
+                      <ellipse cx="15.5" cy="8.63898" rx="1.5" ry="0.5" transform="rotate(-90 15.5 8.63898)" fill="white" />
+                      <ellipse cx="15.5" cy="22.639" rx="1.5" ry="0.5" transform="rotate(90 15.5 22.639)" fill="white" />
+                      <ellipse cx="20.7354" cy="20.8927" rx="1.49622" ry="0.641236" transform="rotate(45 20.7354 20.8927)" fill="white" />
+                      <ellipse cx="10.2646" cy="10.6632" rx="1.49622" ry="0.641236" transform="rotate(-135 10.2646 10.6632)" fill="white" />
+                      <ellipse cx="20.7355" cy="10.422" rx="1.47102" ry="0.630439" transform="rotate(-45 20.7355 10.422)" fill="white" />
+                      <ellipse cx="10.2645" cy="21.1339" rx="1.47102" ry="0.630439" transform="rotate(135 10.2645 21.1339)" fill="white" />
+                    </>
+                  )}
+
+                  {/* Темна тема - Місяць */}
+                  {isDarkMode && (
+                    <>
+                      <circle cx="15.5" cy="15.5" r="12.5" stroke="white" strokeWidth="3" fill="none" />
+                      <path 
+                        d="M12.5557 8.60059C11.583 9.80276 11 11.3332 11 13C11 16.866 14.134 20 18 20C19.6668 20 21.1963 19.416 22.3984 18.4434C21.254 21.1221 18.5971 23 15.5 23C11.3579 23 8 19.6421 8 15.5C8 12.4031 9.87722 9.74509 12.5557 8.60059Z" 
+                        fill="white"
+                      />
+                    </>
+                  )}
                 </g>
               </g>
               <defs>
@@ -69,8 +133,12 @@ function Footer() {
       
       <div className="footer-bottom">
         <div className="footer-legal">
-          <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate('/privacy'); }}>Правила та Умови</a>
-          <a href="/confidentiality" onClick={(e) => { e.preventDefault(); navigate('/confidentiality'); }}>Конфіденційність</a>
+          <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate('/privacy'); }}>
+            {t("footer.terms")}
+          </a>
+          <a href="/confidentiality" onClick={(e) => { e.preventDefault(); navigate('/confidentiality'); }}>
+            {t("footer.privacy")}
+          </a>
         </div>
         
         <div className="footer-social">
@@ -92,7 +160,9 @@ function Footer() {
         </div>
         
         <div className="footer-credits">
-          <span className="footer-cookies" style={{cursor: 'pointer'}}>Файли Cookies</span>
+          <span className="footer-cookies" style={{cursor: 'pointer'}}>
+            {t("footer.cookies")}
+          </span>
           <span className="footer-copyright">© 2025 MistoGo</span>
         </div>
       </div>
