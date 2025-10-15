@@ -1,3 +1,4 @@
+
 name: CI/CD Dry Run
 
 on:
@@ -58,7 +59,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}   # ✅ добавили поддержку пароля к ключу
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           port: ${{ secrets.SSH_PORT }}
           script: |
             echo "✅ Connected to $HOSTNAME as $(whoami)"
