@@ -6,7 +6,7 @@ on:
     branches: [ main ]           # сборка на PR в main
   push:
     branches: [ main ]           # автодеплой на merge в main
-  workflow_dispatch:              # ручной запуск при необходимости
+  workflow_dispatch:              # ручной запуск
 
 jobs:
   build:
@@ -88,6 +88,19 @@ jobs:
             echo "SHA:   $GITHUB_SHA"
             hostname && whoami
 
+      - name: Ensure target dirs
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            sudo mkdir -p /var/www/mistogo/api
+            sudo mkdir -p /var/www/mistogo/web/dist
+            sudo chown -R $USER:$USER /var/www/mistogo
+
       - name: Upload API
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -112,7 +125,7 @@ jobs:
           target: "/var/www/mistogo/web/dist"
           overwrite: true
 
-      - name: Restart services
+      - name: Restart services & write deploy log
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -121,6 +134,18 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           port: ${{ secrets.SSH_PORT }}
           script: |
+            set -e
             sudo systemctl daemon-reload
             sudo systemctl restart mistogo || true
-            echo "Deployed by: $GITHUB_ACTOR at $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+
+            TS="$(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            echo "$TS | actor=${GITHUB_ACTOR} | sha=${GITHUB_SHA}" | sudo tee -a /var/www/mistogo/DEPLOY_LOG.txt
+
+            cat > /var/www/mistogo/version.json <<JSON
+            {
+              "sha": "${GITHUB_SHA}",
+              "actor": "${GITHUB_ACTOR}",
+              "deployed_at": "$TS"
+            }
+            JSON
+            sudo chown $USER:$USER /var/www/mistogo/DEPLOY_LOG.txt /var/www/mistogo/version.json || true
