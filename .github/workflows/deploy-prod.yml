@@ -1,0 +1,126 @@
+# .github/workflows/ci-cd.yml
+name: CI/CD
+
+on:
+  pull_request:
+    branches: [ main ]           # сборка на PR в main
+  push:
+    branches: [ main ]           # автодеплой на merge в main
+  workflow_dispatch:              # ручной запуск при необходимости
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ---- .NET API ----
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore .NET
+        run: dotnet restore api/api.csproj || true
+
+      - name: Build .NET
+        run: dotnet build api/api.csproj -c Release --no-restore
+
+      - name: Publish .NET
+        run: dotnet publish api/api.csproj -c Release -o api-publish --no-build
+
+      # ---- Web (Vite) ----
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Build web
+        working-directory: web
+        run: |
+          npm ci
+          echo "VITE_API_URL=http://localhost:5000" > .env
+          npm run build
+
+      # ---- Артефакты ----
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            api-publish
+            web/dist
+
+  deploy:
+    name: Deploy to Server
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: .
+
+      - name: Preflight SSH (who & where)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "Actor: $GITHUB_ACTOR"
+            echo "Ref:   $GITHUB_REF"
+            echo "SHA:   $GITHUB_SHA"
+            hostname && whoami
+
+      - name: Upload API
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "api-publish/*"
+          target: "/var/www/mistogo/api"
+          overwrite: true
+
+      - name: Upload Web
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "web/dist/*"
+          target: "/var/www/mistogo/web/dist"
+          overwrite: true
+
+      - name: Restart services
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            sudo systemctl daemon-reload
+            sudo systemctl restart mistogo || true
+            echo "Deployed by: $GITHUB_ACTOR at $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
