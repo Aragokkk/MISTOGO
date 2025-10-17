@@ -1,40 +1,22 @@
-# .github/workflows/ci-cd.yml
+# .github/workflows/deploy-prod.yml
 name: CI/CD
 
 on:
-  pull_request:
-    branches: [ main ]         # сборка на PR в main
-  push:
-    branches: [ main ]         # автодеплой при пуше/мерже в main
-  workflow_dispatch:            # ручной запуск
+  push: { branches: [ main ] }
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # ---- .NET API ----
-      - name: Setup .NET 8
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: '8.0.x' }
 
-      - name: Restore .NET
-        run: dotnet restore api/api.csproj || true
+      - run: dotnet publish api/api.csproj -c Release -o api-publish
 
-      - name: Build .NET
-        run: dotnet build api/api.csproj -c Release --no-restore
-
-      - name: Publish .NET
-        run: dotnet publish api/api.csproj -c Release -o api-publish --no-build
-
-      # ---- Web (Vite) ----
-      - name: Setup Node.js 22
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
@@ -47,9 +29,7 @@ jobs:
           echo "VITE_API_URL=http://localhost:5000" > .env
           npm run build
 
-      # ---- Артефакты ----
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: |
@@ -57,39 +37,14 @@ jobs:
             web/dist
 
   deploy:
-    name: Deploy to Server
-    if: github.ref == 'refs/heads/main'
     needs: build
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    environment:
-      name: production
-    concurrency:
-      group: deploy-production
-      cancel-in-progress: false
-
     steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-          path: .
+      - uses: actions/download-artifact@v4
+        with: { name: build-artifacts, path: . }
 
-      - name: Preflight SSH (who & where)
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            echo "Actor: $GITHUB_ACTOR"
-            echo "Ref:   $GITHUB_REF"
-            echo "SHA:   $GITHUB_SHA"
-            hostname && whoami
-            ls -la /var/www/mistogo || true
-
-      - name: Upload API
+      - name: Upload API (no sudo)
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -101,7 +56,7 @@ jobs:
           target: "/var/www/mistogo/api"
           overwrite: true
 
-      - name: Upload Web
+      - name: Upload web (no sudo)
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -113,7 +68,7 @@ jobs:
           target: "/var/www/mistogo/web/dist"
           overwrite: true
 
-      - name: Restart services & log deploy
+      - name: Restart user service (no sudo)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -123,13 +78,13 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             set -e
-            sudo systemctl daemon-reload
-            sudo systemctl restart mistogo || true
+            systemctl --user daemon-reload || true
+            systemctl --user restart mistogo || true
 
             TS="$(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-            echo "$TS | actor=${GITHUB_ACTOR} | sha=${GITHUB_SHA}" | sudo tee -a /var/www/mistogo/DEPLOY_LOG.txt >/dev/null
-
-            cat <<JSON | sudo tee /var/www/mistogo/version.json >/dev/null
+            mkdir -p ~/mistogo_logs
+            echo "$TS | actor=${GITHUB_ACTOR} | sha=${GITHUB_SHA}" >> ~/mistogo_logs/DEPLOY_LOG.txt
+            cat > ~/mistogo_logs/version.json <<JSON
             {
               "sha": "${GITHUB_SHA}",
               "actor": "${GITHUB_ACTOR}",
