@@ -1,4 +1,7 @@
-:root {
+@media (max-width: 900px) {
+  .transport-section { padding: 80px 20px 60px; }
+  .section-title { font-size: 36px; }
+}:root {
   /* Світла тема (за замовчуванням) */
   --shadow-for-block: 0px 0px 12px 0px rgba(0, 0, 0, 0.25);
   --variable-collection-color-text: rgba(30, 30, 30, 1);
@@ -356,7 +359,7 @@ body {
 
 @media (max-width: 360px) {
   .hero-wrapper {
-    min-height: 320px;
+    min-height: 400px;
   }
   
   .hero-content {
@@ -368,19 +371,19 @@ body {
   
   .hero-title {
     font-size: clamp(16px, 4.5vw, 20px);
-    margin-bottom: 6px;
+    margin-bottom: 5px;
   }
   
   .hero-description {
     font-size: clamp(9px, 2.5vw, 11px);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   
   .hero-button {
-    max-width: 120px;
-    height: 35px;
-    font-size: 10px;
-    padding: 0 8px;
+    max-width: 100px;
+    height: 30px;
+    font-size: 9px;
+    padding: 0 6px;
   }
   
   .hero-image {
@@ -389,6 +392,40 @@ body {
   
   .car-and-bicycle {
     transform: scale(1.45);
+  }
+}
+
+@media (max-width: 320px) {
+  .hero-wrapper {
+    min-height: 380px;
+  }
+  
+  .hero-content {
+    top: 35px;
+    left: 8px;
+    max-width: 44%;
+    padding-right: 4px;
+  }
+  
+  .hero-title {
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  
+  .hero-description {
+    font-size: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .hero-button {
+    max-width: 85px;
+    height: 28px;
+    font-size: 8px;
+    padding: 0 5px;
+  }
+  
+  .car-and-bicycle {
+    transform: scale(1.4);
   }
 }
 
@@ -504,14 +541,14 @@ body {
 }
 
 @media (max-width: 900px) {
-  .transport-section { padding: 60px 20px; }
+  .transport-section { padding: 80px 20px 60px; }
   .section-title { font-size: 36px; }
 }
 
 /* Мобільна адаптація Transport - 2 колонки */
 @media (max-width: 480px) {
   .transport-section {
-    padding: 40px 8px;
+    padding: 30px 8px 40px;
   }
   
   .section-title {
@@ -572,6 +609,12 @@ body {
   .transport-button {
     height: 36px;
     font-size: 12px;
+  }
+}
+
+@media (max-width: 320px) {
+  .transport-section {
+    padding: 30px 8px 40px;
   }
 }
 
