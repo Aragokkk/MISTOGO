@@ -1,0 +1,636 @@
+/* ============================================ */
+/* ДУЖЕ МАЛІ ЕКРАНИ - до 360px */
+/* ============================================ */
+
+@media (max-width: 360px) {
+    .mistogoBlogContainer {
+        padding: 0;
+    }
+
+    .mistogoBlogTitle {
+        font-size: 24px;
+    }
+
+    .mistogoBlogHeroOverlay {
+        top: 12px;
+        left: 8px;
+        gap: 8px;
+    }
+
+    .mistogoBlogHeroImageWrapper {
+        height: 220px;
+    }
+
+    .mistogoBlogHeroContent {
+        padding: 12px;
+    }
+
+    .mistogoBlogHeroTextContainer h2 {
+        font-size: 16px;
+    }
+
+    .mistogoBlogHeroTextContainer p {
+        font-size: 12px;
+    }
+
+    .mistogoBlogSectionTitle {
+        font-size: 20px;
+        margin: 20px 8px 16px;
+    }
+
+    .mistogoBlogGrid {
+        padding: 0 8px;
+        gap: 6px;
+    }
+
+    .mistogoBlogCard {
+        border-radius: 16px;
+    }
+
+    .mistogoBlogCardImage {
+        height: 100px !important;
+    }
+
+    .mistogoBlogCardContent {
+        padding: 8px;
+    }
+
+    .mistogoBlogCardContent h3 {
+        font-size: 12px !important;
+    }
+
+    .mistogoBlogCardContent p {
+        font-size: 9px !important;
+        -webkit-line-clamp: 2 !important;
+    }
+
+    .mistogoBlogCardDate {
+        font-size: 8px !important;
+    }
+}/* Blog.module.css - Mobile-First підхід */
+
+/* ============================================ */
+/* КРИТИЧНИЙ ФІКС ДЛЯ МОБІЛЬНОГО GRID */
+/* ============================================ */
+
+@media screen and (max-width: 1279px) {
+    .mistogoBlogGrid {
+        grid-template-columns: 1fr !important;
+        display: grid !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    body,
+    html {
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+    }
+
+    .mistogoBlogContainer {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .mistogoBlogGrid {
+        grid-template-columns: 1fr !important;
+        padding: 0 12px !important;
+        gap: 16px !important;
+        display: grid !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .mistogoBlogCard {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .mistogoBlogHeroSection,
+    .mistogoBlogHeroImageWrapper,
+    .mistogoBlogHeroImage,
+    .mistogoBlogHeroContent {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .mistogoBlogHeroImageWrapper {
+        height: 250px !important;
+    }
+
+    .mistogoBlogHeroImage {
+        object-fit: cover !important;
+        object-position: center !important;
+    }
+
+    .mistogoBlogTitle {
+        font-size: 28px !important;
+    }
+
+    .mistogoBlogHeroContent {
+        padding: 16px !important;
+    }
+}
+
+/* ============================================ */
+/* MOBILE SPECIFIC FIXES */
+/* ============================================ */
+
+@media (max-width: 767px) {
+    .mistogoBlogContainer,
+    .mistogoBlogHeroSection,
+    .mistogoBlogHeroImageWrapper,
+    .mistogoBlogHeroImage,
+    .mistogoBlogHeroContent,
+    .mistogoBlogHeroTextContainer,
+    .mistogoBlogGrid,
+    .mistogoBlogCard {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    .mistogoBlogHeroImageWrapper,
+    .mistogoBlogHeroContent {
+        min-width: unset !important;
+        width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .mistogoBlogGrid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        gap: 8px !important;
+    }
+
+    .mistogoBlogCard {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .mistogoBlogHeroContent {
+        padding: 14px !important;
+    }
+
+    .mistogoBlogCardContent {
+        padding: 10px !important;
+    }
+
+    .mistogoBlogSectionTitle {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        font-size: 24px !important;
+    }
+
+    .mistogoBlogHeroSection {
+        margin-bottom: 30px !important;
+    }
+
+    .mistogoBlogTitle {
+        font-size: 26px !important;
+    }
+
+    .mistogoBlogHeroTextContainer h2 {
+        font-size: 18px !important;
+    }
+
+    .mistogoBlogHeroTextContainer p {
+        font-size: 13px !important;
+    }
+}
+
+/* ============================================ */
+/* ГЛОБАЛЬНІ ФІКСИ ДЛЯ МОБІЛЬНОГО */
+/* ============================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+/* ============================================ */
+/* БАЗОВІ СТИЛІ (Mobile First) */
+/* ============================================ */
+
+.mistogoBlogContainer {
+    font-family: var(--font-family, 'Montserrat', sans-serif);
+    background: var(--promo-gradient) !important;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 100vw;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.mistogoBlogHeroSection {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.mistogoBlogHeroImageWrapper {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 250px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.mistogoBlogHeroImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.mistogoBlogHeroOverlay {
+    position: absolute;
+    top: 16px;
+    left: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10;
+    flex-wrap: wrap;
+}
+
+.mistogoBlogTitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 110%;
+    color: var(--variable-collection-white-text, #FFFFFF) !important;
+    margin: 0;
+}
+
+.mistogoBlogHeroContent {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    background: var(--variable-collection-white) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.mistogoBlogHeroTextContainer {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mistogoBlogHeroTextContainer h2 {
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--variable-collection-gray-text) !important;
+    margin: 0 0 15px 0;
+    width: 100%;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.mistogoBlogHeroTextContainer p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--variable-collection-gray-text) !important;
+    margin: 0 0 20px 0;
+    width: 100%;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.mistogoBlogHeroButton {
+    width: 100%;
+    height: 59px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    background: var(--variable-collection-green);
+    color: #1d3a17;
+    font-family: var(--font-family, 'Montserrat', sans-serif);
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.mistogoBlogHeroButton:hover:not(:disabled) {
+    background-color: #91B556;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.mistogoBlogHeroButton:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.mistogoBlogHeroButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.mistogoBlogHeroButton svg {
+    flex-shrink: 0;
+}
+
+.mistogoBlogHeroButton svg path {
+    stroke: #1d3a17;
+    transition: stroke 0.3s ease;
+}
+
+.mistogoBlogSectionTitle {
+    font-weight: 700;
+    font-size: 24px;
+    text-align: center;
+    color: #FFFFFF !important;
+    margin: 30px 12px 20px;
+    width: calc(100% - 24px);
+    max-width: 100%;
+}
+
+.mistogoBlogGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 0 12px;
+    margin: 30px 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.mistogoBlogCard {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    background: var(--variable-collection-white) !important;
+    box-shadow: var(--shadow-for-block, 0 4px 8px rgba(0, 0, 0, 0.15));
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.mistogoBlogCard:hover {
+    transform: translateY(-5px);
+}
+
+.mistogoBlogCardImage {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.mistogoBlogCardContent {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    overflow: hidden;
+}
+
+.mistogoBlogCardContent h3 {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--variable-collection-gray-text) !important;
+    margin: 0 0 8px 0;
+    width: 100%;
+    word-wrap: break-word;
+    line-height: 1.3;
+}
+
+.mistogoBlogCardContent p {
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--variable-collection-gray-text) !important;
+    margin: 0 0 8px 0;
+    width: 100%;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.mistogoBlogCardDate {
+    font-size: 10px;
+    color: var(--variable-collection-gray-text) !important;
+    opacity: 0.7;
+    text-align: right;
+}
+
+/* ============================================ */
+/* TABLET - 768px і більше */
+/* ============================================ */
+
+@media (min-width: 768px) {
+    .mistogoBlogContainer {
+        max-width: 100%;
+    }
+
+    .mistogoBlogHeroSection {
+        flex-direction: column;
+        margin: 0 0 60px 0;
+    }
+
+    .mistogoBlogHeroImageWrapper {
+        height: 400px;
+    }
+
+    .mistogoBlogHeroContent {
+        padding: 30px;
+    }
+
+    .mistogoBlogTitle {
+        font-size: 56px;
+    }
+
+    .mistogoBlogHeroOverlay {
+        top: 30px;
+        left: 30px;
+    }
+
+    .mistogoBlogHeroTextContainer h2 {
+        font-size: 28px;
+    }
+
+    .mistogoBlogHeroTextContainer p {
+        font-size: 16px;
+    }
+
+    .mistogoBlogHeroButton {
+        font-size: 18px;
+    }
+
+    .mistogoBlogSectionTitle {
+        font-size: 32px;
+        margin: 50px 0 40px 0;
+    }
+
+    .mistogoBlogGrid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 0 30px;
+        margin: 0 0 60px 0;
+    }
+
+    .mistogoBlogCard {
+        max-width: 850px;
+        margin: 0 auto;
+        border-radius: 30px;
+    }
+
+    .mistogoBlogCardImage {
+        height: 350px;
+    }
+
+    .mistogoBlogCardContent {
+        padding: 25px;
+    }
+
+    .mistogoBlogCardContent h3 {
+        font-size: 24px;
+    }
+
+    .mistogoBlogCardContent p {
+        font-size: 16px;
+        -webkit-line-clamp: unset;
+    }
+
+    .mistogoBlogCardDate {
+        font-size: 14px;
+    }
+}
+
+/* ============================================ */
+/* DESKTOP - 1280px і більше */
+/* ============================================ */
+
+@media (min-width: 1280px) {
+    .mistogoBlogContainer {
+        max-width: 1895px;
+        margin: -66px auto 0;
+        padding-top: 66px;
+    }
+
+    .mistogoBlogHeroSection {
+        flex-direction: row;
+        margin: 0 0 80px 0;
+    }
+
+    .mistogoBlogHeroImageWrapper {
+        width: 960px;
+        max-width: 50%;
+        height: 564px;
+        flex: 1;
+    }
+
+    .mistogoBlogHeroContent {
+        width: 850px;
+        max-width: 50%;
+        height: 564px;
+        padding: 40px;
+        flex: 1;
+    }
+
+    .mistogoBlogHeroTextContainer {
+        max-width: 805px;
+        min-height: 418px;
+        justify-content: space-between;
+    }
+
+    .mistogoBlogTitle {
+        font-size: 74px;
+    }
+
+    .mistogoBlogHeroOverlay {
+        top: 40px;
+        left: 40px;
+        gap: 20px;
+    }
+
+    .mistogoBlogHeroTextContainer h2 {
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    .mistogoBlogHeroTextContainer p {
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    .mistogoBlogHeroButton {
+        width: 316px;
+        font-size: 18px;
+    }
+
+    .mistogoBlogSectionTitle {
+        font-size: 36px;
+        margin: 60px 0 50px 0;
+    }
+
+    .mistogoBlogGrid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+        padding: 0 40px;
+        max-width: 1800px;
+        margin: 0 auto 80px;
+        justify-content: center;
+    }
+
+    .mistogoBlogCard {
+        max-width: 850px;
+        height: 695px;
+    }
+
+    .mistogoBlogCardImage {
+        height: 417px;
+    }
+
+    .mistogoBlogCardContent {
+        max-width: 816px;
+        height: 209px;
+        padding: 30px;
+    }
+
+    .mistogoBlogCardContent h3 {
+        font-size: 24px;
+    }
+
+    .mistogoBlogCardContent p {
+        font-size: 16px;
+    }
+
+    .mistogoBlogCardDate {
+        font-size: 14px;
+    }
+}

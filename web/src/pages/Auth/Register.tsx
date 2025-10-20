@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import BackHomeButton from '../../components/BackHomeButton';
 import BackButton from '../../components/BackButton';
 import { authService, RegisterData } from '../../services/authService';
+import "./Register.css";
 
 function Register() {
   const { t } = useTranslation();
@@ -68,28 +69,28 @@ function Register() {
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '400px', margin: '0 auto' }}>
-      <h1>{t('register.title')}</h1>
-
-      {error && (
-        <div style={{ padding: '0.5rem', background: '#ffebee', color: '#c62828', borderRadius: '4px', marginBottom: '1rem' }}>
-          {error}
+    <div className="container">
+      <div className="register-box">
+        {/* Header з кнопкою назад і заголовком на одному рівні */}
+        <div className="register-header">
+          <BackButton />
+          <h1 className="register-title">{t('register.title')}</h1>
         </div>
-      )}
 
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '1rem' }}>
+        {error && (
+          <div className="error-message">{error}</div>
+        )}
+
+        <form onSubmit={handleSubmit} className="register-form">
           <input
             type="text"
             name="fullName"
             placeholder={t('register.full_name_optional')}
             value={formData.fullName}
             onChange={handleChange}
-            style={{ width: '100%', padding: '0.5rem' }}
+            className="register-input"
           />
-        </div>
 
-        <div style={{ marginBottom: '1rem' }}>
           <input
             type="email"
             name="email"
@@ -97,22 +98,18 @@ function Register() {
             value={formData.email}
             onChange={handleChange}
             required
-            style={{ width: '100%', padding: '0.5rem' }}
+            className="register-input"
           />
-        </div>
 
-        <div style={{ marginBottom: '1rem' }}>
           <input
             type="tel"
             name="phone"
             placeholder={t('register.phone_optional')}
             value={formData.phone}
             onChange={handleChange}
-            style={{ width: '100%', padding: '0.5rem' }}
+            className="register-input"
           />
-        </div>
 
-        <div style={{ marginBottom: '1rem' }}>
           <input
             type="password"
             name="password"
@@ -120,11 +117,9 @@ function Register() {
             value={formData.password}
             onChange={handleChange}
             required
-            style={{ width: '100%', padding: '0.5rem' }}
+            className="register-input"
           />
-        </div>
 
-        <div style={{ marginBottom: '1rem' }}>
           <input
             type="password"
             name="confirmPassword"
@@ -132,34 +127,19 @@ function Register() {
             value={formData.confirmPassword}
             onChange={handleChange}
             required
-            style={{ width: '100%', padding: '0.5rem' }}
+            className="register-input"
           />
+
+          <button type="submit" disabled={loading} className="register-button">
+            {loading ? t('register.loading') : t('register.submit')}
+          </button>
+        </form>
+
+        <div className="register-footer">
+          <p>{t('register.already_have_account')} <Link to="/auth/login">{t('register.login')}</Link></p>
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            width: '100%',
-            padding: '0.75rem',
-            background: loading ? '#ccc' : '#4CAF50',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: loading ? 'not-allowed' : 'pointer'
-          }}
-        >
-          {loading ? t('register.loading') : t('register.submit')}
-        </button>
-      </form>
-
-      <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-        <p>{t('register.already_have_account')} <Link to="/auth/login">{t('register.login')}</Link></p>
-      </div>
-
-      <div style={{ marginTop: '2rem' }}>
-        <BackHomeButton />
-        <BackButton />
+        
       </div>
     </div>
   );

@@ -1,0 +1,61 @@
+/* breakpoints.css - Глобальні брейкпоінти для всього проекту */
+
+:root {
+  /* Брейкпоінти */
+  --breakpoint-mobile: 360px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1280px;
+  --breakpoint-wide: 1920px;
+  
+  /* Максимальні ширини контейнерів */
+  --container-mobile: 360px;
+  --container-tablet: 768px;
+  --container-desktop: 1280px;
+  --container-wide: 1920px;
+  
+  /* Paddings для різних екранів */
+  --padding-mobile: 12px;
+  --padding-tablet: 30px;
+  --padding-desktop: 40px;
+}
+
+/* ============================================ */
+/* МІКСИНИ ДЛЯ ВИКОРИСТАННЯ В ІНШИХ CSS ФАЙЛАХ */
+/* ============================================ */
+
+/* Приклад використання в Blog.module.css: */
+
+/*
+@media (max-width: 767px) {
+  .mistogoBlogContainer {
+    width: 100%;
+    padding: var(--padding-mobile);
+  }
+  
+  .mistogoBlogGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1279px) {
+  .mistogoBlogContainer {
+    max-width: var(--container-tablet);
+    padding: var(--padding-tablet);
+  }
+  
+  .mistogoBlogGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .mistogoBlogContainer {
+    max-width: var(--container-desktop);
+    padding: var(--padding-desktop);
+  }
+  
+  .mistogoBlogGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+*/

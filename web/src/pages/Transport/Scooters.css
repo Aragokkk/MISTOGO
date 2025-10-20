@@ -1,0 +1,687 @@
+.scooter-image {
+    height: 200px;
+    background: #1a1a1a;
+  }
+  
+  .scooter-image img {
+    object-fit: cover;
+  }/* ================= VARS ================= */
+
+:root {
+  --shadow-for-block: 0px 0px 12px 0px rgba(0, 0, 0, 0.25);
+  --variable-collection-color-text: rgba(30, 30, 30, 1);
+  --variable-collection-gray-text: rgba(75, 75, 75, 1);
+  --variable-collection-green: rgba(175, 208, 110, 1);
+  --variable-collection-silver: rgba(237, 237, 237, 1);
+  --variable-collection-white: rgba(255, 255, 255, 1);
+  --variable-collection-white-text: rgba(255, 255, 255, 1);
+  --silver: #EDEDED;
+  --font-family: "Montserrat", sans-serif;
+  
+  --bg-gradient: linear-gradient(134deg, #8dba97 0%, #598889 100%);
+  --navbar-gradient: linear-gradient(136deg, #8dba97 0%, #7cacab 100%);
+  --footer-gradient: linear-gradient(142deg, #8dba97 0%, #7cacab 100%);
+  
+  --card-bg: #EDEDED;
+  --card-text: #2C3E50;
+  --section-bg: #f2f2f2;
+  --section-title-color: #2C3E50;
+}
+
+[data-theme="dark"] {
+  --variable-collection-color-text: #ffffff;
+  --variable-collection-gray-text: #ffffff;
+  --variable-collection-silver: #3F4D4E;
+  --variable-collection-white: #5B7860;
+  --variable-collection-white-text: #ffffff;
+  --silver: #3F4D4E;
+  
+  --bg-gradient: linear-gradient(to right, #5B7560 0%, #416470 100%);
+  --navbar-gradient: linear-gradient(136deg, #5B7560 0%, #416470 100%);
+  --footer-gradient: linear-gradient(142deg, #5B7860 0%, #416470 100%);
+  
+  --card-bg: #3F4D4E;
+  --card-text: #ffffff;
+  --section-bg: #252d2e;
+  --section-title-color: #ffffff;
+}
+
+/* ================= GLOBAL ================= */
+* { 
+  box-sizing: border-box; 
+}
+
+html, body, #root { 
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: var(--font-family);
+}
+
+/* ================= PAGE ================= */
+.scooters-page {
+  width: 100%;
+  min-height: 2417px;
+  background: var(--bg-gradient);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* ================= PAGE HEADER ================= */
+.page-header-section {
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 40px 90px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.back-button {
+  width: 60px;
+  height: 60px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.back-button:hover {
+  transform: translateX(-5px);
+}
+
+.back-button svg {
+  width: 50px;
+  height: 50px;
+}
+
+.page-main-title {
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* ================= SCOOTERS CATALOG ================= */
+.scooters-catalog-section {
+  width: 100%;
+  padding: 40px 90px 80px;
+}
+
+.scooters-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 405px);
+  gap: 40px;
+  max-width: 1740px;
+  margin: 0 auto;
+  justify-content: center;
+  align-content: start;
+}
+
+/* Центруємо останній ряд якщо карток менше 4 */
+.scooters-grid > *:nth-last-child(-n+3):first-child,
+.scooters-grid > *:nth-last-child(-n+2):nth-child(4n+1),
+.scooters-grid > *:nth-last-child(-n+1):nth-child(4n+1) {
+  grid-column: 2 / 3;
+}
+
+.scooters-grid > *:nth-last-child(-n+2):nth-child(4n+2) {
+  grid-column: 3 / 4;
+}
+
+.scooter-card {
+  width: 405px;
+  height: 652px;
+  background: var(--card-bg);
+  border-radius: 30px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.scooter-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.scooter-image {
+  width: 100%;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1a1a;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.scooter-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.scooter-name {
+  font-family: "Montserrat-SemiBold", Helvetica;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--card-text);
+  text-align: center;
+  margin: 25px 0 25px 0;
+  padding: 0 20px;
+}
+
+.scooter-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: auto;
+  padding: 0;
+  width: 280px;
+  align-items: flex-start;
+}
+
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 280px;
+}
+
+.spec-row:first-child {
+  padding: 0 5px;
+}
+
+.spec-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 120px;
+}
+
+.spec-item:last-child {
+  width: auto;
+}
+
+.spec-item svg {
+  width: 39px;
+  height: 39px;
+  flex-shrink: 0;
+}
+
+.spec-text {
+  font-family: "Montserrat", Helvetica;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--card-text);
+  letter-spacing: 0;
+}
+
+.spec-price,
+.spec-year {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.spec-price {
+  width: 120px;
+  text-align: left;
+}
+
+.spec-year {
+  text-align: right;
+  flex: 1;
+}
+
+.scooter-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  margin-bottom: 20px;
+  padding: 0 40px;
+  gap: 15px;
+}
+
+.scooter-price {
+  width: 163px;
+  height: 28px;
+  font-family: "Montserrat-SemiBold", Helvetica;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--card-text);
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.scooter-year {
+  width: 92px;
+  height: 28px;
+  font-family: "Montserrat-SemiBold", Helvetica;
+  font-size: 28px;
+  font-weight: 600;
+  color: #4b4b4b;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.scooter-select-button {
+  width: 336px;
+  height: 59px;
+  background: #afd06e;
+  border: none;
+  border-radius: 30px;
+  font-family: "Montserrat-SemiBold", Helvetica;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1d3a17;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 auto 25px;
+  padding: 10px 20px;
+  flex-shrink: 0;
+}
+
+.scooter-select-button:hover {
+  background: #91B556;
+  transform: translateY(-2px);
+}
+
+.scooter-select-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ================= OTHER TRANSPORT SECTION ================= */
+.other-transport-section {
+  width: 100%;
+  padding: 80px 90px;
+  background: var(--section-bg);
+  margin-top: 80px;
+}
+
+.section-content {
+  max-width: 1740px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--section-title-color);
+  margin: 0 0 50px;
+}
+
+.transport-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  justify-items: center;
+}
+
+.transport-card {
+  width: 405px;
+  height: 483px;
+  background: var(--card-bg);
+  border-radius: 36px;
+  box-shadow: var(--shadow-for-block);
+  padding: 40px 30px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.transport-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.transport-image {
+  width: 100%;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.transport-image img {
+  width: 120%;
+  height: auto;
+  max-width: 120%;
+  object-fit: contain;
+}
+
+.transport-name {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--card-text);
+  text-align: center;
+  margin: 0 0 auto 0;
+}
+
+.transport-button {
+  width: 100%;
+  height: 50px;
+  background: #A4C96B;
+  border: none;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--variable-collection-white-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.transport-button:hover {
+  background: #91B556;
+  transform: translateX(5px);
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* Desktop Large */
+@media (max-width: 1440px) {
+  .scooters-grid {
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+  }
+  
+  .transport-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .page-header-section {
+    padding: 30px 40px;
+  }
+  
+  .scooters-catalog-section {
+    padding: 30px 40px 60px;
+  }
+  
+  .other-transport-section {
+    padding: 60px 40px;
+  }
+}
+
+/* Tablet Small / Mobile Large */
+@media (max-width: 768px) and (min-width: 481px) {
+  .page-header-section {
+    padding: 20px;
+  }
+  
+  .page-main-title {
+    font-size: 36px;
+  }
+  
+  .scooters-catalog-section {
+    padding: 20px;
+  }
+  
+  .scooters-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  
+  .scooter-card {
+    max-width: 405px;
+    width: 100%;
+  }
+  
+  .other-transport-section {
+    padding: 40px 20px;
+  }
+  
+  .section-title {
+    font-size: 36px;
+  }
+  
+  .transport-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================= MOBILE COMPACT (2 COLUMNS) ================= */
+@media (max-width: 480px) {
+  /* Header */
+  .page-header-section {
+    padding: 16px 12px;
+    gap: 12px;
+  }
+  
+  .page-main-title {
+    font-size: 26px;
+  }
+  
+  .back-button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .back-button svg {
+    width: 35px;
+    height: 35px;
+  }
+  
+  /* Scooters Grid - 2 компактні колонки */
+  .scooters-catalog-section {
+    padding: 16px 8px;
+  }
+  
+  .scooters-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px;
+    padding: 0;
+    max-width: 100%;
+  }
+  
+  /* Скасовуємо центрування з desktop */
+  .scooters-grid > * {
+    grid-column: auto !important;
+  }
+  
+  /* Компактна карточка самоката */
+  .scooter-card {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0;
+    height: 480px;
+    border-radius: 20px;
+    padding: 0;
+  }
+  
+  .scooter-image {
+    height: 200px;
+    background: #1a1a1a;
+  }
+  
+  .scooter-image img {
+    object-fit: cover;
+  }
+  
+  .scooter-name {
+    font-size: 13px;
+    margin: 12px 0 10px;
+    padding: 0 10px;
+    line-height: 1.3;
+  }
+  
+  /* Компактні характеристики */
+  .scooter-specs {
+    width: 100%;
+    padding: 0 10px;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .spec-row {
+    width: 100%;
+    padding: 0;
+  }
+  
+  .spec-item {
+    gap: 6px;
+    width: auto;
+  }
+  
+  .spec-item svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .spec-text,
+  .spec-price,
+  .spec-year {
+    font-size: 11px;
+  }
+  
+  /* Кнопка */
+  .scooter-select-button {
+    width: calc(100% - 20px);
+    height: 40px;
+    font-size: 12px;
+    margin: 0 10px 12px;
+    border-radius: 20px;
+    gap: 6px;
+  }
+  
+  .scooter-select-button svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  /* Section title */
+  .section-title {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+  
+  /* Other transport - 2 колонки */
+  .other-transport-section {
+    padding: 30px 8px;
+    margin-top: 40px;
+  }
+  
+  .transport-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    max-width: 100%;
+  }
+  
+  .transport-card {
+    width: 100%;
+    max-width: none !important;
+    min-width: 0;
+    height: 280px;
+    border-radius: 20px;
+    padding: 16px 12px;
+  }
+  
+  .transport-image {
+    height: 110px;
+    margin-bottom: 12px;
+  }
+  
+  .transport-image img {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .transport-name {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .transport-button {
+    height: 40px;
+    font-size: 13px;
+    border-radius: 20px;
+  }
+}
+
+/* ================= EXTRA SMALL MOBILE ================= */
+@media (max-width: 360px) {
+  .page-main-title {
+    font-size: 22px;
+  }
+  
+  .scooter-card {
+    height: 450px;
+  }
+  
+  .scooter-name {
+    font-size: 12px;
+  }
+  
+  .scooter-image {
+    height: 180px;
+  }
+  
+  .scooter-image img {
+    object-fit: cover;
+  }
+  
+  .spec-text,
+  .spec-price,
+  .spec-year {
+    font-size: 10px;
+  }
+  
+  .spec-item svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .scooter-select-button {
+    height: 36px;
+    font-size: 11px;
+  }
+  
+  .transport-card {
+    height: 260px;
+  }
+  
+  .transport-image {
+    height: 90px;
+  }
+  
+  .transport-name {
+    font-size: 13px;
+  }
+  
+  .transport-button {
+    height: 36px;
+    font-size: 12px;
+  }
+}

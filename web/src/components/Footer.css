@@ -2,12 +2,20 @@
 
 .footer-section {
   width: 100%;
+  min-width: 100vw;
   min-height: 170px;
   margin: 0 auto;
   background: #4B4B4B;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.footer-wrapper {
+  width: 1920px;
+  transform-origin: top center;
 }
 
 .footer-top {
@@ -245,72 +253,10 @@
   white-space: nowrap;
 }
 
-/* Responsive */
+/* ================= PROPORTIONAL SCALING FOR FOOTER ================= */
 @media (max-width: 1920px) {
-  .footer-section { 
-    width: 100%; 
-    height: auto; 
-  }
-}
-
-@media (max-width: 1440px) {
-  .footer-top, .footer-bottom { 
-    padding: 30px 80px; 
-  }
-}
-
-@media (max-width: 1024px) {
-  .footer-top { 
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-  
-  .footer-nav,
-  .footer-center,
-  .footer-right {
-    justify-self: center;
-  }
-  
-  .footer-nav { 
-    flex-wrap: wrap; 
-    justify-content: center; 
-  }
-  
-  .footer-center {
-    min-width: auto;
-    max-width: 600px;
-  }
-  
-  .footer-right { 
-    flex-wrap: wrap; 
-    justify-content: center; 
-  }
-  
-  .footer-bottom { 
-    flex-direction: column; 
-    gap: 20px; 
-  }
-}
-
-@media (max-width: 768px) {
-  .footer-top, .footer-bottom { 
-    padding: 30px 20px; 
-  }
-  
-  .footer-nav { 
-    flex-direction: column; 
-    gap: 20px; 
-  }
-  
-  .footer-legal { 
-    flex-direction: column; 
-    gap: 15px; 
-    text-align: center; 
-  }
-  
-  .footer-credits { 
-    flex-direction: column; 
-    gap: 15px; 
-    text-align: center; 
+  .footer-wrapper {
+    transform: scale(calc(100vw / 1920));
+    margin-bottom: calc((1 - (100vw / 1920)) * -100%);
   }
 }

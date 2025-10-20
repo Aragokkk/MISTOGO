@@ -1,0 +1,199 @@
+/* Privacy Page Styles */
+
+/* Світла тема (за замовчуванням) */
+:root {
+  --privacy-bg: #9fc5a8;
+  --privacy-box-bg: rgba(255, 255, 255, 0.95);
+  --privacy-text: #333;
+  --privacy-heading: #1d3a17;
+}
+
+/* Темна тема */
+[data-theme="dark"] {
+  --privacy-bg: linear-gradient(134deg, #5B7860 0%, #416470 100%);
+  --privacy-box-bg: rgba(63, 77, 78, 0.95);
+  --privacy-text: #FFFFFF;
+  --privacy-heading: #AFD06E;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--privacy-bg);
+  padding: 20px;
+}
+
+.privacy-box {
+  width: 800px;
+  max-width: 90%;
+  min-height: 500px;
+  max-height: 80vh;
+  background: var(--privacy-box-bg);
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.25);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s ease;
+  overflow: hidden;
+}
+
+/* Header контейнер для стрілки і заголовка */
+.privacy-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 30px;
+  flex-shrink: 0;
+}
+
+/* Позиціонування кнопки "Назад" */
+.privacy-header .back-button {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.privacy-title {
+  font-family: var(--font-family, 'Inter', sans-serif);
+  font-weight: 700;
+  font-size: 36px;
+  text-align: center;
+  color: var(--variable-collection-color-text);
+  margin: 0;
+  flex: 1;
+  transition: color 0.3s ease;
+}
+
+/* Контент зі скролом */
+.privacy-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--variable-collection-green) transparent;
+}
+
+.privacy-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.privacy-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.privacy-content::-webkit-scrollbar-thumb {
+  background-color: var(--variable-collection-green);
+  border-radius: 10px;
+}
+
+.privacy-section {
+  margin-bottom: 25px;
+}
+
+.privacy-section h2 {
+  font-family: var(--font-family, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--privacy-heading);
+  margin: 0 0 12px 0;
+  transition: color 0.3s ease;
+}
+
+.privacy-section p {
+  font-family: var(--font-family, 'Inter', sans-serif);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 160%;
+  color: var(--privacy-text);
+  margin: 0 0 12px 0;
+  transition: color 0.3s ease;
+}
+
+.privacy-section ul {
+  font-family: var(--font-family, 'Inter', sans-serif);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 160%;
+  color: var(--privacy-text);
+  margin: 0 0 12px 0;
+  padding-left: 25px;
+  transition: color 0.3s ease;
+}
+
+.privacy-section li {
+  margin-bottom: 8px;
+}
+
+.privacy-date {
+  font-family: var(--font-family, 'Inter', sans-serif);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--privacy-text);
+  opacity: 0.7;
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(127, 176, 105, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .privacy-box {
+    width: 100%;
+    max-width: 100%;
+    padding: 30px 20px;
+    max-height: 85vh;
+  }
+
+  .privacy-header {
+    margin-bottom: 20px;
+  }
+
+  .privacy-title {
+    font-size: 24px;
+  }
+
+  .privacy-section h2 {
+    font-size: 18px;
+  }
+
+  .privacy-section p,
+  .privacy-section ul {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .privacy-box {
+    padding: 25px 15px;
+  }
+
+  .privacy-title {
+    font-size: 20px;
+  }
+
+  .privacy-header .back-button {
+    width: 35px;
+    height: 35px;
+  }
+
+  .privacy-section h2 {
+    font-size: 16px;
+  }
+
+  .privacy-section p,
+  .privacy-section ul {
+    font-size: 13px;
+  }
+}

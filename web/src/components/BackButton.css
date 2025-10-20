@@ -1,0 +1,48 @@
+/* BackButton Styles */
+
+/* Світла тема - темна стрілка */
+:root {
+  --back-arrow-color: #4B4B4B;
+}
+
+/* Темна тема - біла стрілка */
+[data-theme="dark"] {
+  --back-arrow-color: #FFFFFF;
+}
+
+.back-button {
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.back-button:hover {
+  transform: translateX(-3px);
+}
+
+.back-button svg {
+  width: 50px;
+  height: 50px;
+}
+
+.back-button svg path {
+  stroke: var(--back-arrow-color);
+  transition: stroke 0.3s ease;
+}
+
+/* Альтернативний варіант з прямими селекторами */
+.back-button svg path {
+  stroke: #4B4B4B;
+  transition: stroke 0.3s ease;
+}
+
+[data-theme="dark"] .back-button svg path {
+  stroke: #FFFFFF;
+}

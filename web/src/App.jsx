@@ -15,6 +15,8 @@ import Blog from "./pages/Blog/Blog";
 import PostDetail from "./pages/Blog/PostDetail";
 import FAQ from "./pages/FAQ/FAQ";
 import Support from "./pages/Support/Support";
+import Privacy from "./pages/Privacy/Privacy";
+import Confidentiality from "./pages/Confidentiality/Confidentiality"; 
 
 // Auth
 import Auth from "./pages/Auth/Auth";
@@ -58,12 +60,14 @@ export default function App() {
         <Route path="/blog/:id" element={<PostDetail />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/confidentiality" element={<Confidentiality />} /> 
 
         {/* Auth */}
         <Route path="/auth" element={<Auth />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
-        <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+        <Route path="/auth/forgot" element={<ForgotPassword />} />
 
         {/* Кабінет */}
         <Route path="/user" element={<User />} />

@@ -5,6 +5,8 @@ import "./index.css";
 import App from "./App";
 import "./i18n.js";
 
+import './styles/breakpoints.css';
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Suspense fallback={<div>Loading translations...</div>}>

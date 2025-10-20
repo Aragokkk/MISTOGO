@@ -1,12 +1,12 @@
 import { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import BackHomeButton from '../../components/BackHomeButton';
+import { useTranslation } from 'react-i18next';
 import BackButton from '../../components/BackButton';
 import { authService } from '../../services/authService';
-import { useTranslation } from 'react-i18next'; // <-- додали i18n
+import './ForgotPassword.css';
 
 function ForgotPassword() {
-  const { t } = useTranslation(); // <-- хук для перекладів
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -42,56 +42,59 @@ function ForgotPassword() {
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '400px', margin: '0 auto' }}>
-      <h1>{t('forgotPassword.title')}</h1>
+    <div className="container">
+      <div className="forgot-box">
+        {/* Header з кнопкою назад і заголовком */}
+        <div className="forgot-header">
+          <BackButton />
+          <h1 className="forgot-title">{t('forgotPassword.title')}</h1>
+        </div>
 
-      {error && <div style={{ padding: '0.5rem', background: '#ffebee', color: '#c62828', borderRadius: '4px', marginBottom: '1rem' }}>{error}</div>}
-      {message && <div style={{ padding: '0.5rem', background: '#e8f5e9', color: '#2e7d32', borderRadius: '4px', marginBottom: '1rem' }}>{message}</div>}
-
-      {!submitted ? (
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '1rem' }}>
-            <p style={{ marginBottom: '0.5rem', color: '#666' }}>
+        {!submitted ? (
+          <>
+            <p className="forgot-description">
               {t('forgotPassword.instruction')}
             </p>
-            <input
-              type="email"
-              placeholder={t('forgotPassword.emailPlaceholder')}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={{ width: '100%', padding: '0.5rem' }}
-            />
-          </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '0.75rem',
-              background: loading ? '#ccc' : '#FF9800',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: loading ? 'not-allowed' : 'pointer'
-            }}
-          >
-            {loading ? t('forgotPassword.loading') : t('forgotPassword.submit')}
-          </button>
-        </form>
-      ) : (
-        <div style={{ textAlign: 'center' }}>
-          <p>{t('forgotPassword.checkEmail')}</p>
-          <Link to="/auth/login" style={{ color: '#2196F3' }}>
-            {t('forgotPassword.backToLogin')}
-          </Link>
-        </div>
-      )}
+            {error && (
+              <div className="error-message">{error}</div>
+            )}
 
-      <div style={{ marginTop: '2rem' }}>
-        <BackHomeButton />
-        <BackButton />
+            <form onSubmit={handleSubmit} className="forgot-form">
+              <input
+                type="email"
+                name="email"
+                placeholder={t('forgotPassword.emailPlaceholder')}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="forgot-input"
+              />
+
+              <button type="submit" disabled={loading} className="forgot-button">
+                {loading ? t('forgotPassword.loading') : t('forgotPassword.submit')}
+                <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 15.0987L7.45833 8.43208L1 1.76541M10.0417 15.0987L16.5 8.43208L10.0417 1.76541" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </form>
+          </>
+        ) : (
+          <>
+            {message && (
+              <div className="success-message">{message}</div>
+            )}
+
+            <div className="success-state">
+              <p className="success-text">
+                {t('forgotPassword.checkEmail')}
+              </p>
+              <Link to="/auth/login" className="back-to-login">
+                {t('forgotPassword.backToLogin')}
+              </Link>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
