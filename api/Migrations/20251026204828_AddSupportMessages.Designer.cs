@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MistoGO.Data;
 
@@ -11,9 +12,11 @@ using MistoGO.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(MistoGoContext))]
-    partial class MistoGoContextModelSnapshot : ModelSnapshot
+    [Migration("20251026204828_AddSupportMessages")]
+    partial class AddSupportMessages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

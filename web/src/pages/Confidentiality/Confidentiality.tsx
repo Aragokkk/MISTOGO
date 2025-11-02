@@ -11,209 +11,159 @@ function Confidentiality() {
         {/* Header з кнопкою назад і заголовком */}
         <div className="confidentiality-header">
           <BackButton />
-          <h1 className="confidentiality-title">Політика конфіденційності</h1>
+          <h1 className="confidentiality-title">{t('confidentiality_page.title')}</h1>
         </div>
 
         {/* Контент зі скролом */}
         <div className="confidentiality-content">
           <div className="confidentiality-section">
-            <h2>1. Загальні положення</h2>
-            <p>
-              MistoGo ("ми", "нас", "наша компанія") поважає вашу конфіденційність та зобов'язується 
-              захищати ваші персональні дані. Ця Політика конфіденційності пояснює, як ми збираємо, 
-              використовуємо, зберігаємо та захищаємо вашу особисту інформацію.
-            </p>
-            <p>
-              Використовуючи наш веб-сайт та послуги, ви погоджуєтесь з умовами цієї Політики 
-              конфіденційності.
-            </p>
+            <h2>{t('confidentiality_page.section1.title')}</h2>
+            <p>{t('confidentiality_page.section1.text1')}</p>
+            <p>{t('confidentiality_page.section1.text2')}</p>
           </div>
 
           <div className="confidentiality-section">
-            <h2>2. Які дані ми збираємо</h2>
-            <p>
-              Ми можемо збирати та обробляти наступні категорії персональних даних:
-            </p>
+            <h2>{t('confidentiality_page.section2.title')}</h2>
+            <p>{t('confidentiality_page.section2.text')}</p>
             <ul>
-              <li><strong>Ідентифікаційні дані:</strong> ім'я, прізвище, дата народження</li>
-              <li><strong>Контактні дані:</strong> адреса електронної пошти, номер телефону</li>
-              <li><strong>Дані облікового запису:</strong> логін, пароль (у зашифрованому вигляді)</li>
-              <li><strong>Платіжні дані:</strong> інформація про платіжні картки (обробляється через захищені платіжні шлюзи)</li>
-              <li><strong>Дані про використання:</strong> інформація про ваші поїздки, маршрути, час оренди</li>
-              <li><strong>Технічні дані:</strong> IP-адреса, тип браузера, операційна система, cookies</li>
-              <li><strong>Дані про місцезнаходження:</strong> GPS-координати під час використання транспорту</li>
-              <li><strong>Документи:</strong> водійське посвідчення, паспорт (для верифікації)</li>
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section2.list.item1') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section2.list.item2') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section2.list.item3') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section2.list.item4') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section2.list.item5') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section2.list.item6') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section2.list.item7') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section2.list.item8') }} />
             </ul>
           </div>
 
           <div className="confidentiality-section">
-            <h2>3. Як ми використовуємо ваші дані</h2>
-            <p>
-              Ми використовуємо ваші персональні дані для наступних цілей:
-            </p>
+            <h2>{t('confidentiality_page.section3.title')}</h2>
+            <p>{t('confidentiality_page.section3.text')}</p>
             <ul>
-              <li>Надання послуг оренди транспортних засобів</li>
-              <li>Створення та управління вашим обліковим записом</li>
-              <li>Обробка платежів та фінансових транзакцій</li>
-              <li>Відстеження місцезнаходження транспорту під час оренди</li>
-              <li>Комунікація з вами (підтвердження бронювання, сповіщення, підтримка)</li>
-              <li>Покращення наших послуг та користувацького досвіду</li>
-              <li>Запобігання шахрайству та забезпечення безпеки</li>
-              <li>Виконання юридичних зобов'язань</li>
-              <li>Маркетинг та персоналізація пропозицій (за вашою згодою)</li>
+              <li>{t('confidentiality_page.section3.list.item1')}</li>
+              <li>{t('confidentiality_page.section3.list.item2')}</li>
+              <li>{t('confidentiality_page.section3.list.item3')}</li>
+              <li>{t('confidentiality_page.section3.list.item4')}</li>
+              <li>{t('confidentiality_page.section3.list.item5')}</li>
+              <li>{t('confidentiality_page.section3.list.item6')}</li>
+              <li>{t('confidentiality_page.section3.list.item7')}</li>
+              <li>{t('confidentiality_page.section3.list.item8')}</li>
+              <li>{t('confidentiality_page.section3.list.item9')}</li>
             </ul>
           </div>
 
           <div className="confidentiality-section">
-            <h2>4. Правова основа обробки даних</h2>
-            <p>
-              Відповідно до GDPR та Закону України "Про захист персональних даних", ми обробляємо 
-              ваші дані на наступних правових підставах:
-            </p>
+            <h2>{t('confidentiality_page.section4.title')}</h2>
+            <p>{t('confidentiality_page.section4.text')}</p>
             <ul>
-              <li><strong>Виконання договору:</strong> для надання вам наших послуг</li>
-              <li><strong>Згода:</strong> коли ви даєте явну згоду на обробку даних</li>
-              <li><strong>Законні інтереси:</strong> для запобігання шахрайству та покращення послуг</li>
-              <li><strong>Юридичні зобов'язання:</strong> коли це потрібно за законом</li>
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section4.list.item1') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section4.list.item2') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section4.list.item3') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section4.list.item4') }} />
             </ul>
           </div>
 
           <div className="confidentiality-section">
-            <h2>5. Розкриття інформації третім особам</h2>
-            <p>
-              Ми можемо передавати ваші персональні дані наступним категоріям отримувачів:
-            </p>
+            <h2>{t('confidentiality_page.section5.title')}</h2>
+            <p>{t('confidentiality_page.section5.text')}</p>
             <ul>
-              <li><strong>Платіжні системи:</strong> для обробки платежів</li>
-              <li><strong>IT-постачальники:</strong> для підтримки інфраструктури</li>
-              <li><strong>Правоохоронні органи:</strong> у разі законної вимоги</li>
-              <li><strong>Страхові компанії:</strong> у разі інцидентів</li>
-              <li><strong>Партнери:</strong> для надання додаткових послуг (за вашою згодою)</li>
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section5.list.item1') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section5.list.item2') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section5.list.item3') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section5.list.item4') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section5.list.item5') }} />
             </ul>
-            <p>
-              Ми не продаємо ваші персональні дані третім особам для їхніх маркетингових цілей.
-            </p>
+            <p>{t('confidentiality_page.section5.text2')}</p>
           </div>
 
           <div className="confidentiality-section">
-            <h2>6. Міжнародна передача даних</h2>
-            <p>
-              Ваші персональні дані можуть бути передані та оброблені в інших країнах, де розташовані 
-              наші постачальники послуг. У таких випадках ми забезпечуємо належний рівень захисту 
-              даних відповідно до GDPR через:
-            </p>
+            <h2>{t('confidentiality_page.section6.title')}</h2>
+            <p>{t('confidentiality_page.section6.text')}</p>
             <ul>
-              <li>Стандартні договірні положення ЄС</li>
-              <li>Рішення про адекватність захисту даних</li>
-              <li>Інші законні механізми передачі даних</li>
+              <li>{t('confidentiality_page.section6.list.item1')}</li>
+              <li>{t('confidentiality_page.section6.list.item2')}</li>
+              <li>{t('confidentiality_page.section6.list.item3')}</li>
             </ul>
           </div>
 
           <div className="confidentiality-section">
-            <h2>7. Як ми захищаємо ваші дані</h2>
-            <p>
-              Ми вживаємо належні технічні та організаційні заходи для захисту ваших персональних 
-              даних від несанкціонованого доступу, втрати, знищення або зміни:
-            </p>
+            <h2>{t('confidentiality_page.section7.title')}</h2>
+            <p>{t('confidentiality_page.section7.text')}</p>
             <ul>
-              <li>Шифрування даних під час передачі (SSL/TLS)</li>
-              <li>Шифрування паролів та чутливих даних у базі даних</li>
-              <li>Регулярні резервні копії</li>
-              <li>Обмеження доступу до персональних даних</li>
-              <li>Моніторинг безпеки та аудит систем</li>
-              <li>Навчання персоналу з питань захисту даних</li>
+              <li>{t('confidentiality_page.section7.list.item1')}</li>
+              <li>{t('confidentiality_page.section7.list.item2')}</li>
+              <li>{t('confidentiality_page.section7.list.item3')}</li>
+              <li>{t('confidentiality_page.section7.list.item4')}</li>
+              <li>{t('confidentiality_page.section7.list.item5')}</li>
+              <li>{t('confidentiality_page.section7.list.item6')}</li>
             </ul>
           </div>
 
           <div className="confidentiality-section">
-            <h2>8. Термін зберігання даних</h2>
-            <p>
-              Ми зберігаємо ваші персональні дані лише протягом періоду, необхідного для 
-              досягнення цілей, для яких вони були зібрані:
-            </p>
+            <h2>{t('confidentiality_page.section8.title')}</h2>
+            <p>{t('confidentiality_page.section8.text')}</p>
             <ul>
-              <li><strong>Дані облікового запису:</strong> поки ваш обліковий запис активний</li>
-              <li><strong>Дані про поїздки:</strong> 3 роки після завершення оренди</li>
-              <li><strong>Платіжні дані:</strong> відповідно до вимог податкового законодавства (5 років)</li>
-              <li><strong>Маркетингові дані:</strong> поки ви не відкличете згоду</li>
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section8.list.item1') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section8.list.item2') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section8.list.item3') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section8.list.item4') }} />
             </ul>
-            <p>
-              Після закінчення терміну зберігання дані будуть видалені або анонімізовані.
-            </p>
+            <p>{t('confidentiality_page.section8.text2')}</p>
           </div>
 
           <div className="confidentiality-section">
-            <h2>9. Ваші права</h2>
-            <p>
-              Відповідно до GDPR та українського законодавства, ви маєте наступні права:
-            </p>
+            <h2>{t('confidentiality_page.section9.title')}</h2>
+            <p>{t('confidentiality_page.section9.text')}</p>
             <ul>
-              <li><strong>Право на доступ:</strong> отримати копію ваших персональних даних</li>
-              <li><strong>Право на виправлення:</strong> виправити неточні або неповні дані</li>
-              <li><strong>Право на видалення:</strong> видалити ваші персональні дані ("право на забуття")</li>
-              <li><strong>Право на обмеження обробки:</strong> обмежити обробку ваших даних</li>
-              <li><strong>Право на портативність:</strong> отримати дані у структурованому форматі</li>
-              <li><strong>Право на заперечення:</strong> заперечити проти обробки ваших даних</li>
-              <li><strong>Право на відкликання згоди:</strong> відкликати згоду на обробку даних</li>
-              <li><strong>Право на скаргу:</strong> подати скаргу до Уповноваженого з прав людини Верховної Ради України</li>
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section9.list.item1') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section9.list.item2') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section9.list.item3') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section9.list.item4') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section9.list.item5') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section9.list.item6') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section9.list.item7') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section9.list.item8') }} />
             </ul>
-            <p>
-              Щоб скористатися вашими правами, зв'яжіться з нами за адресою: privacy@mistogo.com
-            </p>
+            <p>{t('confidentiality_page.section9.text2')}</p>
           </div>
 
           <div className="confidentiality-section">
-            <h2>10. Cookies та технології відстеження</h2>
-            <p>
-              Наш веб-сайт використовує cookies та аналогічні технології для:
-            </p>
+            <h2>{t('confidentiality_page.section10.title')}</h2>
+            <p>{t('confidentiality_page.section10.text')}</p>
             <ul>
-              <li>Забезпечення функціональності сайту</li>
-              <li>Запам'ятовування ваших налаштувань</li>
-              <li>Аналізу використання сайту</li>
-              <li>Персоналізації контенту</li>
-              <li>Таргетованої реклами (за вашою згодою)</li>
+              <li>{t('confidentiality_page.section10.list.item1')}</li>
+              <li>{t('confidentiality_page.section10.list.item2')}</li>
+              <li>{t('confidentiality_page.section10.list.item3')}</li>
+              <li>{t('confidentiality_page.section10.list.item4')}</li>
+              <li>{t('confidentiality_page.section10.list.item5')}</li>
             </ul>
-            <p>
-              Ви можете керувати cookies через налаштування вашого браузера. Зверніть увагу, що 
-              відключення cookies може вплинути на функціональність сайту.
-            </p>
+            <p>{t('confidentiality_page.section10.text2')}</p>
           </div>
 
           <div className="confidentiality-section">
-            <h2>11. Діти</h2>
-            <p>
-              Наші послуги не призначені для осіб віком до 18 років. Ми свідомо не збираємо 
-              персональні дані від дітей. Якщо ви вважаєте, що ми випадково зібрали дані від 
-              дитини, негайно зв'яжіться з нами.
-            </p>
+            <h2>{t('confidentiality_page.section11.title')}</h2>
+            <p>{t('confidentiality_page.section11.text')}</p>
           </div>
 
           <div className="confidentiality-section">
-            <h2>12. Зміни в Політиці конфіденційності</h2>
-            <p>
-              Ми залишаємо за собою право оновлювати цю Політику конфіденційності. Про суттєві 
-              зміни ми повідомимо вас через email або сповіщення на сайті. Продовження використання 
-              наших послуг після внесення змін означає вашу згоду з оновленою політикою.
-            </p>
+            <h2>{t('confidentiality_page.section12.title')}</h2>
+            <p>{t('confidentiality_page.section12.text')}</p>
           </div>
 
           <div className="confidentiality-section">
-            <h2>13. Контактна інформація</h2>
-            <p>
-              Якщо у вас є питання щодо цієї Політики конфіденційності або обробки ваших 
-              персональних даних, зв'яжіться з нами:
-            </p>
+            <h2>{t('confidentiality_page.section13.title')}</h2>
+            <p>{t('confidentiality_page.section13.text')}</p>
             <ul>
-              <li><strong>Email:</strong> privacy@mistogo.com</li>
-              <li><strong>Телефон:</strong> +380 XX XXX XX XX</li>
-              <li><strong>Адреса:</strong> м. Київ, Україна</li>
-              <li><strong>Відповідальний за захист даних:</strong> dpo@mistogo.com</li>
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section13.list.item1') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section13.list.item2') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section13.list.item3') }} />
+              <li dangerouslySetInnerHTML={{ __html: t('confidentiality_page.section13.list.item4') }} />
             </ul>
           </div>
 
           <p className="confidentiality-date">
-            Останнє оновлення: {new Date().toLocaleDateString('uk-UA', { 
+            {t('confidentiality_page.last_updated')}: {new Date().toLocaleDateString(t('confidentiality_page.locale'), { 
               year: 'numeric', 
               month: 'long', 
               day: 'numeric' 

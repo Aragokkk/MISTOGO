@@ -1,65 +1,66 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './Cars.css';
 
 export default function CarsPage() {
-  
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
-  const cars = [
+   const cars = [
     {
       id: 1,
       name: 'Toyota Prius Hybrid',
       image: '/image/toyota-prius.png',
-      engine: '1,8 л',
+      engine: t('cars_page.cars.car1.engine'),
       transmission: 'е-CVT',
-      price: '1 400 ₴/день',
-      year: '2026 рік'
+      price: t('cars_page.cars.car1.price'),
+      year: t('cars_page.cars.car1.year')
     },
     {
       id: 2,
       name: 'Tesla Model 3',
       image: '/image/tesla-model3.png',
-      engine: '366 км',
+      engine: t('cars_page.cars.car2.engine'),
       transmission: 'е-CVT',
-      price: '2 000 ₴/день',
-      year: '2025 рік'
+      price: t('cars_page.cars.car2.price'),
+      year: t('cars_page.cars.car2.year')
     },
     {
       id: 3,
       name: 'Toyota Prius Hybrid',
       image: '/image/toyota-prius.png',
-      engine: '1,8 л',
+      engine: t('cars_page.cars.car3.engine'),
       transmission: 'е-CVT',
-      price: '1 400 ₴/день',
-      year: '2025 рік'
+      price: t('cars_page.cars.car3.price'),
+      year: t('cars_page.cars.car3.year')
     },
     {
       id: 4,
       name: 'Nissan Leaf',
       image: '/image/nissan-leaf.png',
-      engine: '150 к/Вт',
+      engine: t('cars_page.cars.car4.engine'),
       transmission: 'е-CVT',
-      price: '1 300 ₴/день',
-      year: '2022 рік'
+      price: t('cars_page.cars.car4.price'),
+      year: t('cars_page.cars.car4.year')
     },
     {
       id: 5,
       name: 'Chevrolet (GM) Bolt EV',
       image: '/image/chevrolet-bolt.png',
-      engine: '150 к/Вт',
+      engine: t('cars_page.cars.car5.engine'),
       transmission: 'е-CVT',
-      price: '1 620 ₴/день',
-      year: '2023 рік'
+      price: t('cars_page.cars.car5.price'),
+      year: t('cars_page.cars.car5.year')
     },
     {
       id: 6,
       name: 'Volkswagen ID.3',
       image: '/image/volkswagen-id3.png',
-      engine: '150 к/Вт',
+      engine: t('cars_page.cars.car6.engine'),
       transmission: 'е-CVT',
-      price: '1 700 ₴/день',
-      year: '2024 рік'
+      price: t('cars_page.cars.car6.price'),
+      year: t('cars_page.cars.car6.year')
     }
   ];
 
@@ -73,7 +74,7 @@ export default function CarsPage() {
            <path d="M25.0001 39.5832L10.4167 24.9998L25.0001 10.4165" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        <h1 className="page-main-title">Автомобілі</h1>
+        <h1 className="page-main-title">{t('cars_page.title')}</h1>
       </div>
 
       {/* Cars Grid */}
@@ -114,7 +115,7 @@ export default function CarsPage() {
               </div>
 
               <button className="car-select-button">
-                Обрати
+                {t('cars_page.select_button')}
                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none">
                   <path d="M8.20068 23.3703L14.8209 16.7501L8.20068 10.1299M17.469 23.3703L24.0892 16.7501L17.469 10.1299" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -124,78 +125,78 @@ export default function CarsPage() {
         </div>
       </section>
 
-{/* Other Transport Section */}
-<section className="other-transport-section">
-  <div className="section-content">
-    <h2 className="section-title">Обрати інші транспорти</h2>
+      {/* Other Transport Section */}
+      <section className="other-transport-section">
+        <div className="section-content">
+          <h2 className="section-title">{t('cars_page.other_transport_title')}</h2>
 
-    <div className="transport-cards">
-      <div className="transport-card" onClick={() => navigate("/transport/cars")}>
-        <div className="transport-image">
-          <img src="/image/Car.png" alt="Автомобіль" />
-        </div>
-        <h3 className="transport-name">Автомобіль</h3>
-        <button 
-          className="transport-button"
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate("/transport/cars");
-          }}
-        >
-          Обрати <span>»</span>
-        </button>
-      </div>
+          <div className="transport-cards">
+            <div className="transport-card" onClick={() => navigate("/transport/cars")}>
+              <div className="transport-image">
+                <img src="/image/Car.png" alt={t('cars')} />
+              </div>
+              <h3 className="transport-name">{t('cars')}</h3>
+              <button 
+                className="transport-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/transport/cars");
+                }}
+              >
+                {t('cars_page.select_button')} <span>»</span>
+              </button>
+            </div>
 
-      <div className="transport-card" onClick={() => navigate("/transport/bikes")}>
-        <div className="transport-image">
-          <img src="/image/Bicycle.png" alt="Велосипед" />
-        </div>
-        <h3 className="transport-name">Велосипед</h3>
-        <button 
-          className="transport-button"
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate("/transport/bikes");
-          }}
-        >
-          Обрати <span>»</span>
-        </button>
-      </div>
+            <div className="transport-card" onClick={() => navigate("/transport/bikes")}>
+              <div className="transport-image">
+                <img src="/image/Bicycle.png" alt={t('bikes')} />
+              </div>
+              <h3 className="transport-name">{t('bikes')}</h3>
+              <button 
+                className="transport-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/transport/bikes");
+                }}
+              >
+                {t('cars_page.select_button')} <span>»</span>
+              </button>
+            </div>
 
-      <div className="transport-card" onClick={() => navigate("/transport/scooters")}>
-        <div className="transport-image">
-          <img src="/image/Electrosamocat.png" alt="Самокат" />
-        </div>
-        <h3 className="transport-name">Самокат</h3>
-        <button 
-          className="transport-button"
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate("/transport/scooters");
-          }}
-        >
-          Обрати <span>»</span>
-        </button>
-      </div>
+            <div className="transport-card" onClick={() => navigate("/transport/scooters")}>
+              <div className="transport-image">
+                <img src="/image/Electrosamocat.png" alt={t('scooters')} />
+              </div>
+              <h3 className="transport-name">{t('scooters')}</h3>
+              <button 
+                className="transport-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/transport/scooters");
+                }}
+              >
+                {t('cars_page.select_button')} <span>»</span>
+              </button>
+            </div>
 
-      <div className="transport-card" onClick={() => navigate("/transport/mopeds")}>
-        <div className="transport-image">
-          <img src="/image/Motobike.png" alt="Мотоцикл" />
+            <div className="transport-card" onClick={() => navigate("/transport/mopeds")}>
+              <div className="transport-image">
+                <img src="/image/Motobike.png" alt={t('mopeds')} />
+              </div>
+              <h3 className="transport-name">{t('mopeds')}</h3>
+              <button 
+                className="transport-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/transport/mopeds");
+                }}
+              >
+                {t('cars_page.select_button')} <span>»</span>
+              </button>
+            </div>
+          </div>
         </div>
-        <h3 className="transport-name">Мотоцикл</h3>
-        <button 
-          className="transport-button"
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate("/transport/mopeds");
-          }}
-        >
-          Обрати <span>»</span>
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
     </div>
   );
 }

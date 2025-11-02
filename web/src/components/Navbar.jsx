@@ -1,13 +1,24 @@
 import { NavLink, Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "./Navbar.css";
 import { useTranslation } from "react-i18next";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const ddRef = useRef(null);
+  const [isTablet, setIsTablet] = useState(false);
   const { t, i18n } = useTranslation();
+
+  // Перевірка розміру екрану для планшета
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsTablet(window.innerWidth <= 1023 && window.innerWidth >= 768);
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   // Синхронізація теми при завантаженні
   useEffect(() => {
@@ -27,23 +38,11 @@ export default function Navbar() {
     return () => window.removeEventListener('themeChange', handleThemeChange);
   }, []);
 
-  useEffect(() => {
-    function onDocClick(e) {
-      if (ddRef.current && !ddRef.current.contains(e.target)) setOpen(false);
-    }
-    function onEsc(e) {
-      if (e.key === "Escape") setOpen(false);
-    }
-    document.addEventListener("mousedown", onDocClick);
-    document.addEventListener("keydown", onEsc);
-    return () => {
-      document.removeEventListener("mousedown", onDocClick);
-      document.removeEventListener("keydown", onEsc);
-    };
-  }, []);
-
   const linkClass = ({ isActive }) =>
     isActive ? "navbar-link navbar-link-active" : "navbar-link";
+
+  const loginLinkClass = ({ isActive }) =>
+    isActive ? "navbar-login navbar-link-active" : "navbar-login";
 
   const toggleLanguage = () => {
     const newLang = i18n.language === "uk" ? "en" : "uk";
@@ -74,73 +73,26 @@ export default function Navbar() {
 
             {/* Меню навігації */}
             <div className="navbar-links">
-              {/* Dropdown Транспорт */}
-              <div
-                ref={ddRef}
-                className={`navbar-dropdown ${open ? "open" : ""}`}
-              >
-                <button
-                  className="navbar-dropdown-btn"
-                  onClick={() => setOpen((v) => !v)}
-                >
-                  {t("transport")}
-                  <span className="dropdown-arrow">{open ? "▲" : "▼"}</span>
-                </button>
-                <ul className="navbar-dropdown-list">
-                  <li>
-                    <NavLink
-                      to="/transport/cars"
-                      className={linkClass}
-                      onClick={() => setOpen(false)}
-                    >
-                      🚗 {t("cars")}
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/transport/mopeds"
-                      className={linkClass}
-                      onClick={() => setOpen(false)}
-                    >
-                      🛵 {t("mopeds")}
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/transport/scooters"
-                      className={linkClass}
-                      onClick={() => setOpen(false)}
-                    >
-                      🛴 {t("scooters")}
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/transport/bikes"
-                      className={linkClass}
-                      onClick={() => setOpen(false)}
-                    >
-                      🚴 {t("bikes")}
-                    </NavLink>
-                  </li>
-                </ul>
-              </div>
+              {/* Транспорт - проста ссілка */}
+              <NavLink to="/transport" className={linkClass}>
+                {t("transport")}
+              </NavLink>
 
               <NavLink to="/zones" className={linkClass}>
                 {t("zones.short_zone")}
               </NavLink>
               <NavLink to="/blog" className={linkClass}>
-                {t("blog")}
+              {t("blog")}
               </NavLink>
             </div>
 
             {/* Права секція */}
             <div className="navbar-right">
-              <NavLink to="/support" className="navbar-link">
+              <NavLink to="/support" className={linkClass}>
                 {t("contacts")}
               </NavLink>
-              <NavLink to="/faq" className="navbar-link">
-                {t("faq.short")}
+              <NavLink to="/faq" className={linkClass}>
+                {isTablet && i18n.language === "uk" ? "Запитання" : t("faq.short")}
               </NavLink>
 
               {/* Перемикач теми */}
@@ -150,8 +102,8 @@ export default function Navbar() {
                 aria-label="Toggle theme"
               >
                 <svg
-                  width="59"
-                  height="31"
+                  width="54"
+                  height="28"
                   viewBox="0 0 59 31"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -278,9 +230,9 @@ export default function Navbar() {
               </button>
 
               {/* Кнопка входу */}
-              <Link to="/auth/login" className="navbar-login">
+              <NavLink to="/auth/login" className={loginLinkClass}>
                 {t("login.title")}
-              </Link>
+              </NavLink>
             </div>
           </div>
         </div>

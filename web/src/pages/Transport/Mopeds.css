@@ -116,7 +116,7 @@ body {
 
 .mopeds-grid {
   display: grid;
-  grid-template-columns: repeat(4, 405px);
+  grid-template-columns: repeat(auto-fit, minmax(380px, 405px));
   gap: 40px;
   max-width: 1740px;
   margin: 0 auto;
@@ -124,19 +124,9 @@ body {
   align-content: start;
 }
 
-/* Центруємо останній ряд якщо карток менше 4 */
-.mopeds-grid > *:nth-last-child(-n+3):first-child,
-.mopeds-grid > *:nth-last-child(-n+2):nth-child(4n+1),
-.mopeds-grid > *:nth-last-child(-n+1):nth-child(4n+1) {
-  grid-column: 2 / 3;
-}
-
-.mopeds-grid > *:nth-last-child(-n+2):nth-child(4n+2) {
-  grid-column: 3 / 4;
-}
-
 .moped-card {
-  width: 405px;
+  width: 100%;
+  max-width: 405px;
   height: 652px;
   background: var(--card-bg);
   border-radius: 30px;
@@ -147,6 +137,7 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   overflow: hidden;
+  margin: 0 auto;
 }
 
 .moped-card:hover {
@@ -329,13 +320,16 @@ body {
 
 .transport-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(380px, 405px));
   gap: 40px;
-  justify-items: center;
+  justify-content: center;
+  max-width: 1740px;
+  margin: 0 auto;
 }
 
 .transport-card {
-  width: 405px;
+  width: 100%;
+  max-width: 405px;
   height: 483px;
   background: var(--card-bg);
   border-radius: 36px;
@@ -346,6 +340,7 @@ body {
   align-items: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  margin: 0 auto;
 }
 
 .transport-card:hover {
@@ -401,20 +396,44 @@ body {
 
 /* ================= RESPONSIVE ================= */
 
-/* Desktop Large */
-@media (max-width: 1440px) {
+/* Desktop Large - 1440px и выше */
+@media (min-width: 1441px) {
   .mopeds-grid {
-    grid-template-columns: repeat(2, 1fr);
-    justify-items: center;
+    grid-template-columns: repeat(4, 405px);
   }
   
   .transport-cards {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 405px);
   }
 }
 
-/* Tablet */
-@media (max-width: 1024px) {
+/* iPad Pro 12.9" Landscape и средние десктопы (1200-1440px) */
+@media (max-width: 1440px) and (min-width: 1200px) {
+  .page-header-section {
+    padding: 40px 60px;
+  }
+  
+  .mopeds-catalog-section {
+    padding: 40px 60px 80px;
+  }
+  
+  .mopeds-grid {
+    grid-template-columns: repeat(auto-fit, minmax(360px, 385px));
+    gap: 30px;
+  }
+  
+  .other-transport-section {
+    padding: 80px 60px;
+  }
+  
+  .transport-cards {
+    grid-template-columns: repeat(auto-fit, minmax(360px, 385px));
+    gap: 30px;
+  }
+}
+
+/* iPad Landscape / Small Desktop (1025-1199px) */
+@media (max-width: 1199px) and (min-width: 1025px) {
   .page-header-section {
     padding: 30px 40px;
   }
@@ -423,13 +442,64 @@ body {
     padding: 30px 40px 60px;
   }
   
+  .mopeds-grid {
+    grid-template-columns: repeat(2, minmax(340px, 385px));
+    gap: 25px;
+  }
+  
   .other-transport-section {
     padding: 60px 40px;
   }
+  
+  .transport-cards {
+    grid-template-columns: repeat(2, minmax(340px, 385px));
+    gap: 25px;
+  }
 }
 
-/* Tablet Small / Mobile Large */
-@media (max-width: 768px) and (min-width: 481px) {
+/* iPad Portrait / Tablet (768-1024px) */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .page-header-section {
+    padding: 30px 30px;
+  }
+  
+  .page-main-title {
+    font-size: 40px;
+  }
+  
+  .mopeds-catalog-section {
+    padding: 30px 30px 60px;
+  }
+  
+  .mopeds-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 360px));
+    gap: 20px;
+  }
+  
+  .moped-card {
+    max-width: 360px;
+  }
+  
+  .other-transport-section {
+    padding: 60px 30px;
+  }
+  
+  .section-title {
+    font-size: 40px;
+  }
+  
+  .transport-cards {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 360px));
+    gap: 20px;
+  }
+  
+  .transport-card {
+    max-width: 360px;
+  }
+}
+
+/* Tablet Small / Mobile Large (481-767px) */
+@media (max-width: 767px) and (min-width: 481px) {
   .page-header-section {
     padding: 20px;
   }
@@ -445,6 +515,7 @@ body {
   .mopeds-grid {
     grid-template-columns: 1fr;
     justify-items: center;
+    gap: 20px;
   }
   
   .moped-card {
@@ -462,6 +533,12 @@ body {
   
   .transport-cards {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .transport-card {
+    max-width: 405px;
+    width: 100%;
   }
 }
 
@@ -497,11 +574,6 @@ body {
     gap: 8px;
     padding: 0;
     max-width: 100%;
-  }
-  
-  /* Скасовуємо центрування з desktop */
-  .mopeds-grid > * {
-    grid-column: auto !important;
   }
   
   /* Компактна карточка мопеда */

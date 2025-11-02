@@ -1,0 +1,729 @@
+/* Support Page Styles - ВИПРАВЛЕНА ВЕРСІЯ */
+
+:root {
+  --support-bg: #9fc5a8;
+  --gray-text: #4B4B4B;
+  --white-text: #ffffff;
+  --white-nuche: #ffffff;
+  --green: #7fb069;
+  --font-family: 'Inter', sans-serif;
+  --content-block-bg: transparent;
+}
+
+[data-theme="dark"] {
+  --support-bg: linear-gradient(134deg, #5B7860 0%, #416470 100%);
+  --gray-text: #FFFFFF;
+  --white-text: #FFFFFF;
+  --content-block-bg: #3f4d4e;
+}
+
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+  transition: background 0.3s ease;
+}
+
+[data-theme="dark"] .container {
+  background:rgba(63, 77, 78, 1);
+}
+
+/* Header з заголовком і кнопкою назад */
+.header {
+  width: 100%;
+  background: var(--support-bg);
+  padding: 60px 40px 40px;
+  transition: background 0.3s ease;
+}
+
+.backButtonWrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+.title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 74px;
+  line-height: 110%;
+  color: var(--white-text);
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+/* Контент */
+.content {
+  padding: 60px 60px 100px;
+  max-width: 1920px;
+  margin: 0 auto;
+  position: relative;
+  background: #f5f5f5;
+  transition: background 0.3s ease;
+}
+
+[data-theme="dark"] .content {
+  background:rgba(63, 77, 78, 1);
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+/* Загальні стилі для секцій */
+.sectionTitle {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 36px;
+  color: var(--gray-text);
+  margin: 0 0 20px 0;
+  transition: color 0.3s ease;
+}
+
+/* Ліва колонка - Контакти */
+.contactSection {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  background: var(--content-block-bg);
+  padding: 40px;
+  border-radius: 20px;
+  transition: background 0.3s ease;
+}
+
+.contactText {
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--gray-text);
+  line-height: 160%;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.socialIcon {
+  width: 57px;
+  height: 57px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-text);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.socialIcon:hover {
+  color: var(--green);
+  transform: scale(1.1);
+}
+
+.addresses {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.addressItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--gray-text);
+  line-height: 160%;
+  transition: color 0.3s ease;
+}
+
+.locationIcon {
+  width: 57px;
+  height: 57px;
+  flex-shrink: 0;
+  color: var(--gray-text);
+  transition: color 0.3s ease;
+}
+
+/* Права колонка - Форма */
+.formSection {
+  display: flex;
+  flex-direction: column;
+  background: var(--content-block-bg);
+  padding: 40px;
+  border-radius: 20px;
+  transition: background 0.3s ease;
+}
+
+.formText {
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--gray-text);
+  line-height: 160%;
+  margin: 0 0 30px 0;
+  transition: color 0.3s ease;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Поля форми */
+.phoneGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.phoneCode {
+  width: 120px;
+  height: 57px;
+  border: 3px solid var(--gray-text);
+  border-radius: 6px;
+  background: var(--white-nuche);
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--gray-text);
+  padding: 0 15px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .phoneCode {
+  background: #2a2a2a;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+
+.phoneCode:focus {
+  outline: none;
+  border-color: var(--green);
+}
+
+.phoneInput {
+  flex: 1;
+  height: 57px;
+  border: 3px solid var(--gray-text);
+  border-radius: 6px;
+  background: var(--white-nuche);
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--gray-text);
+  padding: 0 20px;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] .phoneInput {
+  background: #2a2a2a;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+
+.phoneInput:focus {
+  outline: none;
+  border-color: var(--green);
+}
+
+.phoneInput::placeholder {
+  color: rgba(75, 75, 75, 0.5);
+}
+
+[data-theme="dark"] .phoneInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.input {
+  width: 100%;
+  height: 57px;
+  border: 3px solid var(--gray-text);
+  border-radius: 6px;
+  background: var(--white-nuche);
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--gray-text);
+  padding: 0 20px;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] .input {
+  background: #2a2a2a;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--green);
+}
+
+.input::placeholder {
+  color: rgba(75, 75, 75, 0.5);
+}
+
+[data-theme="dark"] .input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 169px;
+  border: 3px solid var(--gray-text);
+  border-radius: 6px;
+  background: var(--white-nuche);
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--gray-text);
+  padding: 15px 20px;
+  resize: vertical;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] .textarea {
+  background: #2a2a2a;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--green);
+}
+
+.textarea::placeholder {
+  color: rgba(75, 75, 75, 0.5);
+}
+
+[data-theme="dark"] .textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Checkbox */
+.checkboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--gray-text);
+  line-height: 160%;
+  transition: color 0.3s ease;
+}
+
+.checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkboxCustom {
+  width: 27px;
+  height: 27px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--gray-text);
+  border-radius: 6px;
+  background: var(--white-nuche);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+[data-theme="dark"] .checkboxCustom {
+  background: #2a2a2a;
+  border-color: #FFFFFF;
+}
+
+.checkbox:checked + .checkboxCustom {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.checkboxCustom svg {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.checkbox:checked + .checkboxCustom svg {
+  opacity: 1;
+}
+
+.checkboxText {
+  flex: 1;
+  user-select: none;
+}
+
+/* Кнопка */
+.submitButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 460px;
+  height: 59px;
+  background: #AFD06E;
+  border: none;
+  border-radius: 30px;
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 18px;
+  color: #1d3a17;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  filter: brightness(1.05);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.submitButton svg {
+  flex-shrink: 0;
+  stroke: #1d3a17;
+}
+
+/* Status Banner */
+.statusBanner {
+  margin: 20px auto;
+  padding: 16px 24px;
+  border-radius: 12px;
+  max-width: 700px;
+  text-align: center;
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  animation: fadeIn 0.4s ease;
+}
+
+.loading {
+  background: #fff3cd;
+  color: #856404;
+  border: 2px solid #ffeeba;
+}
+
+.success {
+  background: #d4edda;
+  color: #155724;
+  border: 2px solid #c3e6cb;
+}
+
+.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 2px solid #f5c6cb;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -80px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .wrapper {
+    gap: 40px;
+  }
+
+  .content {
+    padding: 40px 40px 80px;
+  }
+
+  .header {
+    padding: 50px 40px 30px;
+  }
+
+  .title {
+    font-size: 64px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .header {
+    padding: 40px 30px 30px;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+
+  .backButtonWrapper {
+    gap: 15px;
+  }
+
+  .wrapper {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .content {
+    padding: 40px 30px 60px;
+  }
+
+  .sectionTitle {
+    font-size: 32px;
+  }
+
+  .contactSection,
+  .formSection {
+    padding: 30px;
+  }
+
+  .checkboxCustom {
+    width: 26px;
+    height: 26px;
+  }
+
+  .checkboxCustom svg {
+    width: 17px;
+    height: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 30px 20px 20px;
+  }
+
+  .title {
+    font-size: 36px;
+  }
+
+  .backButtonWrapper {
+    gap: 12px;
+  }
+
+  .content {
+    padding: 30px 20px 50px;
+  }
+
+  .sectionTitle {
+    font-size: 28px;
+  }
+
+  .contactText,
+  .formText,
+  .addressItem,
+  .checkboxText {
+    font-size: 14px;
+  }
+
+  .socialLinks {
+    gap: 15px;
+  }
+
+  .socialIcon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .socialIcon svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .locationIcon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .phoneCode {
+    width: 85px;
+    height: 50px;  /* Зменшено */
+    font-size: 15px;
+  }
+
+  .phoneInput {
+    height: 50px;  /* Зменшено */
+    font-size: 15px;
+  }
+
+  /* Зменшуємо input поля */
+  .input {
+    height: 50px;
+    font-size: 15px;
+  }
+
+  /* Зменшуємо textarea */
+  .textarea {
+    min-height: 140px;
+    font-size: 15px;
+  }
+
+  /* Зменшуємо кнопку */
+  .submitButton {
+    max-width: 100%;
+    height: 52px;
+    font-size: 17px;
+  }
+
+  .contactSection,
+  .formSection {
+    padding: 25px;
+  }
+
+  .checkboxCustom {
+    width: 25px;
+    height: 25px;
+  }
+
+  .checkboxCustom svg {
+    width: 16px;
+    height: 12px;
+  }
+
+  /* Зменшуємо gap між полями */
+  .form {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 15px 10px 12px;  /* Менше padding */
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .backButtonWrapper {
+    gap: 10px;
+  }
+
+  .content {
+    padding: 15px 10px 30px;  /* Менше padding з боків */
+  }
+
+  .sectionTitle {
+    font-size: 24px;
+  }
+
+  .socialLinks {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .socialIcon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .socialIcon svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .locationIcon {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* ВИПРАВЛЕННЯ - phoneGroup залишається в ряд */
+  .phoneGroup {
+    display: flex;
+    flex-direction: row;  /* В ряд, НЕ column */
+    gap: 8px;
+  }
+
+  .phoneCode {
+    width: 70px;  /* Ще менше для мобільних */
+    height: 45px;  /* Зменшена висота */
+    flex-shrink: 0;
+    font-size: 14px;
+    padding: 0 8px;
+  }
+
+  .phoneInput {
+    flex: 1;  /* Займає решту місця */
+    width: auto;  /* НЕ 100% */
+    height: 45px;  /* Зменшена висота */
+    font-size: 14px;
+    padding: 0 12px;
+  }
+
+  /* Зменшуємо всі input поля */
+  .input {
+    height: 45px;
+    font-size: 14px;
+    padding: 0 12px;
+  }
+
+  /* Зменшуємо textarea */
+  .textarea {
+    min-height: 120px;
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  /* Зменшуємо кнопку */
+  .submitButton {
+    height: 48px;
+    font-size: 16px;
+  }
+
+  .checkboxCustom {
+    width: 24px;
+    height: 24px;
+  }
+
+  .checkboxCustom svg {
+    width: 14px;
+    height: 11px;
+  }
+
+  .checkboxLabel {
+    font-size: 14px;
+  }
+
+  .contactSection,
+  .formSection {
+    padding: 15px;  /* Ще менше padding */
+  }
+
+  /* Зменшуємо gap між полями */
+  .form {
+    gap: 15px;
+  }
+}

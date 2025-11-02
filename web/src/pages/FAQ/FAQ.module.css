@@ -1,0 +1,353 @@
+/* FAQ Page Styles */
+
+/* Світла тема (за замовчуванням) */
+:root {
+  --faq-bg: #9fc5a8;
+  --faq-box-bg: rgba(255, 255, 255, 0.95);
+  --faq-text: #333;
+  --faq-heading: #1d3a17;
+  --accordion-bg: rgba(75, 75, 75, 0.15);
+  --accordion-hover: rgba(75, 75, 75, 0.25);
+  --accordion-active: rgba(127, 176, 105, 0.2);
+  --support-border: #8a38f5;
+  --support-button-bg: var(--green, #7fb069);
+  --white-nuche: #ffffff;
+}
+
+/* Темна тема */
+[data-theme="dark"] {
+  --faq-bg: linear-gradient(134deg, #5B7860 0%, #416470 100%);
+  --faq-box-bg: rgba(63, 77, 78, 0.95);
+  --faq-text: #FFFFFF;
+  --faq-heading: #AFD06E;
+  --accordion-bg: rgba(75, 75, 75, 0.36);
+  --accordion-hover: rgba(75, 75, 75, 0.5);
+  --accordion-active: rgba(127, 176, 105, 0.3);
+  --white-nuche: #ffffff;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--faq-bg);
+  padding: 20px;
+}
+
+.faqBox {
+  width: 1000px;
+  max-width: 90%;
+  min-height: 600px;
+  max-height: 85vh;
+  background: var(--faq-box-bg);
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.25);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s ease;
+  overflow: hidden;
+}
+
+/* Header контейнер для стрілки і заголовка */
+.faqHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 30px;
+  flex-shrink: 0;
+}
+
+/* Позиціонування кнопки "Назад" - ваша існуюча кнопка буде тут */
+.faqHeader > *:first-child {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.faqTitle {
+  font-family: var(--font-family, 'Inter', sans-serif);
+  font-weight: 700;
+  font-size: 36px;
+  text-align: center;
+  color: var(--faq-heading);
+  margin: 0;
+  flex: 1;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  transition: color 0.3s ease;
+}
+
+/* Контент зі скролом */
+.faqContent {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--support-button-bg) transparent;
+}
+
+.faqContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.faqContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.faqContent::-webkit-scrollbar-thumb {
+  background-color: var(--support-button-bg);
+  border-radius: 10px;
+}
+
+/* Accordion список */
+.accordionList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.accordionItem {
+  background: var(--accordion-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+
+.accordionButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family, 'Inter', sans-serif);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--faq-text);
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.accordionButton:hover {
+  background: var(--accordion-hover);
+}
+
+.accordionButton.active {
+  background: var(--accordion-active);
+}
+
+.questionNumber {
+  margin-right: 8px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.questionText {
+  flex: 1;
+  margin-right: 12px;
+}
+
+.accordionIcon {
+  flex-shrink: 0;
+  color: var(--faq-text);
+  transition: transform 0.3s ease;
+}
+
+.accordionIcon.rotated {
+  transform: rotate(180deg);
+}
+
+.accordionContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 24px;
+}
+
+.accordionContent.open {
+  max-height: 500px;
+  padding: 0 24px 18px 24px;
+}
+
+.accordionContent p {
+  font-family: var(--font-family, 'Inter', sans-serif);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 160%;
+  color: var(--faq-text);
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Секція підтримки */
+.supportSection {
+  border-radius: 20px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  background: transparent;
+}
+
+.supportText {
+  font-family: var(--font-family, 'Inter', sans-serif);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 150%;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--faq-text);
+  margin: 0;
+}
+
+.supportButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 30px;
+  padding: 16px 40px;
+  max-width: 460px;
+  width: 100%;
+  height: 59px;
+  background: #AFD06E;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 18px;
+  color: #1d3a17;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.supportButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  filter: brightness(1.05);
+}
+
+.supportButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.supportButton svg {
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .faqBox {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .faqBox {
+    width: 100%;
+    max-width: 100%;
+    padding: 30px 20px;
+    max-height: 90vh;
+  }
+
+  .faqHeader {
+    margin-bottom: 20px;
+  }
+
+  .faqTitle {
+    font-size: 28px;
+  }
+
+  .accordionButton {
+    font-size: 14px;
+    padding: 14px 18px;
+  }
+
+  .accordionContent.open {
+    padding: 0 18px 14px 18px;
+  }
+
+  .accordionContent p {
+    font-size: 13px;
+  }
+
+  .supportSection {
+    padding: 20px;
+  }
+
+  .supportText {
+    font-size: 18px;
+  }
+
+  .supportButton {
+    font-size: 16px;
+    padding: 14px 30px;
+    height: 52px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .faqBox {
+    padding: 25px 15px;
+  }
+
+  .faqTitle {
+    font-size: 24px;
+  }
+
+  .accordionButton {
+    font-size: 13px;
+    padding: 12px 15px;
+  }
+
+  .questionText {
+    margin-right: 8px;
+  }
+
+  .accordionIcon {
+    width: 16px;
+    height: 10px;
+  }
+
+  .accordionContent p {
+    font-size: 12px;
+  }
+
+  .supportSection {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .supportText {
+    font-size: 16px;
+  }
+
+  .supportButton {
+    font-size: 14px;
+    padding: 12px 20px;
+    height: 48px;
+    gap: 8px;
+  }
+
+  .supportButton svg {
+    width: 14px;
+    height: 12px;
+  }
+}

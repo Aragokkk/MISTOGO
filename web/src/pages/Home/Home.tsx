@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
+import { useTranslation } from "react-i18next";
 
 type Review = {
   id: number;
@@ -12,54 +13,51 @@ type Review = {
   date: string; // "dd.mm.yyyy"
 };
 
-const Home: React.FC = () => {
+  const Home: React.FC = () => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [currentReviewIndex, setCurrentReviewIndex] = useState<number>(0);
 
   const reviews = useMemo<Review[]>(
     () => [
       {
         id: 1,
-        name: "Андрій Мельник",
+        name: t('reviews_list.review1.name'),
         avatar: "/image/Ellipse1.png",
-        vehicle: "Toyota Prius Hybrid",
-        text:
-          "Орендував авто на вихідні у Львові — все швидко, прозоро і без зайвих паперів. Машина була чиста й готова до поїздки. Обов'язково скористаюсь ще раз!",
+        vehicle: t('reviews_list.review1.vehicle'),
+        text: t('reviews_list.review1.text'),
         rating: 3,
-        date: "24.09.2025",
+        date: t('reviews_list.review1.date'),
       },
       {
         id: 2,
-        name: "Максим Назарко",
+        name: t('reviews_list.review2.name'),
         avatar: "/image/Ellipse1.png",
-        vehicle: "E-bike Trek Powerfly",
-        text:
-          "Орендував самокат, щоб доїхати на роботу. Без черг, оплата карткою — супер. Самокат був заряджений і в гарному стані.",
+        vehicle: t('reviews_list.review2.vehicle'),
+        text: t('reviews_list.review2.text'),
         rating: 3,
-        date: "03.10.2025",
+        date: t('reviews_list.review2.date'),
       },
       {
         id: 3,
-        name: "Олена Коваль",
+        name: t('reviews_list.review3.name'),
         avatar: "/image/Ellipse1.png",
-        vehicle: "Xiaomi Electric Pro",
-        text:
-          "Дуже зручний сервіс! Самокат працював бездоганно, а підтримка оперативно відповіла на всі питання.",
+        vehicle: t('reviews_list.review3.vehicle'),
+        text: t('reviews_list.review3.text'),
         rating: 5,
-        date: "15.09.2025",
+        date: t('reviews_list.review3.date'),
       },
       {
         id: 4,
-        name: "Ігор Шевченко",
+        name: t('reviews_list.review4.name'),
         avatar: "/image/Ellipse1.png",
-        vehicle: "Vespa Elettrica",
-        text:
-          "Чудовий досвід оренди мопеда! Все працювало ідеально, а ціна приємно здивувала.",
+        vehicle: t('reviews_list.review4.vehicle'),
+        text: t('reviews_list.review4.text'),
         rating: 4,
-        date: "28.08.2025",
+        date: t('reviews_list.review4.date'),
       },
     ],
-    []
+    [t]
   );
 
   const handleNextReview = () => {
@@ -73,19 +71,17 @@ const Home: React.FC = () => {
 
   return (
     <div className="home-page">
-      {/* ===== Hero Section (wrapper зі scale, як у тебе) ===== */}
+
+ {/* ===== Hero Section (wrapper зі scale, як у тебе) ===== */}
+
       <div className="hero-wrapper">
         <section className="hero-section">
           <div className="hero-content">
             <h1 className="hero-title">
-              Відкрий місто по-новому
-              <br />
-              з еко-транспортом
+              {t('home.hero.title')}
             </h1>
             <p className="hero-description">
-              Авто, велосипеди, самокати і скутери — твій транспорт
-              <br />
-              під будь-які завдання, тут і зараз.
+              {t('home.hero.subtitle')}
             </p>
 
             {/* якщо потрібна кнопка поверх картинки — додай клас hero-button--overlay */}
@@ -93,108 +89,103 @@ const Home: React.FC = () => {
               className="hero-button"
               onClick={() => navigate("/transport")}
             >
-              Обрати транспорт
+              {t('home.hero.cta')}
             </button>
           </div>
 
           <div className="hero-image">
             <img
               src="/image/car-and-bicycle-1.png"
-              alt="Car and bicycle"
+              alt={t('hero.imageAlt')}
               className="car-and-bicycle"
             />
           </div>
         </section>
       </div>
 
-      {/* ===== Transport Section ===== */}
+  {/* ===== Transport Section ===== */}
       <section className="transport-section">
         <div className="section-content">
-          <h2 className="section-title">Обери свій транспорт</h2>
+          <h2 className="section-title">{t('home.transport_types.title')}</h2>
 
           <div className="transport-cards">
             <div className="transport-card">
               <div className="transport-image">
-                <img src="/image/Car.png" alt="Автомобіль" />
+                <img src="/image/Car.png" alt={t('cars')} />
               </div>
-              <h3 className="transport-name">Автомобіль</h3>
+              <h3 className="transport-name">{t('cars')}</h3>
               <button
                 className="transport-button"
                 onClick={() => navigate("/transport/cars")}
               >
-                Обрати <span className="button-arrow">»</span>
+                {t('hero.button')} <span className="button-arrow">»</span>
               </button>
             </div>
 
             <div className="transport-card">
               <div className="transport-image">
-                <img src="/image/Bicycle.png" alt="Велосипед" />
+                <img src="/image/Bicycle.png" alt={t('bikes')} />
               </div>
-              <h3 className="transport-name">Велосипед</h3>
+              <h3 className="transport-name">{t('bikes')}</h3>
               <button
                 className="transport-button"
                 onClick={() => navigate("/transport/bikes")}
               >
-                Обрати <span className="button-arrow">»</span>
+                {t('hero.button')} <span className="button-arrow">»</span>
               </button>
             </div>
 
             <div className="transport-card">
               <div className="transport-image">
-                <img src="/image/Electrosamocat.png" alt="Самокат" />
+                <img src="/image/Electrosamocat.png" alt={t('scooters')} />
               </div>
-              <h3 className="transport-name">Самокат</h3>
+              <h3 className="transport-name">{t('scooters')}</h3>
               <button
                 className="transport-button"
                 onClick={() => navigate("/transport/scooters")}
               >
-                Обрати <span className="button-arrow">»</span>
+                {t('hero.button')} <span className="button-arrow">»</span>
               </button>
             </div>
 
             <div className="transport-card">
               <div className="transport-image">
-                <img src="/image/Motobike.png" alt="Мотоцикл" />
+                <img src="/image/Motobike.png" alt={t('mopeds')} />
               </div>
-              <h3 className="transport-name">Мотоцикл</h3>
+              <h3 className="transport-name">{t('mopeds')}</h3>
               <button
                 className="transport-button"
                 onClick={() => navigate("/transport/mopeds")}
               >
-                Обрати <span className="button-arrow">»</span>
+                {t('hero.button')} <span className="button-arrow">»</span>
               </button>
             </div>
           </div>
         </div>
       </section>
 
+
       {/* ===== About Section ===== */}
       <section className="about-section">
         <div className="section-content">
-          <h2 className="section-title about-title">Про нас</h2>
+          <h2 className="section-title about-title">{t('about.title')}</h2>
 
           <div className="about-content">
             <p className="about-text">
-              Ми надаємо найдивні послуги оренди екологічного транспорту у
-              вашому місті. У нас доступні гібридні авто, велосипеди та
-              електросамокати для коротких і довгострокових поїздок. Оренда
-              проста й швидка — достатньо пройти спрощену перевірку документів.
+              {t('about.text1')}
             </p>
 
             <p className="about-text">
-              Наша місія — зробити пересування комфортним і доступним, зменшуючи
-              шкідливі викиди. Обираючи наш транспорт, ви отримуєте свободу руху
-              та допомагаєте зробити місто чистішим. Разом ми створюємо місто,
-              яке є сучасним, мобільним і дружнім до природи.
+              {t('about.text2')}
             </p>
           </div>
         </div>
       </section>
 
-      {/* ===== Advantages Section ===== */}
+  {/* ===== Advantages Section ===== */}
       <section className="advantages-section">
         <div className="section-content">
-          <h2 className="section-title advantages-title">Наші переваги</h2>
+          <h2 className="section-title advantages-title">{t('advantages.title')}</h2>
 
           <div className="advantages-grid">
             {/* Швидкий старт */}
@@ -225,13 +216,13 @@ const Home: React.FC = () => {
                   />
                 </svg>
               </div>
-              <h3 className="advantage-title">Швидкий старт</h3>
+              <h3 className="advantage-title">{t('advantages.item1.title')}</h3>
               <p className="advantage-description">
-                Спрощена перевірка документів — без зайвих формальностей.
+                {t('advantages.item1.description')}
               </p>
             </div>
 
-            {/* Екологічність */}
+           {/* Екологічність */}
             <div className="advantage-card">
               <div className="advantage-icon">
                 <svg
@@ -251,13 +242,13 @@ const Home: React.FC = () => {
                   />
                 </svg>
               </div>
-              <h3 className="advantage-title">Екологічність</h3>
+              <h3 className="advantage-title">{t('advantages.item2.title')}</h3>
               <p className="advantage-description">
-                Менше викидів — чистіше місто.
+                {t('advantages.item2.description')}
               </p>
             </div>
 
-            {/* Прозорі умови */}
+    {/* Прозорі умови */}
             <div className="advantage-card">
               <div className="advantage-icon">
                 <svg
@@ -277,13 +268,13 @@ const Home: React.FC = () => {
                   />
                 </svg>
               </div>
-              <h3 className="advantage-title">Прозорі умови</h3>
+              <h3 className="advantage-title">{t('advantages.item3.title')}</h3>
               <p className="advantage-description">
-                Жодних прихованих платежів чи несподіванок.
+                {t('advantages.item3.description')}
               </p>
             </div>
 
-            {/* Бонуси та лояльність */}
+       {/* Бонуси та лояльність */}
             <div className="advantage-card">
               <div className="advantage-icon">
                 <svg
@@ -310,13 +301,13 @@ const Home: React.FC = () => {
                   />
                 </svg>
               </div>
-              <h3 className="advantage-title">Бонуси та лояльність</h3>
+              <h3 className="advantage-title">{t('advantages.item4.title')}</h3>
               <p className="advantage-description">
-                Приємні принципи постійним клієнтам.
+                {t('advantages.item4.description')}
               </p>
             </div>
 
-            {/* 24/7 підтримка */}
+          {/* 24/7 підтримка */}
             <div className="advantage-card">
               <div className="advantage-icon">
                 <svg
@@ -336,13 +327,13 @@ const Home: React.FC = () => {
                   />
                 </svg>
               </div>
-              <h3 className="advantage-title">24/7 підтримка</h3>
+              <h3 className="advantage-title">{t('advantages.item5.title')}</h3>
               <p className="advantage-description">
-                Ми завжди на зв'язку, коли це потрібно.
+                {t('advantages.item5.description')}
               </p>
             </div>
 
-            {/* Миттєве бронювання */}
+       {/* Миттєве бронювання */}
             <div className="advantage-card">
               <div className="advantage-icon">
                 <svg
@@ -369,13 +360,13 @@ const Home: React.FC = () => {
                   />
                 </svg>
               </div>
-              <h3 className="advantage-title">Миттєве бронювання</h3>
+              <h3 className="advantage-title">{t('advantages.item6.title')}</h3>
               <p className="advantage-description">
-                Усього 2-3 кліки онлайн, без дзвінків і очікувань.
+                {t('advantages.item6.description')}
               </p>
             </div>
 
-            {/* Гнучкі оплати */}
+  {/* Гнучкі оплати */}
             <div className="advantage-card">
               <div className="advantage-icon">
                 <svg
@@ -402,34 +393,32 @@ const Home: React.FC = () => {
                   />
                 </svg>
               </div>
-              <h3 className="advantage-title">Гнучкі оплати</h3>
+              <h3 className="advantage-title">{t('advantages.item7.title')}</h3>
               <p className="advantage-description">
-                Картки, Apple Pay, Google Pay, криптовалюти.
+                {t('advantages.item7.description')}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ===== Promo Banner ===== */}
+  {/* ===== Promo Banner ===== */}
       <section className="promo-section">
         <div className="promo-banner">
           <div className="promo-image">
-            <img src="/image/bikes-promo.jpg" alt="Велосипедисти" />
+            <img src="/image/bikes-promo.jpg" alt={t('bikes')} />
           </div>
           <div className="promo-content">
             <h3 className="promo-title">
-              Спробуй еко-транспорт уже сьогодні —<br />
-              отримай знижку 10% на перше<br />
-              бронювання!
+              {t('promo.title')}
             </h3>
-            <p className="promo-subtitle">Швидко, зручно і вигідно.</p>
+            <p className="promo-subtitle">{t('promo.subtitle')}</p>
             <button
               className="promo-button"
               onClick={() => navigate("/transport")}
-              aria-label="Обрати транспорт"
+              aria-label={t('hero.button')}
             >
-              Обрати
+              {t('hero.button').split(' ')[0]}
               <svg
                 className="button-arrow"
                 width="33"
@@ -452,11 +441,11 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ===== Popular Choices ===== */}
+  {/* ===== Popular Choices ===== */}
       <section className="popular-section">
         <div className="section-content">
           <h2 className="section-title popular-title">
-            Популярний вибір наших клієнтів
+            {t('home.transport_types.title')}
           </h2>
 
           <div className="popular-cards">
@@ -479,7 +468,7 @@ const Home: React.FC = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span>Економія пального, ідеально для міста</span>
+                <span>{t('popular_cards.fuel_saving')}</span>
               </div>
 
               <div className="card-image">
@@ -488,7 +477,7 @@ const Home: React.FC = () => {
 
               <h3 className="card-name">Toyota Prius Hybrid</h3>
 
-              <div className="card-specs">
+        <div className="card-specs">
                 <div className="spec-item">
                   <svg
                     width="39"
@@ -520,7 +509,7 @@ const Home: React.FC = () => {
                     />
                     <path d="M20 3.5V7.5" stroke="#4B4B4B" strokeWidth="3" strokeLinecap="round" />
                   </svg>
-                  <span>1,8 л</span>
+                  <span>{t('popular_cards.engine_volume')}</span>
                 </div>
 
                 <div className="spec-item">
@@ -559,12 +548,12 @@ const Home: React.FC = () => {
               </div>
 
               <div className="card-footer">
-                <span className="card-price">1 400 ₴/день</span>
+                <span className="card-price">{t('popular_cards.price_per_day')}</span>
                 <button
                   className="card-button-white"
                   onClick={() => navigate("/transport/cars")}
                 >
-                  Обрати
+                  {t('hero.button').split(' ')[0]}
                 </button>
               </div>
 
@@ -572,7 +561,7 @@ const Home: React.FC = () => {
                 className="card-button-green"
                 onClick={() => navigate("/transport/cars")}
               >
-                Інші варіанти
+                {t('popular_cards.other_options')}
               </button>
             </div>
 
@@ -603,7 +592,7 @@ const Home: React.FC = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span>Економія пального, ідеально для міста</span>
+                <span>{t('popular_cards.fuel_saving')}</span>
               </div>
 
               <div className="card-image">
@@ -630,7 +619,7 @@ const Home: React.FC = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <span>до 100 км</span>
+                  <span>{t('popular_cards.range')}</span>
                 </div>
 
                 <div className="spec-item">
@@ -669,12 +658,12 @@ const Home: React.FC = () => {
               </div>
 
               <div className="card-footer">
-                <span className="card-price">390 ₴/день</span>
+                <span className="card-price">{t('popular_cards.price_per_day_bike')}</span>
                 <button
                   className="card-button-white"
                   onClick={() => navigate("/transport/bikes")}
                 >
-                  Обрати
+                  {t('hero.button').split(' ')[0]}
                 </button>
               </div>
 
@@ -682,111 +671,111 @@ const Home: React.FC = () => {
                 className="card-button-green"
                 onClick={() => navigate("/transport/bikes")}
               >
-                Інші варіанти
+                {t('popular_cards.other_options')}
               </button>
             </div>
 
-            {/* Card 3 */}
-            <div className="popular-card">
-              <div className="card-badge">
-                <svg
-                  width="39"
-                  height="39"
-                  viewBox="0 0 39 39"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden
-                >
-                  <path
-                    d="M17.875 11.375L13 19.5H19.5L14.625 27.625M24.141 9.75H26C26.862 9.75 27.6886 10.0924 28.2981 10.7019C28.9076 11.3114 29.25 12.138 29.25 13V26C29.25 26.862 28.9076 27.6886 28.2981 28.2981C27.6886 28.9076 26.862 29.25 26 29.25H21.2306M35.75 22.75В16.25M8.3525 29.25H6.5C5.63805 29.25 4.8114 28.9076 4.2019 28.2981C3.59241 27.6886 3.25 26.862 3.25 26V13C3.25 12.138 3.59241 11.3114 4.2019 10.7019C4.8114 10.0924 5.63805 9.75 6.5 9.75H11.271"
-                    stroke="#4B4B4B"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <span>Економія пального, ідеально для міста</span>
-              </div>
+{/* Card 3 */}
+<div className="popular-card">
+  <div className="card-badge">
+    <svg
+      width="37"
+      height="23"
+      viewBox="0 0 37 23"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <path
+        d="M16.875 3.375L12 11.5H18.5L13.625 19.625M23.141 1.75H25C25.862 1.75 26.6886 2.09241 27.2981 2.7019C27.9076 3.3114 28.25 4.13805 28.25 5V18C28.25 18.862 27.9076 19.6886 27.2981 20.2981C26.6886 20.9076 25.862 21.25 25 21.25H20.2306M34.75 14.75V8.25M7.3525 21.25H5.5C4.63805 21.25 3.8114 20.9076 3.2019 20.2981C2.59241 19.6886 2.25 18.862 2.25 18V5C2.25 4.13805 2.59241 3.3114 3.2019 2.7019C3.8114 2.09241 4.63805 1.75 5.5 1.75H10.271"
+        stroke="#4B4B4B"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+    <span>{t('popular_cards.fuel_saving')}</span>
+  </div>
 
-              <div className="card-image">
-                <img src="/image/xiaomi-scooter.png" alt="Xiaomi Electric Pro" />
-              </div>
+  <div className="card-image">
+    <img src="/image/xiaomi-scooter.png" alt="Xiaomi Electric Pro" />
+  </div>
 
-              <h3 className="card-name">Xiaomi Electric Pro</h3>
+  <h3 className="card-name">Xiaomi Electric Pro</h3>
 
-              <div className="card-specs">
-                <div className="spec-item">
-                  <svg
-                    width="37"
-                    height="23"
-                    viewBox="0 0 37 23"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden
-                  >
-                    <path
-                      d="M16.875 3.375L12 11.5H18.5L13.625 19.625M23.141 1.75H25C25.862 1.75 26.6886 2.09241 27.2981 2.7019C27.9076 3.3114 28.25 4.13805 28.25 5V18C28.25 18.862 27.9076 19.6886 27.2981 20.2981C26.6886 20.9076 25.862 21.25 25 21.25H20.2306M34.75 14.75V8.25M7.3525 21.25H5.5C4.63805 21.25 3.8114 20.9076 3.2019 20.2981C2.59241 19.6886 2.25 18.862 2.25 18V5C2.25 4.13805 2.59241 3.3114 3.2019 2.7019C3.8114 2.09241 4.63805 1.75 5.5 1.75H10.271"
-                      stroke="#4B4B4B"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <span>30 км</span>
-                </div>
+  <div className="card-specs">
+    <div className="spec-item">
+      <svg
+        width="37"
+        height="23"
+        viewBox="0 0 37 23"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden
+      >
+        <path
+          d="M16.875 3.375L12 11.5H18.5L13.625 19.625M23.141 1.75H25C25.862 1.75 26.6886 2.09241 27.2981 2.7019C27.9076 3.3114 28.25 4.13805 28.25 5V18C28.25 18.862 27.9076 19.6886 27.2981 20.2981C26.6886 20.9076 25.862 21.25 25 21.25H20.2306M34.75 14.75V8.25M7.3525 21.25H5.5C4.63805 21.25 3.8114 20.9076 3.2019 20.2981C2.59241 19.6886 2.25 18.862 2.25 18V5C2.25 4.13805 2.59241 3.3114 3.2019 2.7019C3.8114 2.09241 4.63805 1.75 5.5 1.75H10.271"
+          stroke="#4B4B4B"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      <span>{t('popular_cards.range_scooter')}</span>
+    </div>
 
-                <div className="spec-item">
-                  <svg
-                    width="39"
-                    height="39"
-                    viewBox="0 0 39 39"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden
-                  >
-                    <path
-                      d="M22.75 27.625H8.125M30.875 11.375H16.25"
-                      stroke="#4B4B4B"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M27.625 32.5C30.3174 32.5 32.5 30.3174 32.5 27.625C32.5 24.9326 30.3174 22.75 27.625 22.75C24.9326 22.75 22.75 24.9326 22.75 27.625C22.75 30.3174 24.9326 32.5 27.625 32.5Z"
-                      stroke="#4B4B4B"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M11.375 16.25C14.0674 16.25 16.25 14.0674 16.25 11.375C16.25 8.68261 14.0674 6.5 11.375 6.5C8.68261 6.5 6.5 8.68261 6.5 11.375C6.5 14.0674 8.68261 16.25 11.375 16.25Z"
-                      stroke="#4B4B4B"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <span>е-CVT</span>
-                </div>
-              </div>
+    <div className="spec-item">
+      <svg
+        width="39"
+        height="39"
+        viewBox="0 0 39 39"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden
+      >
+        <path
+          d="M22.75 27.625H8.125M30.875 11.375H16.25"
+          stroke="#4B4B4B"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M27.625 32.5C30.3174 32.5 32.5 30.3174 32.5 27.625C32.5 24.9326 30.3174 22.75 27.625 22.75C24.9326 22.75 22.75 24.9326 22.75 27.625C22.75 30.3174 24.9326 32.5 27.625 32.5Z"
+          stroke="#4B4B4B"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M11.375 16.25C14.0674 16.25 16.25 14.0674 16.25 11.375C16.25 8.68261 14.0674 6.5 11.375 6.5C8.68261 6.5 6.5 8.68261 6.5 11.375C6.5 14.0674 8.68261 16.25 11.375 16.25Z"
+          stroke="#4B4B4B"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      <span>е-CVT</span>
+    </div>
+  </div>
 
-              <div className="card-footer">
-                <span className="card-price">480 ₴/день</span>
-                <button
-                  className="card-button-white"
-                  onClick={() => navigate("/transport/scooters")}
-                >
-                  Обрати
-                </button>
-              </div>
+  <div className="card-footer">
+    <span className="card-price">{t('popular_cards.price_per_day_scooter')}</span>
+    <button
+      className="card-button-white"
+      onClick={() => navigate("/transport/scooters")}
+    >
+      {t('hero.button').split(' ')[0]}
+    </button>
+  </div>
 
-              <button
-                className="card-button-green"
-                onClick={() => navigate("/transport/scooters")}
-              >
-                Інші варіанти
-              </button>
-            </div>
+  <button
+    className="card-button-green"
+    onClick={() => navigate("/transport/scooters")}
+  >
+    {t('popular_cards.other_options')}
+  </button>
+</div>
 
             {/* Card 4 */}
             <div className="popular-card">
@@ -808,7 +797,7 @@ const Home: React.FC = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span>Економія пального, ідеально для міста</span>
+                <span>{t('popular_cards.fuel_saving')}</span>
               </div>
 
               <div className="card-image">
@@ -849,7 +838,7 @@ const Home: React.FC = () => {
                     />
                     <path d="M20 3.5V7.5" stroke="#4B4B4B" strokeWidth="3" strokeLinecap="round" />
                   </svg>
-                  <span>50 см³</span>
+                  <span>{t('popular_cards.engine_cc')}</span>
                 </div>
 
                 <div className="spec-item">
@@ -883,17 +872,17 @@ const Home: React.FC = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <span>Автомат</span>
+                  <span>{t('popular_cards.transmission')}</span>
                 </div>
               </div>
 
               <div className="card-footer">
-                <span className="card-price">640 ₴/день</span>
+                <span className="card-price">{t('popular_cards.price_per_day_moped')}</span>
                 <button
                   className="card-button-white"
                   onClick={() => navigate("/transport/mopeds")}
                 >
-                  Обрати
+                  {t('hero.button').split(' ')[0]}
                 </button>
               </div>
 
@@ -901,20 +890,19 @@ const Home: React.FC = () => {
                 className="card-button-green"
                 onClick={() => navigate("/transport/mopeds")}
               >
-                Інші варіанти
+                {t('popular_cards.other_options')}
               </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ===== Reviews ===== */}
+ {/* ===== Reviews ===== */}
       <section className="reviews-section">
         <div className="section-content">
-          <h2 className="reviews-title">Враження клієнтів</h2>
+          <h2 className="reviews-title">{t('reviews.title')}</h2>
           <p className="reviews-subtitle">
-            Ми дбаємо про зручність і надійність сервісу. Ось що кажуть ті, хто
-            вже скористався орендою:
+            {t('reviews.subtitle')}
           </p>
 
           <div className="reviews-container">
@@ -962,7 +950,7 @@ const Home: React.FC = () => {
 
           <div className="reviews-actions">
             <button className="add-review-button" type="button">
-              Додати відгук
+              {t('reviews.addReview')}
               <svg
                 width="24"
                 height="24"
@@ -1005,5 +993,6 @@ const Home: React.FC = () => {
     </div>
   );
 };
+
 
 export default Home;

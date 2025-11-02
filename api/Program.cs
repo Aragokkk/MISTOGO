@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MistoGO.Data;
+using MistoGO.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ var serverVersion = new MySqlServerVersion(new Version(8, 0, 43));
 
 builder.Services.AddDbContext<MistoGoContext>(options =>
     options.UseMySql(connectionString, serverVersion));
+builder.Services.AddScoped<ISupportService, SupportService>();
+builder.Services.AddScoped<EmailNotifier>();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -52,5 +55,7 @@ app.MapGet("/", () => new
     version = "1.0.0",
     documentation = "/swagger"
 });
+ 
+
 
 app.Run();

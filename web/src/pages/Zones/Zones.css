@@ -1,170 +1,324 @@
 /* ========================================
-   MISTOGO - Zones Page Styles
+   ZONES PAGE - FIGMA DESIGN
+   MistoGo Ukraine 🇺🇦
+   БЕЗ КОНФЛІКТІВ ДЛЯ BACKBUTTON
    ======================================== */
 
-/* Основний контейнер */
-.zones-container {
-  padding: 2rem;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #f5f2f2;
+/* Глобальні змінні */
+:root {
+  --zones-gradient: linear-gradient(134deg, #8dba97 0%, #598889 100%);
+  --white-text: #ffffff;
+  --white-nuche: #ffffff;
+  --green: #AFD06E;
+  --dark-green: #1d3a17;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  /* Кольори транспорту */
+  --vehicle-car: #1D3A17;
+  --vehicle-moped: #1D3A17;
+  --vehicle-scooter: #AFD06E;
+  --vehicle-bike: #AFD06E;
+  
+  /* Кольори зон */
+  --zone-allowed: #28a745;
+  --zone-premium: #007bff;
+  --zone-restricted: #dc3545;
 }
 
-/* Заголовок секції */
-.zones-header {
-  margin-bottom: 1rem;
-  /*background-color: #7cacab;*/
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(241, 239, 239, 0.151);
-  background: linear-gradient(136deg, #8dba97 0%, #7cacab 100%);
- 
-}
-
-.zones-title {
-  margin-bottom: 0.5rem;
-  color: #2c3e50;
-  font-size: 2rem;
-  font-weight: 600;
-}
-
-.zones-subtitle {
-  color: #666;
-  font-size: 1rem;
-  margin: 0;
-}
-
-/* Інформаційна панель */
-.zones-info-panel {
-  background: rgb(243, 239, 239);
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  animation: slideDown 0.3s ease-out;
-}
-
-.zones-info-panel-title {
-  margin: 0 0 0.5rem 0;
-}
-
-.zones-info-panel-content {
-  margin: 0.25rem 0;
-  color: #333;
-  line-height: 1.6;
-}
-
-.zones-close-button {
-  margin-top: 0.5rem;
-  padding: 8px 16px;
-  background: #2c3e50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 14px;
-}
-
-.zones-close-button:hover {
-  background: #34495e;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Кнопка дії (забронювати) */
-.zones-action-button {
-  padding: 8px 16px;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 14px;
-  font-weight: bold;
-  flex: 1;
-}
-
-.zones-action-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  filter: brightness(1.1);
-}
-
-/* Контейнер карти */
-.zones-map-container {
-  flex: 1;
-  width: 100%;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  background: white;
-  position: relative;
-  min-height: 400px;
-}
-
-/* Кнопки навігації */
-.zones-navigation-buttons {
-  margin-top: 1rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  padding: 1rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Темна тема */
+[data-theme="dark"] {
+  --zones-gradient: linear-gradient(134deg, #5B7860 0%, #416470 100%);
+  --white-text: #FFFFFF;
+  --green: #AFD06E;
+  --dark-green: #AFD06E;
+  
+  /* Яскравіші кольори для темної теми */
+  --zone-allowed: #4ade80;
+  --zone-premium: #60a5fa;
+  --zone-restricted: #f87171;
 }
 
 /* ========================================
-   Leaflet Custom Styles
+   WRAPPER ДЛЯ ВСІЄЇ СТОРІНКИ
    ======================================== */
 
-/* Легенда карти */
-.info.legend {
-  background: white !important;
-  padding: 12px !important;
-  border-radius: 8px !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+.zones-page-container {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: visible !important;
 }
 
-.info.legend h4 {
-  margin: 0 0 10px 0 !important;
-  color: #2c3e50;
-  font-size: 14px;
-  font-weight: 600;
+/* ========================================
+   ОСНОВНА СТОРІНКА - З ВІДСТУПОМ ПІД НАВБАР
+   ======================================== */
+
+.zones-page {
+  min-height: 100vh;
+  width: 100%;
+  background: var(--zones-gradient);
+  padding: 120px 96px 40px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: background 0.3s ease;
+  overflow: visible !important;
+  isolation: isolate;
 }
 
-/* Маркери транспорту */
+/* ========================================
+   ЗАГОЛОВОК
+   ======================================== */
+
+.zones-header {
+  position: relative;
+  margin-top: -80px;
+  margin-bottom: 20px;
+  padding-left: 80px;  /* Відступ ліворуч щоб не заходити на BackButton */
+}
+
+/* Позиціонування BackButton всередині zones-header */
+.zones-header .back-button {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  z-index: 10;
+}
+
+.zones-title {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 74px;
+  line-height: 110%;
+  color: var(--white-text);
+  text-align: center;
+  margin: 0;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  transition: color 0.3s ease;
+}
+
+/* ========================================
+   ОПИС
+   ======================================== */
+
+.zones-description {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 150%;
+  color: var(--white-text);
+  text-align: center;
+  margin: 10px auto 0;
+  max-width: 800px;
+  opacity: 0.95;
+  transition: color 0.3s ease;
+}
+
+/* ========================================
+   КОНТЕЙНЕР КАРТИ З КНОПКАМИ
+   ======================================== */
+
+.zones-map-wrapper {
+  width: 100%;
+  max-width: 1728px;
+  height: 735px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.zones-map-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--white-nuche);
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background: white;
+  transition: all 0.3s ease;
+}
+
+/* ========================================
+   КНОПКИ ФІЛЬТРІВ (ВСЕРЕДИНІ КАРТИ, СПРАВА)
+   ======================================== */
+
+.filter-buttons {
+  position: absolute;
+  right: 20px;
+  top: 30%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 1000;
+  pointer-events: all;
+}
+
+.filter-btn {
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--dark-green);
+  border-radius: 50%;
+  background: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  pointer-events: all;
+  padding: 8px;
+  flex-shrink: 0;
+}
+
+.filter-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.filter-btn:active {
+  transform: scale(0.95);
+}
+
+.filter-btn.active {
+  background: var(--dark-green);
+  border-color: var(--green);
+}
+
+.filter-btn.active svg path {
+  fill: var(--green);
+  stroke: var(--green);
+}
+
+.filter-btn svg {
+  display: block;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+/* ========================================
+   МАРКЕРИ ТРАНСПОРТУ
+   ======================================== */
+
 .vehicle-marker {
   background: none !important;
   border: none !important;
-}
-
-.vehicle-marker div {
   transition: all 0.2s ease;
 }
 
-.vehicle-marker div:hover {
-  transform: scale(1.15);
-  filter: brightness(1.1);
+.vehicle-marker:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
-/* Маркер локації користувача */
-.user-location {
-  background: none !important;
-  border: none !important;
-  animation: pulse 2s infinite;
+.vehicle-marker img {
+  transition: all 0.2s ease;
 }
 
-.user-location-marker {
-  width: 12px;
-  height: 12px;
-  background: #007bff;
-  border: 3px solid white;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+/* Стилі для іконок транспорту */
+.vehicle-icon {
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.vehicle-icon:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Різні кути повороту для кожного транспорту */
+.leaflet-marker-icon.vehicle-car1 img {
+  transform: rotate(-30deg);
+  transform-origin: center center;
+}
+
+.leaflet-marker-icon.vehicle-car2 img {
+  transform: rotate(40deg);
+  transform-origin: center center;
+}
+
+.leaflet-marker-icon.vehicle-car3 img {
+  transform: rotate(10deg);
+  transform-origin: center center;
+}
+
+.leaflet-marker-icon.vehicle-car4 img {
+  transform: rotate(-15deg);
+  transform-origin: center center;
+}
+
+.leaflet-marker-icon.vehicle-car5 img {
+  transform: rotate(55deg);
+  transform-origin: center center;
+}
+
+.leaflet-marker-icon.vehicle-car6 img {
+  transform: rotate(-45deg);
+  transform-origin: center center;
+}
+
+.leaflet-marker-icon.vehicle-moped1 img {
+  transform: rotate(50deg);
+  transform-origin: center center;
+}
+
+.leaflet-marker-icon.vehicle-bike1 img {
+  transform: rotate(0deg);
+  transform-origin: center center;
+}
+
+.leaflet-marker-icon.vehicle-bike2 img {
+  transform: rotate(20deg);
+  transform-origin: center center;
+}
+
+.leaflet-marker-icon.vehicle-scooter1 img {
+  transform: rotate(-70deg);
+  transform-origin: center center;
+}
+
+.leaflet-marker-icon.vehicle-scooter2 img {
+  transform: rotate(15deg);
+  transform-origin: center center;
+}
+
+.leaflet-marker-icon.vehicle-scooter3 img {
+  transform: rotate(-30deg);
+  transform-origin: center center;
+}
+
+.leaflet-marker-icon.vehicle-charging1 img,
+.leaflet-marker-icon.vehicle-charging2 img,
+.leaflet-marker-icon.vehicle-charging3 img,
+.leaflet-marker-icon.vehicle-charging4 img {
+  transform: rotate(0deg);
+  transform-origin: center center;
+}
+
+/* ========================================
+   ПОПАПИ LEAFLET
+   ======================================== */
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .leaflet-popup-content-wrapper {
+  background: rgba(63, 77, 78, 0.95) !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .leaflet-popup-tip {
+  background: rgba(63, 77, 78, 0.95) !important;
+}
+
+.leaflet-popup-content {
+  margin: 12px !important;
+  font-family: var(--font-family);
 }
 
 /* Попап транспорту */
@@ -174,85 +328,79 @@
 
 .vehicle-popup h4 {
   margin: 0 0 8px 0;
-  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dark-green);
+}
+
+[data-theme="dark"] .vehicle-popup h4 {
+  color: var(--green);
 }
 
 .vehicle-popup-info {
   display: flex;
   justify-content: space-between;
   margin: 8px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+[data-theme="dark"] .vehicle-popup-info {
+  color: #bbb;
 }
 
 .vehicle-popup-status {
   margin: 8px 0;
+  font-size: 14px;
 }
 
 .status-available {
-  color: #28a745;
+  color: var(--zone-allowed);
+  font-weight: 600;
 }
 
 .status-busy {
-  color: #dc3545;
+  color: var(--zone-restricted);
+  font-weight: 600;
 }
 
 .popup-book-button {
   width: 100%;
-  padding: 8px;
-  background: #28a745;
+  padding: 10px;
+  background: var(--zone-allowed);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
   margin-top: 8px;
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
 }
 
 .popup-book-button:hover {
-  background: #218838;
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Легенда */
-.legend-item {
-  margin: 5px 0;
-  display: flex;
-  align-items: center;
+.popup-book-button:active {
+  transform: translateY(0);
 }
 
-.legend-color {
-  display: inline-block;
-  width: 20px;
-  height: 10px;
-  margin-right: 5px;
+/* Стилі для зарядних станцій */
+.charging-info {
+  margin-top: 8px;
 }
 
-.legend-restricted {
-  border: 1px dashed #fff;
+.charging-info p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #666;
 }
 
-.legend-divider {
-  margin: 10px 0;
-  border-color: #ddd;
-}
-
-/* Попапи Leaflet */
-.leaflet-popup-content-wrapper {
-  border-radius: 8px !important;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2) !important;
-}
-
-.leaflet-popup-content {
-  margin: 12px !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-.leaflet-popup-content h3,
-.leaflet-popup-content h4 {
-  margin: 0 0 8px 0 !important;
-}
-
-.leaflet-popup-content p {
-  margin: 6px 0 !important;
-  line-height: 1.4;
+[data-theme="dark"] .charging-info p {
+  color: #bbb;
 }
 
 /* Попап зони */
@@ -262,61 +410,235 @@
 
 .zone-popup h3 {
   margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dark-green);
+}
+
+[data-theme="dark"] .zone-popup h3 {
+  color: var(--green);
 }
 
 .zone-popup p {
-  margin: 5px 0;
+  margin: 6px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+[data-theme="dark"] .zone-popup p {
+  color: #bbb;
 }
 
 .zone-price-modifier {
-  font-weight: bold;
-}
-
-/* Кнопка в попапі */
-.leaflet-popup-content button {
-  width: 100%;
-  padding: 8px;
-  background: #28a745;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 8px;
-  transition: all 0.2s ease;
-}
-
-.leaflet-popup-content button:hover {
-  background: #218838;
-  transform: translateY(-1px);
-}
-
-/* Кнопка геолокації */
-.leaflet-bar.leaflet-control a {
-  width: 34px;
-  height: 34px;
-  line-height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  font-size: 20px;
-  text-decoration: none;
-  color: #333;
-}
-
-.leaflet-bar.leaflet-control a:hover {
-  background: #f4f4f4;
+  font-weight: 600;
+  color: var(--zone-premium) !important;
 }
 
 /* ========================================
-   Animations
+   КОНТРОЛИ LEAFLET
    ======================================== */
 
-@keyframes slideDown {
+.leaflet-bar {
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.leaflet-bar a {
+  background: white !important;
+  color: var(--dark-green) !important;
+  border: none !important;
+  transition: all 0.3s ease;
+}
+
+.leaflet-bar a:hover {
+  background: #f0f0f0 !important;
+}
+
+[data-theme="dark"] .leaflet-bar {
+  background: rgba(63, 77, 78, 0.95) !important;
+}
+
+[data-theme="dark"] .leaflet-bar a {
+  background: rgba(63, 77, 78, 0.95) !important;
+  color: var(--green) !important;
+}
+
+[data-theme="dark"] .leaflet-bar a:hover {
+  background: rgba(75, 90, 91, 0.95) !important;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 1440px) {
+  .zones-page {
+    padding: 110px 60px 40px;
+  }
+
+  .zones-title {
+    font-size: 64px;
+  }
+
+  .zones-map-wrapper {
+    max-width: 1400px;
+    height: 650px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .zones-page {
+    padding: 100px 40px 30px;
+  }
+
+  .zones-header {
+    padding-left: 70px;
+  }
+
+  .zones-title {
+    font-size: 48px;
+  }
+
+  .zones-description {
+    font-size: 16px;
+  }
+
+  .zones-map-wrapper {
+    height: 550px;
+  }
+
+  .filter-buttons {
+    right: 15px;
+    gap: 10px;
+  }
+
+  .filter-btn {
+    width: 45px;
+    height: 45px;
+    padding: 6px;
+  }
+  
+  .filter-btn svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .zones-page {
+    padding: 90px 20px 20px;
+  }
+
+  .zones-header {
+    padding-left: 60px;
+  }
+
+  .zones-title {
+    font-size: 36px;
+    line-height: 120%;
+  }
+
+  .zones-description {
+    font-size: 14px;
+  }
+
+  .zones-map-wrapper {
+    height: 450px;
+  }
+
+  .zones-map-container {
+    border-width: 2px;
+    border-radius: 20px;
+  }
+
+  .filter-buttons {
+    right: 10px;
+    gap: 8px;
+  }
+
+  .filter-btn {
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+  }
+  
+  .filter-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .zones-page {
+    padding: 80px 15px 15px;
+  }
+
+  .zones-header {
+    padding-left: 50px;
+  }
+
+  .zones-title {
+    font-size: 28px;
+  }
+
+  .zones-description {
+    font-size: 13px;
+  }
+
+  .zones-map-wrapper {
+    height: 400px;
+  }
+
+  .zones-map-container {
+    border-radius: 15px;
+  }
+
+  .filter-buttons {
+    right: 8px;
+    gap: 6px;
+  }
+
+  .filter-btn {
+    width: 36px;
+    height: 36px;
+    padding: 4px;
+  }
+  
+  .filter-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .vehicle-popup,
+  .zone-popup {
+    min-width: 180px;
+  }
+
+  .vehicle-popup h4,
+  .zone-popup h3 {
+    font-size: 14px;
+  }
+
+  .vehicle-popup-info,
+  .zone-popup p,
+  .charging-info p {
+    font-size: 12px;
+  }
+
+  .popup-book-button {
+    padding: 8px;
+    font-size: 13px;
+  }
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -324,79 +646,20 @@
   }
 }
 
+.zones-page {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Анімація пульсації для активних фільтрів */
 @keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
+  0%, 100% {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
   50% {
-    transform: scale(1.2);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
+    box-shadow: 0 4px 16px rgba(175, 208, 110, 0.5);
   }
 }
 
-/* ========================================
-   Responsive Design
-   ======================================== */
-
-@media (max-width: 768px) {
-  .zones-container {
-    padding: 1rem;
-  }
-
-  .zones-header {
-    padding: 1rem;
-  }
-
-  .zones-title {
-    font-size: 1.5rem;
-  }
-
-  .zones-subtitle {
-    font-size: 0.9rem;
-  }
-
-  .zones-navigation-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .zones-map-container {
-    min-height: 300px;
-  }
-
-  .info.legend {
-    font-size: 12px !important;
-    padding: 8px !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .zones-container {
-    padding: 0.5rem;
-  }
-
-  .zones-title {
-    font-size: 1.25rem;
-  }
-
-  .zones-header {
-    padding: 0.75rem;
-  }
-
-  .zones-info-panel {
-    padding: 0.75rem;
-  }
-
-  .zones-navigation-buttons {
-    padding: 0.75rem;
-  }
-
-  .leaflet-popup-content {
-    font-size: 14px;
-  }
+.filter-btn.active {
+  animation: pulse 2s infinite;
 }

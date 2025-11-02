@@ -11,151 +11,105 @@ function Privacy() {
         {/* Header з кнопкою назад і заголовком */}
         <div className="privacy-header">
           <BackButton />
-          <h1 className="privacy-title">Правила та умови використання</h1>
+          <h1 className="privacy-title">{t('privacy_page.title')}</h1>
         </div>
 
         {/* Контент зі скролом */}
         <div className="privacy-content">
           <div className="privacy-section">
-            <h2>1. Загальні положення</h2>
-            <p>
-              Ласкаво просимо до MistoGo! Ці Правила та умови використання (далі - "Правила") 
-              регулюють ваш доступ та використання нашого веб-сайту та послуг. Використовуючи 
-              наш сайт, ви погоджуєтесь з цими Правилами в повному обсязі.
-            </p>
-            <p>
-              Якщо ви не погоджуєтесь з будь-якою частиною цих Правил, будь ласка, не 
-              використовуйте наш сайт та послуги.
-            </p>
+            <h2>{t('privacy_page.section1.title')}</h2>
+            <p>{t('privacy_page.section1.text1')}</p>
+            <p>{t('privacy_page.section1.text2')}</p>
           </div>
 
           <div className="privacy-section">
-            <h2>2. Послуги</h2>
-            <p>
-              MistoGo надає послуги з оренди транспортних засобів, включаючи:
-            </p>
+            <h2>{t('privacy_page.section2.title')}</h2>
+            <p>{t('privacy_page.section2.text1')}</p>
             <ul>
-              <li>Оренду автомобілів</li>
-              <li>Оренду мопедів</li>
-              <li>Оренду електросамокатів</li>
-              <li>Оренду велосипедів</li>
+              <li>{t('privacy_page.section2.list.item1')}</li>
+              <li>{t('privacy_page.section2.list.item2')}</li>
+              <li>{t('privacy_page.section2.list.item3')}</li>
+              <li>{t('privacy_page.section2.list.item4')}</li>
             </ul>
-            <p>
-              Ми залишаємо за собою право змінювати, призупиняти або припиняти будь-які 
-              послуги в будь-який час без попереднього повідомлення.
-            </p>
+            <p>{t('privacy_page.section2.text2')}</p>
           </div>
 
           <div className="privacy-section">
-            <h2>3. Реєстрація та облікові записи</h2>
-            <p>
-              Для використання наших послуг ви повинні створити обліковий запис. При 
-              реєстрації ви зобов'язуєтесь:
-            </p>
+            <h2>{t('privacy_page.section3.title')}</h2>
+            <p>{t('privacy_page.section3.text1')}</p>
             <ul>
-              <li>Надавати точну та актуальну інформацію</li>
-              <li>Підтримувати безпеку вашого пароля</li>
-              <li>Негайно повідомляти нас про будь-яке несанкціоноване використання вашого облікового запису</li>
-              <li>Не передавати свій обліковий запис іншим особам</li>
+              <li>{t('privacy_page.section3.list.item1')}</li>
+              <li>{t('privacy_page.section3.list.item2')}</li>
+              <li>{t('privacy_page.section3.list.item3')}</li>
+              <li>{t('privacy_page.section3.list.item4')}</li>
             </ul>
-            <p>
-              Ви несете відповідальність за всі дії, що відбуваються під вашим обліковим 
-              записом.
-            </p>
+            <p>{t('privacy_page.section3.text2')}</p>
           </div>
 
           <div className="privacy-section">
-            <h2>4. Правила користування транспортом</h2>
-            <p>
-              При використанні наших транспортних засобів ви зобов'язуєтесь:
-            </p>
+            <h2>{t('privacy_page.section4.title')}</h2>
+            <p>{t('privacy_page.section4.text1')}</p>
             <ul>
-              <li>Дотримуватись правил дорожнього руху</li>
-              <li>Мати дійсні водійські права (для авто та мопедів)</li>
-              <li>Не використовувати транспорт під впливом алкоголю або наркотичних речовин</li>
-              <li>Повертати транспорт у визначених зонах паркування</li>
-              <li>Не передавати транспорт третім особам</li>
-              <li>Негайно повідомляти про пошкодження або несправності</li>
+              <li>{t('privacy_page.section4.list.item1')}</li>
+              <li>{t('privacy_page.section4.list.item2')}</li>
+              <li>{t('privacy_page.section4.list.item3')}</li>
+              <li>{t('privacy_page.section4.list.item4')}</li>
+              <li>{t('privacy_page.section4.list.item5')}</li>
+              <li>{t('privacy_page.section4.list.item6')}</li>
             </ul>
           </div>
 
           <div className="privacy-section">
-            <h2>5. Оплата та тарифи</h2>
-            <p>
-              Тарифи на оренду встановлюються відповідно до прейскуранта, опублікованого 
-              на сайті. Ви погоджуєтесь оплачувати:
-            </p>
+            <h2>{t('privacy_page.section5.title')}</h2>
+            <p>{t('privacy_page.section5.text1')}</p>
             <ul>
-              <li>Вартість оренди відповідно до тарифів</li>
-              <li>Штрафи за порушення правил користування</li>
-              <li>Вартість відшкодування пошкоджень транспорту</li>
-              <li>Штрафи за порушення ПДР, зафіксовані під час оренди</li>
+              <li>{t('privacy_page.section5.list.item1')}</li>
+              <li>{t('privacy_page.section5.list.item2')}</li>
+              <li>{t('privacy_page.section5.list.item3')}</li>
+              <li>{t('privacy_page.section5.list.item4')}</li>
             </ul>
-            <p>
-              Оплата здійснюється через платіжні системи, доступні на сайті. Всі ціни 
-              вказані в гривнях (UAH) або доларах США (USD).
-            </p>
+            <p>{t('privacy_page.section5.text2')}</p>
           </div>
 
           <div className="privacy-section">
-            <h2>6. Відповідальність</h2>
-            <p>
-              Ви несете повну відповідальність за:
-            </p>
+            <h2>{t('privacy_page.section6.title')}</h2>
+            <p>{t('privacy_page.section6.text1')}</p>
             <ul>
-              <li>Безпечне використання транспортних засобів</li>
-              <li>Будь-які пошкодження, завдані транспорту під час оренди</li>
-              <li>Порушення правил дорожнього руху</li>
-              <li>Втрату або крадіжку транспорту з вашої вини</li>
+              <li>{t('privacy_page.section6.list.item1')}</li>
+              <li>{t('privacy_page.section6.list.item2')}</li>
+              <li>{t('privacy_page.section6.list.item3')}</li>
+              <li>{t('privacy_page.section6.list.item4')}</li>
             </ul>
-            <p>
-              MistoGo не несе відповідальності за будь-які травми, збитки або втрати, 
-              понесені під час використання наших послуг, за винятком випадків, передбачених 
-              законодавством.
-            </p>
+            <p>{t('privacy_page.section6.text2')}</p>
           </div>
 
           <div className="privacy-section">
-            <h2>7. Конфіденційність</h2>
-            <p>
-              Ми поважаємо вашу конфіденційність та захищаємо ваші персональні дані 
-              відповідно до нашої Політики конфіденційності. Використовуючи наші послуги, 
-              ви погоджуєтесь з обробкою ваших персональних даних згідно з цією політикою.
-            </p>
+            <h2>{t('privacy_page.section7.title')}</h2>
+            <p>{t('privacy_page.section7.text')}</p>
           </div>
 
           <div className="privacy-section">
-            <h2>8. Інтелектуальна власність</h2>
-            <p>
-              Весь контент на сайті MistoGo, включаючи текст, графіку, логотипи, зображення 
-              та програмне забезпечення, є інтелектуальною власністю MistoGo або її партнерів 
-              і захищений законами про авторське право.
-            </p>
+            <h2>{t('privacy_page.section8.title')}</h2>
+            <p>{t('privacy_page.section8.text')}</p>
           </div>
 
           <div className="privacy-section">
-            <h2>9. Зміни в умовах</h2>
-            <p>
-              Ми залишаємо за собою право змінювати ці Правила в будь-який час. Зміни 
-              набувають чинності з моменту їх публікації на сайті. Продовження використання 
-              наших послуг після внесення змін означає вашу згоду з новими умовами.
-            </p>
+            <h2>{t('privacy_page.section9.title')}</h2>
+            <p>{t('privacy_page.section9.text')}</p>
           </div>
 
           <div className="privacy-section">
-            <h2>10. Контактна інформація</h2>
-            <p>
-              Якщо у вас виникли питання щодо цих Правил, будь ласка, зв'яжіться з нами:
-            </p>
+            <h2>{t('privacy_page.section10.title')}</h2>
+            <p>{t('privacy_page.section10.text')}</p>
             <ul>
-              <li>Email: support@mistogo.com</li>
-              <li>Телефон: +380 XX XXX XX XX</li>
-              <li>Адреса: м. Київ, Україна</li>
+              <li>{t('privacy_page.section10.list.item1')}</li>
+              <li>{t('privacy_page.section10.list.item2')}</li>
+              <li>{t('privacy_page.section10.list.item3')}</li>
             </ul>
           </div>
 
           <p className="privacy-date">
-            Останнє оновлення: {new Date().toLocaleDateString('uk-UA', { 
+            {t('privacy_page.last_updated')}: {new Date().toLocaleDateString(t('privacy_page.locale'), { 
               year: 'numeric', 
               month: 'long', 
               day: 'numeric' 

@@ -16,11 +16,7 @@
   "mopeds": "Mopeds",
   "scooters": "Scooters",
   "bikes": "Bikes",
-
- 
   "blog": "Blog",
-
-  
   "contacts": "Contacts",
   "lang_ua": "UA",
   "lang_en": "EN",
@@ -31,78 +27,78 @@
     "support": "Support"
   },
 
- "faq": {
-  "short": "FAQ",
-  "title": "Frequently Asked Questions",
-  "description": "Here you will find answers to the most common questions."
-},
-
-"blog_page": {
-  "title": "Blog",
-  "description": "List of articles and updates.",
-  "read_button": "Read article"
-},
-"zones": {
-  "short_zone":"Parking",
-  "title": "MISTOGO Parking Zones Map",
-  "subtitle": "Geofencing zones for ending rentals • Available transport nearby",
-  "price_modifier": "Additional fee",
-  "vehicle": {
-    "price": "Rate",
-    "battery": "Battery",
-    "fuel": "Fuel",
-    "book": "Book"
+  "faq": {
+    "short": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Here you will find answers to the most common questions."
   },
-  "city_center": { "name": "City Center", "desc": "Standard zone for trip ending" },
-  "pechersk": { "name": "Premium Zone — Pechersk", "desc": "Premium area (+2₴/min to tariff)" },
-  "gov": { "name": "Restricted Zone — Government Quarter", "desc": "Parking not allowed here" }
-},
-"login": {
-  "title": "Login",
-  "email": "Email",
-  "password": "Password",
-  "submit": "Sign in",
-  "loading": "Signing in...",
-  "fill_all_fields": "Please fill in all fields",
-  "invalid_server_response": "Invalid server response",
-  "error": "Login error",
-  "forgot_password": "Forgot password?",
-  "no_account": "No account?",
-  "register": "Register"
-},
 
-"register": {
-  "title": "Register",
-  "full_name_optional": "Full Name (optional)",
-  "email_required": "Email *",
-  "phone_optional": "Phone +380XXXXXXXXX (optional)",
-  "password_required": "Password (min. 6 characters) *",
-  "confirm_password": "Confirm Password *",
-  "submit": "Register",
-  "loading": "Registering...",
-  "fill_required_fields": "Please fill in all required fields",
-  "invalid_email": "Invalid email format",
-  "password_length": "Password must be at least 6 characters",
-  "password_mismatch": "Passwords do not match",
-  "invalid_phone": "Invalid phone format. Use +380XXXXXXXXX",
-  "error": "Registration error",
-  "already_have_account": "Already have an account?",
-  "login": "Login"
-},
+  "blog_page": {
+    "title": "Blog",
+    "description": "List of articles and updates.",
+    "read_button": "Read article"
+  },
 
-"forgotPassword": {
-  "title": "Forgot Password",
-  "enter_email": "Enter the email address you used to register",
-  "email_placeholder": "Enter your Email",
-  "submit": "Send Instructions",
-  "sending": "Sending...",
-  "email_required": "Please enter your email address",
-  "invalid_email": "Invalid email format",
-  "success_message": "Check your email for instructions",
-  "back_to_login": "Return to login"
-},
+  "zones": {
+    "short_zone": "Parking",
+    "title": "MISTOGO Parking Zones Map",
+    "subtitle": "Geofencing zones for ending rentals • Available transport nearby",
+    "price_modifier": "Additional fee",
+    "vehicle": {
+      "price": "Rate",
+      "battery": "Battery",
+      "fuel": "Fuel",
+      "book": "Book"
+    },
+    "city_center": { "name": "City Center", "desc": "Standard zone for trip ending" },
+    "pechersk": { "name": "Premium Zone — Pechersk", "desc": "Premium area (+2₴/min to tariff)" },
+    "gov": { "name": "Restricted Zone — Government Quarter", "desc": "Parking not allowed here" }
+  },
 
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "loading": "Signing in...",
+    "fill_all_fields": "Please fill in all fields",
+    "invalid_server_response": "Invalid server response",
+    "error": "Login error",
+    "forgot_password": "Forgot password?",
+    "no_account": "No account?",
+    "register": "Register"
+  },
 
+  "register": {
+    "title": "Register",
+    "full_name_optional": "Full Name (optional)",
+    "email_required": "Email *",
+    "phone_optional": "Phone +380XXXXXXXXX (optional)",
+    "password_required": "Password (min. 6 characters) *",
+    "confirm_password": "Confirm Password *",
+    "submit": "Register",
+    "loading": "Registering...",
+    "fill_required_fields": "Please fill in all required fields",
+    "invalid_email": "Invalid email format",
+    "password_length": "Password must be at least 6 characters",
+    "password_mismatch": "Passwords do not match",
+    "invalid_phone": "Invalid phone format. Use +380XXXXXXXXX",
+    "error": "Registration error",
+    "already_have_account": "Already have an account?",
+    "login": "Login"
+  },
+
+  "forgotPassword": {
+    "title": "Forgot Password",
+    "enter_email": "Enter the email address you used to register",
+    "email_placeholder": "Enter your Email",
+    "submit": "Send Instructions",
+    "sending": "Sending...",
+    "email_required": "Please enter your email address",
+    "invalid_email": "Invalid email format",
+    "success_message": "Check your email for instructions",
+    "back_to_login": "Return to login"
+  },
 
   "about": {
     "title": "About Us",
@@ -147,23 +143,676 @@
     "subtitle": "Fast, convenient and profitable."
   },
 
-  "reviews": {
+   "reviews": {
     "title": "Customer Reviews",
     "subtitle": "We care about the convenience and reliability of our service. Here's what those who have already used our rental say:",
     "addReview": "Add Review"
   },
 
-  
+  "reviews_list": {
+    "review1": {
+      "name": "Andriy Melnyk",
+      "vehicle": "Toyota Prius Hybrid",
+      "text": "Rented a car for the weekend in Lviv — everything was fast, transparent, and hassle-free. The car was clean and ready to go. Will definitely use it again!",
+      "date": "09/24/2025"
+    },
+    "review2": {
+      "name": "Maksym Nazarko",
+      "vehicle": "E-bike Trek Powerfly",
+      "text": "Rented a scooter to get to work. No queues, card payment — great. The scooter was charged and in good condition.",
+      "date": "10/03/2025"
+    },
+    "review3": {
+      "name": "Olena Koval",
+      "vehicle": "Xiaomi Electric Pro",
+      "text": "Very convenient service! The scooter worked flawlessly, and support responded quickly to all questions.",
+      "date": "09/15/2025"
+    },
+    "review4": {
+      "name": "Ihor Shevchenko",
+      "vehicle": "Vespa Elettrica",
+      "text": "Great moped rental experience! Everything worked perfectly, and the price was pleasantly surprising.",
+      "date": "08/28/2025"
+    }
+  },
+
+  "home": {
+    "meta": {
+      "title": "MistoGo – Eco Transport Rental | Cars, Bikes, Scooters",
+      "description": "Convenient eco-transport rental in your city. Hybrid cars, bikes and scooters. Simple booking, 24/7 support."
+    },
+    "hero": {
+      "title": "Discover the city in a new way with eco-transport",
+      "subtitle": "Cars, bikes, scooters and mopeds — your transport for any task here and now",
+      "cta": "Choose transport"
+    },
+    "features": {
+      "title": "Why Choose MistoGo?",
+      "feature1": {
+        "title": "Quick Start",
+        "description": "Simplified verification — just a few minutes to get started"
+      },
+      "feature2": {
+        "title": "Eco-Friendly",
+        "description": "Reduce harmful emissions and help keep the city clean"
+      },
+      "feature3": {
+        "title": "Transparent Pricing",
+        "description": "No hidden fees or unexpected charges"
+      }
+    },
+    "transport_types": {
+      "title": "Choose Your Transport",
+      "cars": {
+        "title": "Cars",
+        "description": "Hybrid and electric vehicles for city trips",
+        "from": "From 4₴/min"
+      },
+      "bikes": {
+        "title": "Bikes",
+        "description": "Eco-friendly way to explore the city",
+        "from": "From 1₴/min"
+      },
+      "scooters": {
+        "title": "Scooters",
+        "description": "Fast and maneuverable for short distances",
+        "from": "From 2₴/min"
+      },
+      "mopeds": {
+        "title": "Mopeds",
+        "description": "Perfect balance of speed and economy",
+        "from": "From 3₴/min"
+      }
+    },
+    "how_it_works": {
+      "title": "How It Works",
+      "step1": {
+        "title": "Register",
+        "description": "Create an account in just a few clicks"
+      },
+      "step2": {
+        "title": "Choose Transport",
+        "description": "Select a vehicle on the map or by category"
+      },
+      "step3": {
+        "title": "Start Your Trip",
+        "description": "Unlock and start using your transport"
+      },
+      "step4": {
+        "title": "Finish & Pay",
+        "description": "Park in designated zone and complete the rental"
+      }
+    },
+    "promo": {
+      "title": "Try eco-transport today!",
+      "subtitle": "Get 10% discount on your first booking",
+      "cta": "Get Discount"
+    },
+    "reviews": {
+      "title": "Customer Reviews",
+      "subtitle": "See what our users say about MistoGo",
+      "view_all": "View All Reviews"
+    },
+    "cta_section": {
+      "title": "Ready to Start?",
+      "subtitle": "Download the app or book online right now",
+      "download_app": "Download App",
+      "book_online": "Book Online"
+    }
+  },
+
+  "reviews_data": {
+    "name": "Andriy Melnyk",
+    "vehicle": "Toyota Prius Hybrid",
+    "text": "review in English"
+  },
+
+  "popular_cards": {
+  "fuel_saving": "Fuel saving, perfect for the city",
+  "engine_volume": "1.8 L",
+  "engine_cc": "50 cc",
+  "transmission": "Automatic",
+  "range": "up to 100 km",
+  "range_scooter": "30 km",
+  "price_per_day": "1,400 ₴/day",
+  "price_per_day_bike": "390 ₴/day",
+  "price_per_day_scooter": "480 ₴/day",
+  "price_per_day_moped": "640 ₴/day",
+  "other_options": "Other Options"
+  },
+
+"blog_content": {
+    "title": "Blog",
+    "hero": {
+      "subtitle": "Join environmentally responsible mobility with us!",
+      "text": "We strive to make your transportation as convenient and eco-friendly as possible. By choosing electric transport for city trips, you make a conscious contribution to the future of our planet. It's not just about convenience and fuel cost savings, but also choosing clean air, city quietness, and preserving the environment for future generations.",
+      "imageAlt": "Cyclists"
+    },
+    "sectionTitle": "Eco-news and social initiatives",
+    "posts": {
+      "post1": {
+        "title": "MistoGo helps the environment! 'Clean City' initiative",
+        "description": "We are proud that caring for the environment starts with real actions. That's why our team joined the 'Clean City' initiative and helps create a better Lviv!",
+        "date": "11/19/2025"
+      },
+      "post2": {
+        "title": "New cars in our fleet!",
+        "description": "Modern models with autopilot equipment have been added to our fleet. Technologies that once seemed like science fiction are now available for city trips. Join the innovation and care for the future.",
+        "date": "10/22/2025"
+      },
+      "post3": {
+        "title": "Simple. Profitable. For you.",
+        "description": "With each trip thanks to MistoGo, you not only become faster but also earn bonuses. More trips — more benefits!",
+        "date": "10/15/2025"
+      },
+      "post4": {
+        "title": "Earth Day discount — 20% off all services!",
+        "description": "To celebrate Earth Day, MistoGo is offering a 20% discount on all electric transport rentals on April 22nd.",
+        "date": "09/22/2025"
+      }
+    }
+  },
+ "support_page": {
+    "title": "Contacts / Support",
+    "contact_title": "We are always in touch",
+    "contact_description": "We are here to make your MistoGo experience comfortable. Leave a message or contact us directly — we will respond as soon as possible.",
+    "address_kyiv": "• 37 Peremohy Ave., Kyiv, Ukraine",
+    "address_lviv": "• 45 Stepana Bandery St., Lviv, Ukraine",
+    "address_dnipro": "• 22 Naberezhna Peremohy St., Dnipro, Ukraine",
+    "form_title": "Feedback Form",
+    "form_description": "Leave your request and our team will contact you soon.",
+    "form_name": "Name",
+    "form_phone": "Phone",
+    "form_message": "Question",
+    "form_consent": "I consent to the processing of my personal data in accordance with the Privacy Policy. Your data is used only to contact you and is not shared with third parties.",
+    "form_submit": "Send"
+  },
+  "faq_page": {
+    "title": "Frequently Asked Questions",
+    "questions": {
+      "q1": {
+        "question": "How can I rent electric transport through your website?",
+        "answer": "On our website, you can choose the transport you need from an interactive online map that shows the availability and location of electric scooters, electric cars, electric mopeds, and electric bikes. After selecting a vehicle — confirm it and pay."
+      },
+      "q2": {
+        "question": "How does the map with available transport work?",
+        "answer": "The map displays all available vehicles in real time. You can view their locations, choose the nearest or most convenient transport, and book it directly on the website."
+      },
+      "q3": {
+        "question": "Where are the charging stations located?",
+        "answer": "The online map also shows charging stations, so you can easily find the nearest station to charge your electric transport."
+      },
+      "q4": {
+        "question": "What to do if the electric transport runs out of battery?",
+        "answer": "If your transport runs out of battery, you need to go to the nearest charging station, which you can find on the map. Our company covers the cost of charging — just notify us about the need to charge, and we will pay for it."
+      },
+      "q5": {
+        "question": "How to pay for charging?",
+        "answer": "Payment for charging is made automatically or through our website/app, and the company pays for this service. You just need to follow the charging instructions at the station."
+      },
+      "q6": {
+        "question": "How does the key system for cars work?",
+        "answer": "There is a box on the car that contains the key. To take it, you need to enter the password on the box. After completing the rental — return the key to this box and close it. This ensures security and convenience."
+      },
+      "q7": {
+        "question": "How to rent transport with a key?",
+        "answer": "During the rental, you receive a password for the key box. Take the key when you start the rental and return it to the box after completion. The entire process is automated for your convenience."
+      },
+      "q8": {
+        "question": "How to pay for the rental?",
+        "answer": "After selecting the vehicle and confirming its condition — pay for the rental online through a secure payment system."
+      },
+      "q9": {
+        "question": "What to do if the transport is faulty or there is a problem?",
+        "answer": "Contact our support service using the contact information provided on the website, and we will help solve the problem."
+      },
+      "q10": {
+        "question": "Can I rent transport for a long period?",
+        "answer": "Yes, we have the option to arrange long-term rental. More details are available in the Services section or by consulting with our manager."
+      }
+    },
+    "support_question": "Still have questions?",
+    "support_button": "Contact support service"
+  },
+  "privacy_page": {
+    "title": "Terms and Conditions",
+    "locale": "en-US",
+    "last_updated": "Last updated",
+    "section1": {
+      "title": "1. General Provisions",
+      "text1": "Welcome to MistoGo! These Terms and Conditions (hereinafter - \"Terms\") govern your access and use of our website and services. By using our site, you agree to these Terms in full.",
+      "text2": "If you do not agree with any part of these Terms, please do not use our site and services."
+    },
+    "section2": {
+      "title": "2. Services",
+      "text1": "MistoGo provides vehicle rental services, including:",
+      "list": {
+        "item1": "Car rental",
+        "item2": "Moped rental",
+        "item3": "Electric scooter rental",
+        "item4": "Bicycle rental"
+      },
+      "text2": "We reserve the right to change, suspend or discontinue any services at any time without prior notice."
+    },
+    "section3": {
+      "title": "3. Registration and Accounts",
+      "text1": "To use our services, you must create an account. When registering, you agree to:",
+      "list": {
+        "item1": "Provide accurate and up-to-date information",
+        "item2": "Maintain the security of your password",
+        "item3": "Immediately notify us of any unauthorized use of your account",
+        "item4": "Not transfer your account to other persons"
+      },
+      "text2": "You are responsible for all actions that occur under your account."
+    },
+    "section4": {
+      "title": "4. Vehicle Usage Rules",
+      "text1": "When using our vehicles, you agree to:",
+      "list": {
+        "item1": "Follow traffic rules",
+        "item2": "Have a valid driver's license (for cars and mopeds)",
+        "item3": "Not use vehicles under the influence of alcohol or drugs",
+        "item4": "Return vehicles in designated parking zones",
+        "item5": "Not transfer vehicles to third parties",
+        "item6": "Immediately report damage or malfunctions"
+      }
+    },
+    "section5": {
+      "title": "5. Payment and Rates",
+      "text1": "Rental rates are set according to the price list published on the site. You agree to pay:",
+      "list": {
+        "item1": "Rental cost according to rates",
+        "item2": "Fines for violation of usage rules",
+        "item3": "Cost of compensation for vehicle damage",
+        "item4": "Traffic fines recorded during the rental"
+      },
+      "text2": "Payment is made through payment systems available on the site. All prices are indicated in hryvnias (UAH) or US dollars (USD)."
+    },
+    "section6": {
+      "title": "6. Liability",
+      "text1": "You bear full responsibility for:",
+      "list": {
+        "item1": "Safe use of vehicles",
+        "item2": "Any damage caused to vehicles during rental",
+        "item3": "Traffic violations",
+        "item4": "Loss or theft of vehicles due to your fault"
+      },
+      "text2": "MistoGo is not liable for any injuries, damages or losses incurred while using our services, except as provided by law."
+    },
+    "section7": {
+      "title": "7. Privacy",
+      "text": "We respect your privacy and protect your personal data in accordance with our Privacy Policy. By using our services, you agree to the processing of your personal data in accordance with this policy."
+    },
+    "section8": {
+      "title": "8. Intellectual Property",
+      "text": "All content on the MistoGo site, including text, graphics, logos, images and software, is the intellectual property of MistoGo or its partners and is protected by copyright laws."
+    },
+    "section9": {
+      "title": "9. Changes to Terms",
+      "text": "We reserve the right to change these Terms at any time. Changes take effect from the moment of their publication on the site. Continued use of our services after changes means your agreement to the new terms."
+    },
+    "section10": {
+      "title": "10. Contact Information",
+      "text": "If you have any questions about these Terms, please contact us:",
+      "list": {
+        "item1": "Email: support@mistogo.com",
+        "item2": "Phone: +380 XX XXX XX XX",
+        "item3": "Address: Kyiv, Ukraine"
+      }
+    }
+  },
+   "confidentiality_page": {
+    "title": "Privacy Policy",
+    "locale": "en-US",
+    "last_updated": "Last updated",
+    "section1": {
+      "title": "1. General Provisions",
+      "text1": "MistoGo (\"we\", \"us\", \"our company\") respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, store and protect your personal information.",
+      "text2": "By using our website and services, you agree to the terms of this Privacy Policy."
+    },
+    "section2": {
+      "title": "2. What Data We Collect",
+      "text": "We may collect and process the following categories of personal data:",
+      "list": {
+        "item1": "<strong>Identification data:</strong> name, surname, date of birth",
+        "item2": "<strong>Contact data:</strong> email address, phone number",
+        "item3": "<strong>Account data:</strong> login, password (encrypted)",
+        "item4": "<strong>Payment data:</strong> payment card information (processed through secure payment gateways)",
+        "item5": "<strong>Usage data:</strong> information about your trips, routes, rental time",
+        "item6": "<strong>Technical data:</strong> IP address, browser type, operating system, cookies",
+        "item7": "<strong>Location data:</strong> GPS coordinates during vehicle use",
+        "item8": "<strong>Documents:</strong> driver's license, passport (for verification)"
+      }
+    },
+    "section3": {
+      "title": "3. How We Use Your Data",
+      "text": "We use your personal data for the following purposes:",
+      "list": {
+        "item1": "Providing vehicle rental services",
+        "item2": "Creating and managing your account",
+        "item3": "Processing payments and financial transactions",
+        "item4": "Tracking vehicle location during rental",
+        "item5": "Communication with you (booking confirmations, notifications, support)",
+        "item6": "Improving our services and user experience",
+        "item7": "Preventing fraud and ensuring security",
+        "item8": "Fulfilling legal obligations",
+        "item9": "Marketing and personalization of offers (with your consent)"
+      }
+    },
+    "section4": {
+      "title": "4. Legal Basis for Data Processing",
+      "text": "In accordance with GDPR and Ukrainian Law \"On Personal Data Protection\", we process your data on the following legal grounds:",
+      "list": {
+        "item1": "<strong>Contract performance:</strong> to provide you with our services",
+        "item2": "<strong>Consent:</strong> when you give explicit consent to data processing",
+        "item3": "<strong>Legitimate interests:</strong> to prevent fraud and improve services",
+        "item4": "<strong>Legal obligations:</strong> when required by law"
+      }
+    },
+    "section5": {
+      "title": "5. Disclosure of Information to Third Parties",
+      "text": "We may transfer your personal data to the following categories of recipients:",
+      "list": {
+        "item1": "<strong>Payment systems:</strong> for payment processing",
+        "item2": "<strong>IT providers:</strong> for infrastructure support",
+        "item3": "<strong>Law enforcement agencies:</strong> in case of lawful request",
+        "item4": "<strong>Insurance companies:</strong> in case of incidents",
+        "item5": "<strong>Partners:</strong> to provide additional services (with your consent)"
+      },
+      "text2": "We do not sell your personal data to third parties for their marketing purposes."
+    },
+    "section6": {
+      "title": "6. International Data Transfer",
+      "text": "Your personal data may be transferred and processed in other countries where our service providers are located. In such cases, we ensure an adequate level of data protection in accordance with GDPR through:",
+      "list": {
+        "item1": "EU Standard Contractual Clauses",
+        "item2": "Adequacy decisions on data protection",
+        "item3": "Other lawful data transfer mechanisms"
+      }
+    },
+    "section7": {
+      "title": "7. How We Protect Your Data",
+      "text": "We take appropriate technical and organizational measures to protect your personal data from unauthorized access, loss, destruction or alteration:",
+      "list": {
+        "item1": "Data encryption during transmission (SSL/TLS)",
+        "item2": "Encryption of passwords and sensitive data in database",
+        "item3": "Regular backups",
+        "item4": "Restriction of access to personal data",
+        "item5": "Security monitoring and system audits",
+        "item6": "Staff training on data protection"
+      }
+    },
+    "section8": {
+      "title": "8. Data Retention Period",
+      "text": "We retain your personal data only for the period necessary to achieve the purposes for which it was collected:",
+      "list": {
+        "item1": "<strong>Account data:</strong> while your account is active",
+        "item2": "<strong>Trip data:</strong> 3 years after rental completion",
+        "item3": "<strong>Payment data:</strong> according to tax law requirements (5 years)",
+        "item4": "<strong>Marketing data:</strong> until you withdraw consent"
+      },
+      "text2": "After the retention period expires, data will be deleted or anonymized."
+    },
+    "section9": {
+      "title": "9. Your Rights",
+      "text": "In accordance with GDPR and Ukrainian legislation, you have the following rights:",
+      "list": {
+        "item1": "<strong>Right to access:</strong> obtain a copy of your personal data",
+        "item2": "<strong>Right to rectification:</strong> correct inaccurate or incomplete data",
+        "item3": "<strong>Right to erasure:</strong> delete your personal data (\"right to be forgotten\")",
+        "item4": "<strong>Right to restriction of processing:</strong> restrict processing of your data",
+        "item5": "<strong>Right to data portability:</strong> receive data in a structured format",
+        "item6": "<strong>Right to object:</strong> object to processing of your data",
+        "item7": "<strong>Right to withdraw consent:</strong> withdraw consent to data processing",
+        "item8": "<strong>Right to lodge a complaint:</strong> file a complaint with the Ukrainian Parliament Commissioner for Human Rights"
+      },
+      "text2": "To exercise your rights, contact us at: privacy@mistogo.com"
+    },
+    "section10": {
+      "title": "10. Cookies and Tracking Technologies",
+      "text": "Our website uses cookies and similar technologies for:",
+      "list": {
+        "item1": "Ensuring website functionality",
+        "item2": "Remembering your settings",
+        "item3": "Analyzing website usage",
+        "item4": "Personalizing content",
+        "item5": "Targeted advertising (with your consent)"
+      },
+      "text2": "You can manage cookies through your browser settings. Note that disabling cookies may affect website functionality."
+    },
+    "section11": {
+      "title": "11. Children",
+      "text": "Our services are not intended for persons under 18 years of age. We do not knowingly collect personal data from children. If you believe we have inadvertently collected data from a child, please contact us immediately."
+    },
+    "section12": {
+      "title": "12. Changes to Privacy Policy",
+      "text": "We reserve the right to update this Privacy Policy. We will notify you of significant changes via email or site notifications. Continued use of our services after changes means your agreement to the updated policy."
+    },
+    "section13": {
+      "title": "13. Contact Information",
+      "text": "If you have questions about this Privacy Policy or processing of your personal data, contact us:",
+      "list": {
+        "item1": "<strong>Email:</strong> privacy@mistogo.com",
+        "item2": "<strong>Phone:</strong> +380 XX XXX XX XX",
+        "item3": "<strong>Address:</strong> Kyiv, Ukraine",
+        "item4": "<strong>Data Protection Officer:</strong> dpo@mistogo.com"
+      }
+    }
+  },
+"cars_page": {
+    "title": "Cars",
+    "select_button": "Select",
+    "other_transport_title": "Choose Other Transport",
+    "cars": {
+      "car1": {
+        "engine": "1.8 L",
+        "price": "1,400 ₴/day",
+        "year": "2026 year"
+      },
+      "car2": {
+        "engine": "366 km",
+        "price": "2,000 ₴/day",
+        "year": "2025 year"
+      },
+      "car3": {
+        "engine": "1.8 L",
+        "price": "1,400 ₴/day",
+        "year": "2025 year"
+      },
+      "car4": {
+        "engine": "150 kW",
+        "price": "1,300 ₴/day",
+        "year": "2022 year"
+      },
+      "car5": {
+        "engine": "150 kW",
+        "price": "1,620 ₴/day",
+        "year": "2023 year"
+      },
+      "car6": {
+        "engine": "150 kW",
+        "price": "1,700 ₴/day",
+        "year": "2024 year"
+      }
+    }
+  },
+  "bikes_page": {
+    "title": "Electric Bikes",
+    "select_button": "Select",
+    "other_transport_title": "Choose Other Transport",
+    "bikes": {
+      "bike1": {
+        "power": "250 W",
+        "range": "80 km",
+        "price": "450 ₴/day",
+        "year": "2024 year"
+      },
+      "bike2": {
+        "power": "250 W",
+        "range": "100 km",
+        "price": "500 ₴/day",
+        "year": "2024 year"
+      },
+      "bike3": {
+        "power": "250 W",
+        "range": "100 km",
+        "price": "480 ₴/day",
+        "year": "2023 year"
+      },
+      "bike4": {
+        "power": "350 W",
+        "range": "80 km",
+        "price": "520 ₴/day",
+        "year": "2024 year"
+      },
+      "bike5": {
+        "power": "250 W",
+        "range": "80 km",
+        "price": "470 ₴/day",
+        "year": "2023 year"
+      },
+      "bike6": {
+        "power": "250 W",
+        "range": "65 km",
+        "price": "420 ₴/day",
+        "year": "2024 year"
+      }
+    }
+  },
+   "mopeds_page": {
+    "title": "Electric Mopeds",
+    "select_button": "Select",
+    "other_transport_title": "Choose Other Transport",
+    "mopeds": {
+      "moped1": {
+        "power": "3000 W",
+        "range": "130 km",
+        "price": "800 ₴/day",
+        "year": "2024 year"
+      },
+      "moped2": {
+        "power": "2000 W",
+        "range": "110 km",
+        "price": "750 ₴/day",
+        "year": "2024 year"
+      },
+      "moped3": {
+        "power": "400 W",
+        "range": "60 km",
+        "price": "600 ₴/day",
+        "year": "2023 year"
+      },
+      "moped4": {
+        "power": "2400 W",
+        "range": "100 km",
+        "price": "850 ₴/day",
+        "year": "2024 year"
+      },
+      "moped5": {
+        "power": "1200 W",
+        "range": "80 km",
+        "price": "700 ₴/day",
+        "year": "2023 year"
+      },
+      "moped6": {
+        "power": "1200 W",
+        "range": "70 km",
+        "price": "650 ₴/day",
+        "year": "2024 year"
+      }
+    }
+  },
+   "scooters_page": {
+    "title": "Electric Scooters",
+    "select_button": "Select",
+    "other_transport_title": "Choose Other Transport",
+    "scooters": {
+      "scooter1": {
+        "power": "300 W",
+        "range": "45 km",
+        "price": "350 ₴/day",
+        "year": "2024 year"
+      },
+      "scooter2": {
+        "power": "350 W",
+        "range": "30 km",
+        "price": "320 ₴/day",
+        "year": "2024 year"
+      },
+      "scooter3": {
+        "power": "350 W",
+        "range": "65 km",
+        "price": "400 ₴/day",
+        "year": "2023 year"
+      },
+      "scooter4": {
+        "power": "500 W",
+        "range": "55 km",
+        "price": "450 ₴/day",
+        "year": "2024 year"
+      },
+      "scooter5": {
+        "power": "300 W",
+        "range": "30 km",
+        "price": "300 ₴/day",
+        "year": "2023 year"
+      },
+      "scooter6": {
+        "power": "300 W",
+        "range": "25 km",
+        "price": "280 ₴/day",
+        "year": "2024 year"
+      }
+    }
+  },
   "footer": {
-    "tagline": "«Car, bike and scooter rental in your city. Fast, convenient and hassle-free.»",
+    "tagline": "Car, bike and scooter rental in your city. Fast, convenient and hassle-free.",
     "terms": "Terms and Conditions",
     "privacy": "Privacy Policy",
     "cookies": "Cookie Policy"
+  },
+
+  "Zones": {
+    "title": "MistoGo Parking Zones Map",
+    "description": "Geozones for completing rentals in the center of Kyiv. Available transport nearby.",
+    "buttons": {
+      "support": "Support",
+      "charging": "Charging Stations",
+      "location": "My Location",
+      "transport": "Transport"
+    },
+    "parkingZones": {
+      "khreshchatyk": "Khreshchatyk Zone",
+      "maidan": "Maidan Zone",
+      "besarabka": "Besarabka Zone"
+    },
+    "vehicles": {
+      "car": "🚗 Car",
+      "motorcycle": "🏍️ Motorcycle",
+      "scooter": "🛴 Scooter",
+      "bike": "🚲 Bicycle"
+    },
+    "chargingStation": {
+      "title": "⚡ Charging Station",
+      "fastCharging": "Fast charging",
+      "available": "Available: {{available}}/{{total}} spots"
+    },
+    "vehicleInfo": {
+      "battery": "🔋 {{percent}}%",
+      "status": "Status:",
+      "statusAvailable": "Available",
+      "statusBusy": "Busy",
+      "bookButton": "Book"
+    },
+    "userLocation": {
+      "title": "📍 Your Location",
+      "description": "You are here!"
+    },
+    "errors": {
+      "geolocationFailed": "Failed to get your location. Please check your browser settings.",
+      "geolocationNotSupported": "Your browser does not support geolocation"
+    }
   }
 
-
-
-
-
-
+  
 }

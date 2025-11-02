@@ -22,7 +22,8 @@
   align-items: center;
   justify-content: center;
   background: var(--confidentiality-bg);
-  padding: 20px;
+  padding: 40px 20px;
+  box-sizing: border-box;
 }
 
 .confidentiality-box {
@@ -32,13 +33,14 @@
   max-height: 80vh;
   background: var(--confidentiality-box-bg);
   border-radius: 30px;
-  padding: 40px;
+  padding: 50px 60px;
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.25);
   position: relative;
   display: flex;
   flex-direction: column;
   transition: background 0.3s ease;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* Header контейнер для стрілки і заголовка */
@@ -48,7 +50,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
   flex-shrink: 0;
 }
 
@@ -69,13 +71,15 @@
   margin: 0;
   flex: 1;
   transition: color 0.3s ease;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 /* Контент зі скролом */
 .confidentiality-content {
   flex: 1;
   overflow-y: auto;
-  padding-right: 10px;
+  padding-right: 15px;
   scrollbar-width: thin;
   scrollbar-color: var(--variable-collection-green) transparent;
 }
@@ -94,7 +98,7 @@
 }
 
 .confidentiality-section {
-  margin-bottom: 25px;
+  margin-bottom: 28px;
 }
 
 .confidentiality-section h2 {
@@ -102,7 +106,7 @@
   font-weight: 600;
   font-size: 22px;
   color: var(--confidentiality-heading);
-  margin: 0 0 12px 0;
+  margin: 0 0 14px 0;
   transition: color 0.3s ease;
 }
 
@@ -112,7 +116,7 @@
   font-weight: 400;
   line-height: 160%;
   color: var(--confidentiality-text);
-  margin: 0 0 12px 0;
+  margin: 0 0 14px 0;
   transition: color 0.3s ease;
 }
 
@@ -122,13 +126,13 @@
   font-weight: 400;
   line-height: 160%;
   color: var(--confidentiality-text);
-  margin: 0 0 12px 0;
-  padding-left: 25px;
+  margin: 0 0 14px 0;
+  padding-left: 28px;
   transition: color 0.3s ease;
 }
 
 .confidentiality-section li {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .confidentiality-section strong {
@@ -143,22 +147,248 @@
   color: var(--confidentiality-text);
   opacity: 0.7;
   text-align: center;
-  margin-top: 20px;
-  padding-top: 20px;
+  margin-top: 25px;
+  padding-top: 25px;
   border-top: 1px solid rgba(127, 176, 105, 0.3);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* ================= PROPORTIONAL SCALING ================= */
+
+/* 1600-1920px */
+@media (min-width: 1600px) and (max-width: 1920px) {
+  .confidentiality-box {
+    padding: 48px 55px;
+  }
+  
+  .confidentiality-header {
+    margin-bottom: 32px;
+  }
+  
+  .confidentiality-title {
+    font-size: 34px;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  
+  .confidentiality-section {
+    margin-bottom: 26px;
+  }
+  
+  .confidentiality-section h2 {
+    font-size: 21px;
+  }
+}
+
+/* 1440-1599px */
+@media (max-width: 1599px) {
   .container {
-    padding: 15px;
+    padding: 35px 20px;
+  }
+  
+  .confidentiality-box {
+    width: 750px;
+    padding: 45px 50px;
+  }
+  
+  .confidentiality-header {
+    margin-bottom: 30px;
+  }
+  
+  .confidentiality-title {
+    font-size: 32px;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  
+  .confidentiality-section {
+    margin-bottom: 24px;
+  }
+  
+  .confidentiality-section h2 {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  
+  .confidentiality-section p,
+  .confidentiality-section ul {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  
+  .confidentiality-content {
+    padding-right: 12px;
+  }
+}
+
+/* 1200-1439px */
+@media (max-width: 1439px) {
+  .container {
+    padding: 30px 20px;
+  }
+  
+  .confidentiality-box {
+    width: 700px;
+    padding: 40px 45px;
+  }
+  
+  .confidentiality-header {
+    margin-bottom: 28px;
+  }
+  
+  .confidentiality-title {
+    font-size: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  
+  .confidentiality-section {
+    margin-bottom: 22px;
+  }
+  
+  .confidentiality-section h2 {
+    font-size: 19px;
+    margin-bottom: 11px;
+  }
+  
+  .confidentiality-section p,
+  .confidentiality-section ul {
+    font-size: 14.5px;
+  }
+  
+  .confidentiality-section ul {
+    padding-left: 26px;
+  }
+  
+  .confidentiality-section li {
+    margin-bottom: 9px;
+  }
+}
+
+/* 1024-1199px */
+@media (max-width: 1199px) {
+  .container {
+    padding: 25px 20px;
+  }
+  
+  .confidentiality-box {
+    width: 650px;
+    padding: 38px 40px;
+  }
+  
+  .confidentiality-header {
+    margin-bottom: 26px;
+  }
+  
+  .confidentiality-title {
+    font-size: 28px;
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+  
+  .confidentiality-section {
+    margin-bottom: 20px;
+  }
+  
+  .confidentiality-section h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .confidentiality-section p,
+  .confidentiality-section ul {
+    font-size: 14px;
+    margin-bottom: 11px;
+  }
+  
+  .confidentiality-section ul {
+    padding-left: 24px;
+  }
+  
+  .confidentiality-section li {
+    margin-bottom: 8px;
+  }
+  
+  .confidentiality-date {
+    font-size: 13px;
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+}
+
+/* 768-1023px (Планшети) */
+@media (max-width: 1023px) {
+  .container {
+    padding: 20px 15px;
+  }
+
+  .confidentiality-box {
+    width: 100%;
+    max-width: 600px;
+    padding: 35px 35px;
+    max-height: 82vh;
+  }
+
+  .confidentiality-header {
+    margin-bottom: 24px;
+  }
+
+  .confidentiality-title {
+    font-size: 26px;
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+  
+  .confidentiality-header .back-button {
+    width: 42px;
+    height: 42px;
+  }
+
+  .confidentiality-section {
+    margin-bottom: 18px;
+  }
+
+  .confidentiality-section h2 {
+    font-size: 17px;
+    margin-bottom: 9px;
+  }
+
+  .confidentiality-section p,
+  .confidentiality-section ul {
+    font-size: 13.5px;
+    margin-bottom: 10px;
+  }
+  
+  .confidentiality-section ul {
+    padding-left: 22px;
+  }
+  
+  .confidentiality-section li {
+    margin-bottom: 7px;
+  }
+  
+  .confidentiality-content {
+    padding-right: 10px;
+  }
+  
+  .confidentiality-date {
+    font-size: 12.5px;
+    margin-top: 18px;
+    padding-top: 18px;
+  }
+}
+
+/* 480-767px (Мобільні пристрої) */
+@media (max-width: 767px) {
+  .container {
+    padding: 15px 12px;
   }
 
   .confidentiality-box {
     width: 100%;
     max-width: 100%;
-    padding: 30px 20px;
+    padding: 28px 25px;
     max-height: 85vh;
+    border-radius: 25px;
   }
 
   .confidentiality-header {
@@ -166,39 +396,182 @@
   }
 
   .confidentiality-title {
-    font-size: 24px;
+    font-size: 22px;
+    padding-left: 42px;
+    padding-right: 42px;
   }
-
-  .confidentiality-section h2 {
-    font-size: 18px;
-  }
-
-  .confidentiality-section p,
-  .confidentiality-section ul {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .confidentiality-box {
-    padding: 25px 15px;
-  }
-
-  .confidentiality-title {
-    font-size: 20px;
-  }
-
+  
   .confidentiality-header .back-button {
-    width: 35px;
-    height: 35px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .confidentiality-section {
+    margin-bottom: 16px;
   }
 
   .confidentiality-section h2 {
     font-size: 16px;
+    margin-bottom: 8px;
   }
 
   .confidentiality-section p,
   .confidentiality-section ul {
     font-size: 13px;
+    margin-bottom: 9px;
+  }
+  
+  .confidentiality-section ul {
+    padding-left: 20px;
+  }
+  
+  .confidentiality-section li {
+    margin-bottom: 6px;
+  }
+  
+  .confidentiality-content {
+    padding-right: 8px;
+  }
+  
+  .confidentiality-content::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .confidentiality-date {
+    font-size: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+}
+
+/* 360-479px (Малі мобільні) */
+@media (max-width: 479px) {
+  .container {
+    padding: 12px 10px;
+  }
+
+  .confidentiality-box {
+    padding: 22px 18px;
+    border-radius: 20px;
+    max-height: 87vh;
+  }
+
+  .confidentiality-header {
+    margin-bottom: 16px;
+  }
+
+  .confidentiality-title {
+    font-size: 19px;
+    padding-left: 38px;
+    padding-right: 38px;
+  }
+  
+  .confidentiality-header .back-button {
+    width: 34px;
+    height: 34px;
+  }
+
+  .confidentiality-section {
+    margin-bottom: 14px;
+  }
+
+  .confidentiality-section h2 {
+    font-size: 15px;
+    margin-bottom: 7px;
+  }
+
+  .confidentiality-section p,
+  .confidentiality-section ul {
+    font-size: 12px;
+    margin-bottom: 8px;
+    line-height: 150%;
+  }
+  
+  .confidentiality-section ul {
+    padding-left: 18px;
+  }
+  
+  .confidentiality-section li {
+    margin-bottom: 5px;
+  }
+  
+  .confidentiality-content {
+    padding-right: 6px;
+  }
+  
+  .confidentiality-content::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .confidentiality-date {
+    font-size: 11px;
+    margin-top: 14px;
+    padding-top: 14px;
+  }
+}
+
+/* До 360px (Дуже малі екрани) */
+@media (max-width: 359px) {
+  .container {
+    padding: 10px 8px;
+  }
+
+  .confidentiality-box {
+    padding: 18px 14px;
+    border-radius: 18px;
+    max-height: 88vh;
+  }
+
+  .confidentiality-header {
+    margin-bottom: 14px;
+  }
+
+  .confidentiality-title {
+    font-size: 17px;
+    padding-left: 34px;
+    padding-right: 34px;
+  }
+  
+  .confidentiality-header .back-button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .confidentiality-section {
+    margin-bottom: 12px;
+  }
+
+  .confidentiality-section h2 {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .confidentiality-section p,
+  .confidentiality-section ul {
+    font-size: 11px;
+    margin-bottom: 7px;
+    line-height: 145%;
+  }
+  
+  .confidentiality-section ul {
+    padding-left: 16px;
+  }
+  
+  .confidentiality-section li {
+    margin-bottom: 4px;
+  }
+  
+  .confidentiality-content {
+    padding-right: 5px;
+  }
+  
+  .confidentiality-content::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .confidentiality-date {
+    font-size: 10px;
+    margin-top: 12px;
+    padding-top: 12px;
   }
 }

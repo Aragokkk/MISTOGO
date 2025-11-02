@@ -18,7 +18,7 @@ namespace MistoGO.Data
         public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<FaqItem> FaqItems { get; set; }
         public DbSet<SupportTicket> SupportTickets { get; set; }
-
+        public DbSet<SupportMessage> SupportMessages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -80,7 +80,41 @@ namespace MistoGO.Data
                 .WithMany()
                 .HasForeignKey(s => s.UserId);
 
-            // Нюанси типів — ми вже заклали їх в [Column], тож тут додатково нічого не треба
+            // Нюанси типів — ми вже заклали їх в [Column],
+            //  тож тут додатково нічого не треба
+             // SupportTicket -> User (опціональний зв'язок)
+            modelBuilder.Entity<SupportTicket>()
+                .HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // SupportMessage -> Ticket (обов'язковий зв'язок)
+            modelBuilder.Entity<SupportMessage>()
+                .HasOne(m => m.Ticket)
+                .WithMany()
+                .HasForeignKey(m => m.TicketId)
+                .OnDelete(DeleteBehavior.Cascade); // При видаленні тікету - видаляються повідомлення
+
+            // SupportMessage -> User (опціональний зв'язок)
+            modelBuilder.Entity<SupportMessage>()
+                .HasOne(m => m.User)
+                .WithMany()
+                .HasForeignKey(m => m.UserId)
+                .OnDelete(DeleteBehavior.SetNull); // При видаленні юзера - повідомлення залишаються
+
+            // Індекси для швидкого пошуку
+            modelBuilder.Entity<SupportTicket>()
+                .HasIndex(t => t.Status);
+
+            modelBuilder.Entity<SupportTicket>()
+                .HasIndex(t => t.Priority);
+
+            modelBuilder.Entity<SupportTicket>()
+                .HasIndex(t => t.CreatedAt);
+
+            modelBuilder.Entity<SupportMessage>()
+                .HasIndex(m => m.TicketId);
         }
     }
 }

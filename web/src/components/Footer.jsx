@@ -1,41 +1,32 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import "./Footer.css";
 
 function Footer() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const { t, i18n } = useTranslation();
 
-  // Синхронізація теми при завантаженні
   useEffect(() => {
-    // Перевірити збережену тему
-    const savedTheme = localStorage.getItem('theme');
-    const currentTheme = savedTheme || document.documentElement.getAttribute('data-theme') || 'light';
-    
-    setIsDarkMode(currentTheme === 'dark');
-    document.documentElement.setAttribute('data-theme', currentTheme);
+    const savedTheme = localStorage.getItem("theme");
+    const currentTheme =
+      savedTheme || document.documentElement.getAttribute("data-theme") || "light";
+    setIsDarkMode(currentTheme === "dark");
+    document.documentElement.setAttribute("data-theme", currentTheme);
 
-    // Слухати зміни теми з інших компонентів
-    const handleThemeChange = (e) => {
-      setIsDarkMode(e.detail === 'dark');
-    };
-
-    window.addEventListener('themeChange', handleThemeChange);
-    return () => window.removeEventListener('themeChange', handleThemeChange);
+    const handleThemeChange = (e) => setIsDarkMode(e.detail === "dark");
+    window.addEventListener("themeChange", handleThemeChange);
+    return () => window.removeEventListener("themeChange", handleThemeChange);
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = !isDarkMode ? 'dark' : 'light';
+    const newTheme = isDarkMode ? "light" : "dark";
     setIsDarkMode(!isDarkMode);
-    document.documentElement.setAttribute('data-theme', newTheme);
-    
-    // Зберегти в localStorage
-    localStorage.setItem('theme', newTheme);
-    
-    // Відправити подію для синхронізації інших компонентів
-    window.dispatchEvent(new CustomEvent('themeChange', { detail: newTheme }));
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    window.dispatchEvent(new CustomEvent("themeChange", { detail: newTheme }));
   };
 
   const toggleLanguage = () => {
@@ -45,126 +36,229 @@ function Footer() {
 
   return (
     <footer className="footer-section">
-      <div className="footer-wrapper">
-        <div className="footer-top">
-          <nav className="footer-nav">
-            <a href="/transport" onClick={(e) => { e.preventDefault(); navigate('/transport'); }}>
-              {t("transport")}
-            </a>
-            <a href="/zones" onClick={(e) => { e.preventDefault(); navigate('/zones'); }}>
-              {t("zones.short_zone")}
-            </a>
-            <a href="/blog" onClick={(e) => { e.preventDefault(); navigate('/blog'); }}>
-              {t("blog")}
-            </a>
-            <a href="/support" onClick={(e) => { e.preventDefault(); navigate('/support'); }}>
-              {t("contacts")}
-            </a>
-          </nav>
-          
-          <div className="footer-center">
-            <h2 className="footer-logo">MistoGo</h2>
-            <p className="footer-tagline">
-              {t("footer.tagline")}
-            </p>
-          </div>
-          
-          <div className="footer-right">
-            <span className="footer-questions" onClick={() => navigate('/faq')} style={{cursor: 'pointer'}}>
-              {t("faq.title")}
-            </span>
-            <button className="footer-language" onClick={toggleLanguage}>
-              {i18n.language === "uk" ? "UKR" : "ENG"} | {i18n.language === "uk" ? "₴ UAH" : "$ USD"}
-            </button>
-            <button className="footer-login" onClick={() => navigate('/auth/login')}>
-              {t("login.title")}
-            </button>
-            <button 
-              className={`footer-theme-toggle ${isDarkMode ? 'dark' : ''}`}
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
-            >
-              <svg width="59" height="31" viewBox="0 0 59 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#clip0_footer)">
-                  <rect x="1.5" y="1.5" width="56" height="28" rx="14" stroke="white" strokeWidth="3" />
-                  <g 
-                    className="toggle-circle"
-                    style={{ 
-                      transform: isDarkMode ? 'translateX(28px)' : 'translateX(0)', 
-                      transition: 'transform 0.3s ease' 
-                    }}
-                  >
-                    {/* Світла тема - Сонце */}
-                    {!isDarkMode && (
-                      <>
-                        <circle cx="15.5" cy="15.5" r="12.5" stroke="white" strokeWidth="3" />
-                        <circle cx="15.5" cy="15.5" r="3.5" fill="white" />
-                        <ellipse cx="22.5" cy="15.639" rx="1.5" ry="0.5" fill="white" />
-                        <ellipse cx="8.5" cy="15.639" rx="1.5" ry="0.5" transform="rotate(180 8.5 15.639)" fill="white" />
-                        <ellipse cx="15.5" cy="8.63898" rx="1.5" ry="0.5" transform="rotate(-90 15.5 8.63898)" fill="white" />
-                        <ellipse cx="15.5" cy="22.639" rx="1.5" ry="0.5" transform="rotate(90 15.5 22.639)" fill="white" />
-                        <ellipse cx="20.7354" cy="20.8927" rx="1.49622" ry="0.641236" transform="rotate(45 20.7354 20.8927)" fill="white" />
-                        <ellipse cx="10.2646" cy="10.6632" rx="1.49622" ry="0.641236" transform="rotate(-135 10.2646 10.6632)" fill="white" />
-                        <ellipse cx="20.7355" cy="10.422" rx="1.47102" ry="0.630439" transform="rotate(-45 20.7355 10.422)" fill="white" />
-                        <ellipse cx="10.2645" cy="21.1339" rx="1.47102" ry="0.630439" transform="rotate(135 10.2645 21.1339)" fill="white" />
-                      </>
-                    )}
+      <div className="footer-container">
+        <div className="footer-fit">
+          <div className="footer-wrapper">
 
-                    {/* Темна тема - Місяць */}
-                    {isDarkMode && (
-                      <>
-                        <circle cx="15.5" cy="15.5" r="12.5" stroke="white" strokeWidth="3" fill="none" />
-                        <path 
-                          d="M12.5557 8.60059C11.583 9.80276 11 11.3332 11 13C11 16.866 14.134 20 18 20C19.6668 20 21.1963 19.416 22.3984 18.4434C21.254 21.1221 18.5971 23 15.5 23C11.3579 23 8 19.6421 8 15.5C8 12.4031 9.87722 9.74509 12.5557 8.60059Z" 
-                          fill="white"
-                        />
-                      </>
-                    )}
-                  </g>
-                </g>
-                <defs>
-                  <clipPath id="clip0_footer">
-                    <rect width="59" height="31" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
-            </button>
-          </div>
-        </div>
-        
-        <div className="footer-bottom">
-          <div className="footer-legal">
-            <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate('/privacy'); }}>
-              {t("footer.terms")}
-            </a>
-            <a href="/confidentiality" onClick={(e) => { e.preventDefault(); navigate('/confidentiality'); }}>
-              {t("footer.privacy")}
-            </a>
-          </div>
-          
-          <div className="footer-social">
-            <a href="mailto:hello@mistogo.com" className="footer-email">
-              hello@mistogo.com
-            </a>
-            <div className="social-icons">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Instagram">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2C14.717 2 15.056 2.01 16.122 2.06C17.187 2.11 17.912 2.277 18.55 2.525C19.21 2.779 19.766 3.123 20.322 3.678C20.8305 4.1779 21.224 4.78259 21.475 5.45C21.722 6.087 21.89 6.813 21.94 7.878C21.987 8.944 22 9.283 22 12C22 14.717 21.99 15.056 21.94 16.122C21.89 17.187 21.722 17.912 21.475 18.55C21.2247 19.2178 20.8311 19.8226 20.322 20.322C19.822 20.8303 19.2173 21.2238 18.55 21.475C17.913 21.722 17.187 21.89 16.122 21.94C15.056 21.987 14.717 22 12 22C9.283 22 8.944 21.99 7.878 21.94C6.813 21.89 6.088 21.722 5.45 21.475C4.78233 21.2245 4.17753 20.8309 3.678 20.322C3.16941 19.8222 2.77593 19.2175 2.525 18.55C2.277 17.913 2.11 17.187 2.06 16.122C2.013 15.056 2 14.717 2 12C2 9.283 2.01 8.944 2.06 7.878C2.11 6.812 2.277 6.088 2.525 5.45C2.77524 4.78218 3.1688 4.17732 3.678 3.678C4.17767 3.16923 4.78243 2.77573 5.45 2.525C6.088 2.277 6.812 2.11 7.878 2.06C8.944 2.013 9.283 2 12 2ZM12 7C10.6739 7 9.40215 7.52678 8.46447 8.46447C7.52678 9.40215 7 10.6739 7 12C7 13.3261 7.52678 14.5979 8.46447 15.5355C9.40215 16.4732 10.6739 17 12 17C13.3261 17 14.5979 16.4732 15.5355 15.5355C16.4732 14.5979 17 13.3261 17 12C17 10.6739 16.4732 9.40215 15.5355 8.46447C14.5979 7.52678 13.3261 7 12 7ZM18.5 6.75C18.5 6.41848 18.3683 6.10054 18.1339 5.86612C17.8995 5.6317 17.5815 5.5 17.25 5.5C16.9185 5.5 16.6005 5.6317 16.3661 5.86612C16.1317 6.10054 16 6.41848 16 6.75C16 7.08152 16.1317 7.39946 16.3661 7.63388C16.6005 7.8683 16.9185 8 17.25 8C17.5815 8 17.8995 7.8683 18.1339 7.63388C18.3683 7.39946 18.5 7.08152 18.5 6.75ZM12 9C12.7956 9 13.5587 9.31607 14.1213 9.87868C14.6839 10.4413 15 11.2044 15 12C15 12.7956 14.6839 13.5587 14.1213 14.1213C13.5587 14.6839 12.7956 15 12 15C11.2044 15 10.4413 14.6839 9.87868 14.1213C9.31607 13.5587 9 12.7956 9 12C9 11.2044 9.31607 10.4413 9.87868 9.87868C10.4413 9.31607 11.2044 9 12 9Z" fill="white"/>
-                </svg>
-              </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Facebook">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 17.9895 4.3882 22.954 10.125 23.8542V15.4688H7.07812V12H10.125V9.35625C10.125 6.34875 11.9166 4.6875 14.6576 4.6875C15.9701 4.6875 17.3438 4.92188 17.3438 4.92188V7.875H15.8306C14.34 7.875 13.875 8.80008 13.875 9.75V12H17.2031L16.6711 15.4688H13.875V23.8542C19.6118 22.954 24 17.9895 24 12Z" fill="white"/>
-                </svg>
-              </a>
+            {/* Верхня частина футера */}
+            <div className="footer-top">
+              <nav className="footer-nav">
+                <a 
+                  onClick={() => navigate("/transport")}
+                  className={location.pathname === "/transport" ? "footer-nav-link-active" : ""}
+                >
+                  {t("transport")}
+                </a>
+                <a 
+                  onClick={() => navigate("/zones")}
+                  className={location.pathname === "/zones" ? "footer-nav-link-active" : ""}
+                >
+                  {t("zones.short_zone")}
+                </a>
+                <a 
+                  onClick={() => navigate("/blog")}
+                  className={location.pathname === "/blog" ? "footer-nav-link-active" : ""}
+                >
+                  {t("blog")}
+                </a>
+                <a 
+                  onClick={() => navigate("/support")}
+                  className={location.pathname === "/support" ? "footer-nav-link-active" : ""}
+                >
+                  {t("contacts")}
+                </a>
+              </nav>
+
+              <div className="footer-center">
+                <h2 className="footer-logo">MistoGo</h2>
+                <p className="footer-tagline">{t("footer.tagline")}</p>
+              </div>
+
+              <div className="footer-right">
+                <span
+                  className={`footer-questions ${location.pathname === "/faq" ? "footer-questions-active" : ""}`}
+                  onClick={() => navigate("/faq")}
+                >
+                  {t("faq.title")}
+                </span>
+
+                <button className="footer-language" onClick={toggleLanguage}>
+                  {i18n.language === "uk" ? "UKR" : "ENG"} |{" "}
+                  {i18n.language === "uk" ? "₴ UAH" : "$ USD"}
+                </button>
+
+                <button
+                  className={`footer-login ${location.pathname === "/auth/login" ? "footer-login-active" : ""}`}
+                  onClick={() => navigate("/auth/login")}
+                >
+                  {t("login.title")}
+                </button>
+
+                <button
+                  className={`footer-theme-toggle ${isDarkMode ? "dark" : ""}`}
+                  onClick={toggleTheme}
+                  aria-label="Toggle theme"
+                >
+                  <svg
+                    width="59"
+                    height="31"
+                    viewBox="0 0 59 31"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clipPath="url(#clip0_footer_theme)">
+                      <rect
+                        x="1.5"
+                        y="1.5"
+                        width="56"
+                        height="28"
+                        rx="14"
+                        stroke="white"
+                        strokeWidth="3"
+                      />
+                      <g
+                        className="toggle-circle"
+                        style={{
+                          transform: isDarkMode
+                            ? "translateX(28px)"
+                            : "translateX(0)",
+                          transition: "transform 0.3s ease",
+                        }}
+                      >
+                        {/* Світла тема - Сонце */}
+                        {!isDarkMode && (
+                          <>
+                            <circle
+                              cx="15.5"
+                              cy="15.5"
+                              r="12.5"
+                              stroke="white"
+                              strokeWidth="3"
+                            />
+                            <circle cx="15.5" cy="15.5" r="3.5" fill="white" />
+                            <ellipse cx="22.5" cy="15.639" rx="1.5" ry="0.5" fill="white" />
+                            <ellipse
+                              cx="8.5"
+                              cy="15.639"
+                              rx="1.5"
+                              ry="0.5"
+                              transform="rotate(180 8.5 15.639)"
+                              fill="white"
+                            />
+                            <ellipse
+                              cx="15.5"
+                              cy="8.63898"
+                              rx="1.5"
+                              ry="0.5"
+                              transform="rotate(-90 15.5 8.63898)"
+                              fill="white"
+                            />
+                            <ellipse
+                              cx="15.5"
+                              cy="22.639"
+                              rx="1.5"
+                              ry="0.5"
+                              transform="rotate(90 15.5 22.639)"
+                              fill="white"
+                            />
+                            <ellipse
+                              cx="20.7354"
+                              cy="20.8927"
+                              rx="1.49622"
+                              ry="0.641236"
+                              transform="rotate(45 20.7354 20.8927)"
+                              fill="white"
+                            />
+                            <ellipse
+                              cx="10.2646"
+                              cy="10.6632"
+                              rx="1.49622"
+                              ry="0.641236"
+                              transform="rotate(-135 10.2646 10.6632)"
+                              fill="white"
+                            />
+                            <ellipse
+                              cx="20.7355"
+                              cy="10.422"
+                              rx="1.47102"
+                              ry="0.630439"
+                              transform="rotate(-45 20.7355 10.422)"
+                              fill="white"
+                            />
+                            <ellipse
+                              cx="10.2645"
+                              cy="21.1339"
+                              rx="1.47102"
+                              ry="0.630439"
+                              transform="rotate(135 10.2645 21.1339)"
+                              fill="white"
+                            />
+                          </>
+                        )}
+
+                        {/* Темна тема - Місяць */}
+                        {isDarkMode && (
+                          <>
+                            <circle cx="15.5" cy="15.5" r="12.5" stroke="white" strokeWidth="3" fill="none" />
+                            <path 
+                              d="M12.5557 8.60059C11.583 9.80276 11 11.3332 11 13C11 16.866 14.134 20 18 20C19.6668 20 21.1963 19.416 22.3984 18.4434C21.254 21.1221 18.5971 23 15.5 23C11.3579 23 8 19.6421 8 15.5C8 12.4031 9.87722 9.74509 12.5557 8.60059Z" 
+                              fill="white"
+                            />
+                          </>
+                        )}
+                      </g>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_footer_theme">
+                        <rect width="59" height="31" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </button>
+              </div>
             </div>
-          </div>
-          
-          <div className="footer-credits">
-            <span className="footer-cookies" style={{cursor: 'pointer'}}>
-              {t("footer.cookies")}
-            </span>
-            <span className="footer-copyright">© 2025 MistoGo</span>
+
+            {/* Нижня частина футера */}
+            <div className="footer-bottom">
+              <div className="footer-legal">
+                <a 
+                  onClick={() => navigate("/privacy")}
+                  className={location.pathname === "/privacy" ? "footer-legal-link-active" : ""}
+                >
+                  {t("footer.terms")}
+                </a>
+                <a 
+                  onClick={() => navigate("/confidentiality")}
+                  className={location.pathname === "/confidentiality" ? "footer-legal-link-active" : ""}
+                >
+                  {t("footer.privacy")}
+                </a>
+              </div>
+
+              <div className="footer-social">
+                <a href="mailto:hello@mistogo.com" className="footer-email">
+                  hello@mistogo.com
+                </a>
+
+                <div className="social-icons">
+                  <a href="https://instagram.com" className="social-icon" target="_blank" rel="noopener noreferrer">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                  </a>
+                  <a href="https://facebook.com" className="social-icon" target="_blank" rel="noopener noreferrer">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <div className="footer-credits">
+                <span className="footer-cookies">{t("footer.cookies")}</span>
+                <span className="footer-copyright">© 2025 MistoGo</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
