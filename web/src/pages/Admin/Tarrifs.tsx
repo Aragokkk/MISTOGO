@@ -1,14 +1,5 @@
-import BackHomeButton from "../../components/BackHomeButton";
-import BackButton from "../../components/BackButton";
+import TableView from "./TableView";
 
-function Tariffs() {
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Адмінпанель – Тарифи</h1>
-      <BackHomeButton />
-      <BackButton />
-    </div>
-  );
+export default function Tarrifs() {
+  return <TableView tableName="tarrifs" />;
 }
-
-export default Tariffs;

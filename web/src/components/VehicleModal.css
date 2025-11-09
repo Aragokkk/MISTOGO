@@ -1,0 +1,530 @@
+:root {
+  --silver: #f2f2f2;
+  --green: #AFD06E;
+  --gray-text: #4B4B4B;
+  --dark-bg: #252a2e;
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  
+  /* Light theme colors */
+  --detail-card-bg: #f2f2f2;
+  --detail-text-color: #333;
+  --detail-info-card-bg: white;
+  --detail-info-text: #666;
+  --detail-year-bg: rgba(255, 255, 255, 0.9);
+  --detail-year-text: #333;
+  --detail-silver-bg: #d7d7d7;
+  --detail-silver-text: #4B4B4B;
+  --detail-arrow-stroke: #4B4B4B; /* ← НОВИЙ */
+}
+
+[data-theme="dark"] {
+  --silver: #3F4D4E;
+  --green: #AFD06E;
+  --gray-text: #ffffff;
+  --dark-bg: #252a2e;
+  
+  /* Dark theme colors */
+  --detail-card-bg: #3F4D4E;
+  --detail-text-color: #ffffff;
+  --detail-info-card-bg: #2a3334;
+  --detail-info-text: #d0d0d0;
+  --detail-year-bg: rgba(63, 77, 78, 0.9);
+  --detail-year-text: #ffffff;
+  --detail-silver-bg: #4a5859;
+  --detail-silver-text: #c0c0c0;
+  --detail-arrow-stroke: #c0c0c0; /* ← СВІТЛІША СТРІЛКА */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background: #e5e5e5;
+  margin: 0;
+  padding: 0;
+}
+
+/* ========== MODAL BACKDROP ========== */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ========== MODAL CONTENT ========== */
+.modal-content {
+  width: 100%;
+  max-width: 1500px;
+  max-height: 95vh;
+  overflow-y: auto;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 36px;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(60px) scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ========== CAR DETAIL CARD ========== */
+.car-detail-card {
+  border-radius: 36px;
+  width: 100%;
+  max-width: 1500px;
+  min-height: auto;
+  height: auto;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.25);
+  background: var(--detail-card-bg);
+  padding: 50px 40px;
+  position: relative;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  overflow: visible;
+}
+
+.back-arrow {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.back-arrow:hover {
+  transform: translateX(-5px);
+}
+
+.back-arrow svg path {
+  stroke: var(--detail-arrow-stroke);
+  transition: stroke 0.3s ease;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-left: 80px;
+}
+
+.header h1 {
+  font-size: 48px;
+  font-weight: 600;
+  color: var(--detail-text-color);
+  font-family: var(--font-family);
+}
+
+.content {
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+  width: 100%;
+  justify-content: center;
+}
+
+.left-section {
+  display: flex;
+  flex-direction: column;
+  width: 680px;
+  flex-shrink: 0;
+}
+
+.image-container {
+  border-radius: 30px;
+  width: 680px;
+  height: 360px;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.25);
+  background: var(--dark-bg);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.detail-car-image {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.car-year {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: var(--detail-year-bg);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  color: var(--detail-year-text);
+}
+
+.arrow-left,
+.arrow-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: transform 0.2s;
+  z-index: 10;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.arrow-left {
+  left: 20px;
+}
+
+.arrow-right {
+  right: 20px;
+}
+
+.arrow-left:hover {
+  transform: translateY(-50%) translateX(-5px);
+}
+
+.arrow-right:hover {
+  transform: translateY(-50%) translateX(5px);
+}
+
+.image-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 0;
+}
+
+.indicator.active {
+  background: var(--green);
+  width: 30px;
+  border-radius: 5px;
+}
+
+.info-cards {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.info-card {
+  border-radius: 30px;
+  flex: 1;
+  height: 292px;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.25);
+  background: var(--detail-info-card-bg);
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.info-card h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--detail-text-color);
+  margin-bottom: 20px;
+  font-family: var(--font-family);
+}
+
+.info-card p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--detail-info-text);
+  font-family: var(--font-family);
+}
+
+.right-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 680px;
+  height: 360px;
+  flex-shrink: 0;
+  border-radius: 30px;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.25);
+  background: var(--detail-card-bg);
+  padding: 20px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+}
+
+.features-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: auto;
+  justify-content: center;
+}
+
+.feature-item {
+  height: 56px;
+  border-radius: 28px;
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 500;
+  font-size: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: var(--font-family);
+  transition: transform 0.2s;
+  box-sizing: border-box;
+  color: var(--detail-text-color);
+}
+
+.feature-item:nth-child(odd) {
+  width: 360px;
+}
+
+.feature-item:nth-child(even) {
+  width: 210px;
+}
+
+.register-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 360px;
+}
+
+.register-wrapper .feature-item {
+  width: 100%;
+  margin: 0;
+}
+
+.register-wrapper .link-text {
+  font-size: 12px;
+  color: var(--gray-text);
+  text-align: center;
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+}
+
+.feature-item:hover {
+  transform: translateY(-2px);
+}
+
+.feature-item.green {
+  background: var(--green);
+  color: #333;
+}
+
+.feature-item.silver {
+  background: var(--detail-silver-bg);
+  color: var(--detail-silver-text);
+}
+
+.feature-item.disabled {
+  background: var(--detail-silver-bg);
+  color: var(--detail-silver-text);
+}
+
+.feature-item.charge-full {
+  background: #AFD06E;
+  color: #333;
+}
+
+.feature-item.charge-good {
+  background: #C5E096;
+  color: #333;
+}
+
+.feature-item.charge-medium {
+  background: #FFB84D;
+  color: #333;
+}
+
+.feature-item.charge-low {
+  background: #FF6B6B;
+  color: white;
+}
+
+.feature-item.charge-critical {
+  background: #D32F2F;
+  color: white;
+}
+
+.link-text {
+  font-size: 14px;
+  color: var(--gray-text);
+  text-align: center;
+  margin-top: 5px;
+  font-family: var(--font-family);
+  width: 100%;
+}
+
+/* ================= LOADING & ERROR STATES ================= */
+.car-card-loading,
+.car-card-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 40px;
+  color: var(--detail-text-color);
+  gap: 20px;
+}
+
+.car-card-loading .spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(175, 208, 110, 0.3);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.car-card-error button {
+  padding: 12px 30px;
+  background: var(--green);
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d3a17;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+}
+
+.car-card-error button:hover {
+  background: #91B556;
+  transform: translateY(-2px);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1800px) {
+  .car-detail-card {
+    width: 95%;
+    height: auto;
+    padding: 30px;
+  }
+
+  .content {
+    flex-direction: column;
+  }
+
+  .left-section,
+  .right-section {
+    width: 100%;
+  }
+
+  .image-container {
+    width: 100%;
+  }
+
+  .features-grid {
+    width: 100%;
+  }
+
+  .feature-item {
+    width: calc(50% - 7.5px);
+  }
+
+  .info-cards {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-backdrop {
+    padding: 10px;
+  }
+
+  .car-detail-card {
+    padding: 20px;
+    border-radius: 20px;
+    min-height: auto;
+  }
+
+  .header {
+    padding-left: 60px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+  }
+
+  .back-arrow {
+    top: 20px;
+    left: 20px;
+  }
+
+  .image-container {
+    height: 300px;
+  }
+
+  .info-card {
+    height: auto;
+    padding: 20px;
+  }
+
+  .info-card h3 {
+    font-size: 20px;
+  }
+
+  .info-card p {
+    font-size: 14px;
+  }
+
+  .feature-item,
+  .feature-item:nth-child(odd),
+  .feature-item:nth-child(even),
+  .register-wrapper {
+    width: 100%;
+  }
+}

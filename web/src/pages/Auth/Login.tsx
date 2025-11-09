@@ -38,7 +38,7 @@ function Login() {
     try {
       const response = await authService.login(formData);
       if (response.success && response.user) {
-        navigate('/');
+        navigate('/user/profile');
       } else {
         setError(t('login.invalid_server_response'));
       }

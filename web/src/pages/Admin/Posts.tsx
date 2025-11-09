@@ -1,14 +1,5 @@
-import BackHomeButton from "../../components/BackHomeButton";
-import BackButton from "../../components/BackButton";
+import TableView from "./TableView";
 
-function AdminPosts() {
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Адмінпанель – Публікації</h1>
-      <BackHomeButton />
-      <BackButton />
-    </div>
-  );
+export default function Posts() {
+  return <TableView tableName="blog_posts" />;
 }
-
-export default AdminPosts;

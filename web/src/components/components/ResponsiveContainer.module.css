@@ -1,0 +1,54 @@
+/* ResponsiveContainer.module.css */
+
+/* Базовий контейнер */
+.responsiveContainer {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* Максимальні ширини */
+.maxWidthDesktop {
+    max-width: 1920px;
+}
+
+.maxWidthTablet {
+    max-width: 1280px;
+}
+
+.maxWidthMobile {
+    max-width: 768px;
+}
+
+.maxWidthFull {
+    max-width: 100%;
+}
+
+/* Desktop - 1280px і більше */
+@media (min-width: 1280px) {
+    .responsiveContainer {
+        padding: 0 40px;
+    }
+}
+
+/* Tablet - від 768px до 1279px */
+@media (min-width: 768px) and (max-width: 1279px) {
+    .responsiveContainer {
+        padding: 0 30px;
+    }
+}
+
+/* Mobile - до 767px */
+@media (max-width: 767px) {
+    .responsiveContainer {
+        padding: 0 16px;
+    }
+}
+
+/* Дуже маленькі екрани - до 360px */
+@media (max-width: 360px) {
+    .responsiveContainer {
+        padding: 0 12px;
+    }
+}

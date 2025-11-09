@@ -1,8 +1,8 @@
-// src/App.tsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
+import TableView from "./pages/Admin/TableView";
 
 // Публічні сторінки
 import Home from "./pages/Home/Home";
@@ -35,10 +35,15 @@ import Settings from "./pages/User/Settings";
 // Адмін
 import Admin from "./pages/Admin/Admin";
 import Vehicles from "./pages/Admin/Vehicles";
+import VehicleForm from "./pages/Admin/VehicleForm";
 import Users from "./pages/Admin/Users";
+import UserForm from "./pages/Admin/UserForm";
 import Tarrifs from "./pages/Admin/Tarrifs";
 import ZonesAdmin from "./pages/Admin/Zones";
+import ZoneForm from "./pages/Admin/ZoneForm";
 import Posts from "./pages/Admin/Posts";
+import BlogPostForm from "./pages/Admin/BlogPostForm";
+import TripForm from "./pages/Admin/TripForm";
 
 // Службові
 import NotFound from "./pages/System/NotFound";
@@ -79,11 +84,33 @@ export default function App() {
 
         {/* Адмін */}
         <Route path="/admin" element={<Admin />} />
+        
+        {/* Vehicles */}
         <Route path="/admin/vehicles" element={<Vehicles />} />
+        <Route path="/admin/vehicles/new" element={<VehicleForm />} />
+        <Route path="/admin/vehicles/edit/:id" element={<VehicleForm />} />
+        
+        {/* Users */}
         <Route path="/admin/users" element={<Users />} />
-        <Route path="/admin/tarrifs" element={<Tarrifs />} />
+        <Route path="/admin/users/new" element={<UserForm />} />
+        <Route path="/admin/users/edit/:id" element={<UserForm />} />
+        
+        {/* Zones */}
         <Route path="/admin/zones" element={<ZonesAdmin />} />
+        <Route path="/admin/zones/new" element={<ZoneForm />} />
+        <Route path="/admin/zones/edit/:id" element={<ZoneForm />} />
+        
+        {/* Blog Posts */}
         <Route path="/admin/posts" element={<Posts />} />
+        <Route path="/admin/posts/new" element={<BlogPostForm />} />
+        <Route path="/admin/posts/edit/:id" element={<BlogPostForm />} />
+        
+        {/* Trips */}
+        <Route path="/admin/trips/view/:id" element={<TripForm />} />
+        
+        {/* Other */}
+        <Route path="/admin/tarrifs" element={<Tarrifs />} />
+        <Route path="/admin/tables/:tableName" element={<TableView />} />
 
         {/* Службові */}
         <Route path="/unauthorized" element={<Unauthorized />} />

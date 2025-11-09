@@ -1,0 +1,555 @@
+/* ================= VARS ================= */
+:root {
+  --navbar-width: 1920px;
+  --navbar-height: 66px;
+  --ff: "Montserrat", sans-serif;
+  --ff2: "Inter", sans-serif;
+  
+  /* Градієнт для навбара - світла тема */
+  --navbar-gradient: linear-gradient(136deg, #8dba97 0%, #7cacab 100%);
+  
+  /* Колір hover для світлої теми - темно-зелений */
+  --navbar-hover-color: #4d8a26;
+  
+  /* Колір активної ссілки для світлої теми */
+  --navbar-active-color: #4d8a26;
+}
+
+/* Темна тема */
+[data-theme="dark"] {
+  /* Градієнт для навбара - темна тема */
+  --navbar-gradient: linear-gradient(136deg, #5B7560 0%, #416470 100%);
+  
+  /* Колір hover для темної теми - світліший зелений */
+  --navbar-hover-color: #7db849;
+  
+  /* Колір активної ссілки для темної теми - світліший */
+  --navbar-active-color: #8bc956;
+}
+
+/* Основні стилі для navbar */
+.navbar-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--navbar-gradient);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #fff;
+}
+
+.navbar-container {
+  width: 100%;
+  padding: 0 20px;
+}
+
+.navbar-fit {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  gap: 20px;
+}
+
+/* Лого */
+.navbar-logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 60px 0;
+  padding: 6px 24px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+}
+
+.navbar-logo:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 900;
+  font-style: italic;
+  color: #1d2a62;
+  font-family: "Inter", Helvetica, sans-serif;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+/* Навігаційні посилання */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 1;
+}
+
+.navbar-link {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+  color: #fff;
+  transition: color 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.navbar-link:hover {
+  color: var(--navbar-hover-color);
+}
+
+.navbar-link-active {
+  color: var(--navbar-active-color);
+  font-weight: 600;
+}
+
+/* Права секція */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+/* Кнопка входу */
+.navbar-login {
+  text-decoration: none;
+  padding: 10px 24px;
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.navbar-login:hover {
+  transform: translateY(-1px);
+  border-color: var(--navbar-hover-color);
+  color: var(--navbar-hover-color);
+}
+
+.navbar-login.navbar-link-active {
+  border-color: var(--navbar-active-color);
+  color: var(--navbar-active-color);
+}
+
+/* Перемикач теми */
+.theme-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: transform 0.1s ease;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+}
+
+.theme-toggle:active {
+  transform: scale(0.96);
+}
+
+.theme-toggle svg {
+  display: block;
+}
+
+.theme-toggle svg rect,
+.theme-toggle svg circle {
+  transition: stroke 0.3s ease;
+}
+
+.theme-toggle:hover svg rect,
+.theme-toggle:hover svg circle {
+  stroke: var(--navbar-hover-color);
+}
+
+/* Кнопка мови та валюти */
+.lang-currency {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+  color: #fff;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.lang-currency:hover {
+  color: var(--navbar-hover-color);
+}
+
+.lang-text,
+.currency-text {
+  color: inherit;
+}
+
+.separator {
+  width: 2px;
+  height: 15px;
+  background-color: currentColor;
+  margin: 0 2px;
+}
+
+/* Запобігання переносу тексту для десктопу */
+@media (min-width: 1024px) {
+  .navbar-inner {
+    flex-wrap: nowrap;
+  }
+}
+
+/* Адаптація для середніх десктопів (1200-1439px) */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .navbar-container {
+    padding: 0 16px;
+  }
+  
+  .navbar-inner {
+    gap: 16px;
+  }
+
+  .navbar-links {
+    gap: 18px;
+  }
+
+  .navbar-right {
+    gap: 12px;
+  }
+
+  .navbar-link {
+    font-size: 15px;
+    padding: 7px 10px;
+  }
+
+  .navbar-login {
+    font-size: 15px;
+    padding: 9px 20px;
+  }
+
+  .lang-currency {
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+
+  .logo-text {
+    font-size: 22px;
+  }
+
+  .navbar-logo {
+    padding: 5px 20px;
+  }
+}
+
+/* Адаптація для малих десктопів (1024-1199px) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .navbar-container {
+    padding: 0 12px;
+  }
+  
+  .navbar-inner {
+    gap: 12px;
+  }
+
+  .navbar-links {
+    gap: 14px;
+  }
+
+  .navbar-right {
+    gap: 10px;
+  }
+
+  .navbar-link {
+    font-size: 14px;
+    padding: 6px 8px;
+  }
+
+  .navbar-login {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .lang-currency {
+    padding: 6px 10px;
+    font-size: 12px;
+    gap: 4px;
+  }
+
+  .logo-text {
+    font-size: 20px;
+  }
+
+  .navbar-logo {
+    padding: 5px 18px;
+  }
+  
+  .theme-toggle {
+    width: 48px;
+    height: 25px;
+  }
+  
+  .theme-toggle svg {
+    width: 48px;
+    height: 25px;
+  }
+}
+
+/* Планшети */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .navbar-inner {
+    gap: 12px;
+    padding: 12px 0;
+  }
+
+  .navbar-links {
+    gap: 12px;
+  }
+
+  .navbar-right {
+    gap: 10px;
+  }
+
+  .navbar-link,
+  .navbar-login {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .lang-currency {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .logo-text {
+    font-size: 20px;
+  }
+  
+  .navbar-logo {
+    padding: 5px 18px;
+  }
+  
+  .theme-toggle {
+    width: 48px;
+    height: 25px;
+  }
+  
+  .theme-toggle svg {
+    width: 48px;
+    height: 25px;
+  }
+}
+
+/* Мобільні пристрої (до 767px) */
+@media (max-width: 767px) {
+  .navbar-container {
+    padding: 0 12px;
+  }
+
+  .navbar-inner {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 0;
+  }
+
+  .navbar-logo {
+    padding: 4px 16px;
+    height: 28px;
+  }
+
+  .logo-text {
+    font-size: 16px;
+  }
+
+  .navbar-links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .navbar-link {
+    font-size: 12px;
+    padding: 5px 8px;
+    white-space: nowrap;
+  }
+
+  .navbar-right {
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+
+  .navbar-login {
+    font-size: 12px;
+    padding: 6px 14px;
+    white-space: nowrap;
+  }
+
+  .lang-currency {
+    padding: 5px 8px;
+    font-size: 11px;
+    gap: 4px;
+  }
+  
+  .separator {
+    width: 1px;
+    height: 12px;
+  }
+  
+  .theme-toggle {
+    width: 42px;
+    height: 22px;
+  }
+  
+  .theme-toggle svg {
+    width: 42px;
+    height: 22px;
+  }
+}
+
+/* Маленькі мобільні (до 480px) */
+@media (max-width: 480px) {
+  .navbar-container {
+    padding: 0 8px;
+  }
+
+  .navbar-inner {
+    gap: 6px;
+    padding: 8px 0;
+  }
+
+  .navbar-logo {
+    padding: 3px 12px;
+    height: 24px;
+  }
+
+  .logo-text {
+    font-size: 14px;
+  }
+
+  .navbar-links {
+    gap: 4px;
+  }
+
+  .navbar-link {
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+
+  .navbar-right {
+    gap: 4px;
+  }
+
+  .navbar-login {
+    font-size: 11px;
+    padding: 5px 12px;
+  }
+
+  .lang-currency {
+    padding: 4px 6px;
+    font-size: 10px;
+    gap: 3px;
+  }
+  
+  .separator {
+    width: 1px;
+    height: 10px;
+  }
+  
+  .theme-toggle {
+    width: 38px;
+    height: 20px;
+  }
+  
+  .theme-toggle svg {
+    width: 38px;
+    height: 20px;
+  }
+}
+
+/* Дуже маленькі мобільні (до 360px) */
+@media (max-width: 360px) {
+  .navbar-container {
+    padding: 0 6px;
+  }
+
+  .navbar-inner {
+    gap: 5px;
+    padding: 6px 0;
+  }
+
+  .navbar-logo {
+    padding: 2px 10px;
+    height: 22px;
+  }
+
+  .logo-text {
+    font-size: 12px;
+  }
+
+  .navbar-links {
+    gap: 3px;
+  }
+
+  .navbar-link {
+    font-size: 10px;
+    padding: 3px 5px;
+  }
+
+  .navbar-right {
+    gap: 3px;
+  }
+
+  .navbar-login {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  .lang-currency {
+    padding: 3px 5px;
+    font-size: 9px;
+    gap: 2px;
+  }
+  
+  .separator {
+    width: 1px;
+    height: 8px;
+  }
+  
+  .theme-toggle {
+    width: 34px;
+    height: 18px;
+  }
+  
+  .theme-toggle svg {
+    width: 34px;
+    height: 18px;
+  }
+}

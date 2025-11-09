@@ -1,0 +1,1063 @@
+/* ================= VARS ================= */
+
+:root {
+  --shadow-for-block: 0px 0px 12px 0px rgba(0, 0, 0, 0.25);
+  --variable-collection-color-text: rgba(30, 30, 30, 1);
+  --variable-collection-gray-text: rgba(75, 75, 75, 1);
+  --variable-collection-green: rgba(175, 208, 110, 1);
+  --variable-collection-silver: rgba(237, 237, 237, 1);
+  --variable-collection-white: rgba(255, 255, 255, 1);
+  --variable-collection-white-text: rgba(255, 255, 255, 1);
+  --silver: #EDEDED;
+  --green: #AFD06E;
+  --gray-text: #4B4B4B;
+  --white-nuche: #FFFFFF;
+  --icon-color: #4B4B4B;
+  --font-family: "Montserrat", sans-serif;
+  
+  --bg-gradient: linear-gradient(134deg, #8dba97 0%, #598889 100%);
+  --navbar-gradient: linear-gradient(136deg, #8dba97 0%, #7cacab 100%);
+}
+
+[data-theme="dark"] {
+  --variable-collection-color-text: #ffffff;
+  --variable-collection-gray-text: #ffffff;
+  --variable-collection-silver: #3F4D4E;
+  --variable-collection-white: #5B7860;
+  --variable-collection-white-text: #ffffff;
+  --silver: #3F4D4E;
+  --gray-text: #ffffff;
+  --icon-color: #ffffff;
+  
+  --bg-gradient: linear-gradient(to right, #5B7560 0%, #416470 100%);
+  --navbar-gradient: linear-gradient(136deg, #5B7560 0%, #416470 100%);
+}
+
+/* ================= GLOBAL ================= */
+* { 
+  box-sizing: border-box; 
+}
+
+html, body, #root { 
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: var(--font-family);
+}
+
+/* ================= PAGE ================= */
+.profile-page {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* ================= PAGE HEADER ================= */
+.page-header-section {
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 40px 90px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.back-button {
+  width: 60px;
+  height: 60px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.back-button:hover {
+  transform: translateX(-5px);
+}
+
+.back-button svg {
+  width: 50px;
+  height: 50px;
+}
+
+.page-main-title {
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* ================= PROFILE CONTENT ================= */
+.profile-content {
+  max-width: 1740px;
+  margin: 0 auto;
+  padding: 0 90px 80px;
+  display: grid;
+  grid-template-columns: 672px 672px 316px;
+  grid-template-rows: auto auto auto auto;
+  gap: 40px;
+  align-items: start;
+}
+
+/* ================= LEFT COLUMN ================= */
+.profile-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  grid-column: 1;
+  grid-row: 1 / 4;
+}
+
+/* User Info Card */
+.user-info-card {
+  width: 672px;
+  height: 209px;
+  background: var(--silver);
+  border-radius: 30px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  padding: 30px;
+  gap: 25px;
+  position: relative;
+}
+
+.user-photo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-photo-placeholder {
+  width: 120px;
+  height: 120px;
+  background: #cacaca;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-photo-placeholder svg {
+  color: var(--icon-color);
+}
+
+.user-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.photo-upload-button {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--gray-text);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.photo-upload-button:hover {
+  opacity: 0.7;
+}
+
+.user-info-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.user-name {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.user-subtitle {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.bonus-badge {
+  width: 160px;
+  height: 63px;
+  background: #cacaca;
+  border-radius: 0 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.bonus-points {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--gray-text);
+}
+
+.bonus-label {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--gray-text);
+}
+
+/* Rental History Card */
+.rental-history-card {
+  width: 672px;
+  height: 625px;
+  background: var(--silver);
+  border-radius: 30px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section-card-title {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.rental-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-right: 10px;
+}
+
+.rental-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+.rental-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.rental-list::-webkit-scrollbar-thumb {
+  background: #cacaca;
+  border-radius: 5px;
+}
+
+.rental-item {
+  width: 100%;
+  min-height: 145px;
+  background: linear-gradient(135deg, #8dba97 0%, #7cacab 100%);
+  border-radius: 20px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 15px;
+  align-items: center;
+}
+
+.rental-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rental-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.rental-vehicle-name {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--white-nuche);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.rental-details {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.rental-date {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--white-nuche);
+}
+
+.rental-status {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.rental-status.status-active {
+  background: #AFD06E;
+  color: #1d3a17;
+}
+
+.rental-status.status-completed {
+  background: #7cacab;
+  color: white;
+}
+
+.rental-status.status-cancelled {
+  background: #e74c3c;
+  color: white;
+}
+
+.rental-price-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.rental-price {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--white-nuche);
+  white-space: nowrap;
+}
+
+.rental-action-button {
+  width: 311px;
+  height: 42px;
+  background: var(--green);
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: #1d3a17;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.rental-action-button:hover {
+  background: #91B556;
+  transform: translateY(-2px);
+}
+
+.rental-action-button svg {
+  stroke: #1d3a17;
+  stroke-width: 2px;
+  flex-shrink: 0;
+}
+
+/* Settings Button */
+.settings-button {
+  width: 671px;
+  height: 59px;
+  background: var(--green);
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 18px;
+  color: #1d3a17;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  grid-column: 1;
+  grid-row: 4;
+}
+
+.settings-button:hover {
+  background: #91B556;
+  transform: translateY(-2px);
+}
+
+.settings-button svg {
+  stroke: #1d3a17;
+  stroke-width: 2px;
+}
+
+/* ================= MIDDLE COLUMN ================= */
+.profile-middle-column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  grid-column: 2;
+  grid-row: 1 / 4;
+}
+
+/* Driver License Card */
+.driver-license-card {
+  width: 672px;
+  height: 209px;
+  background: var(--silver);
+  border-radius: 30px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  position: relative;
+}
+
+.driver-license-card svg {
+  flex-shrink: 0;
+}
+
+.driver-license-card svg path {
+  stroke: var(--icon-color);
+}
+
+.card-text-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-main-title {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.card-subtitle {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.add-button {
+  width: 111px;
+  height: 42px;
+  border: 3px solid var(--gray-text);
+  border-radius: 30px;
+  padding: 10px 20px;
+  background: transparent;
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--gray-text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+}
+
+.add-button:hover {
+  background: var(--gray-text);
+  color: var(--silver);
+}
+
+/* Save Card */
+.save-card-card {
+  width: 672px;
+  height: 284px;
+  background: var(--silver);
+  border-radius: 30px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+}
+
+.save-card-card svg {
+  margin-top: 0;
+}
+
+.save-card-card .card-text-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.save-card-card .card-main-title {
+  text-align: center;
+}
+
+.save-card-card svg path {
+  stroke: var(--icon-color);
+}
+
+.card-description {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--gray-text);
+  text-align: center;
+  margin: 0;
+  max-width: 550px;
+}
+
+.add-button-text {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--gray-text);
+  background: transparent;
+  border: 3px solid var(--gray-text);
+  border-radius: 30px;
+  padding: 10px 20px;
+  width: 111px;
+  height: 42px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+}
+
+.add-button-text:hover {
+  background: var(--gray-text);
+  color: var(--silver);
+}
+
+/* Notifications Card - на 2 колонки */
+.notifications-card {
+  width: 1028px;
+  height: 305px;
+  background: var(--silver);
+  border-radius: 30px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  grid-column: 2 / 4;
+  grid-row: 3;
+}
+
+.card-title-large {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  width: 100%;
+  min-height: 111px;
+  background: linear-gradient(135deg, #8dba97 0%, #7cacab 100%);
+  border-radius: 23px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.notification-item svg {
+  flex-shrink: 0;
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.notification-bonus {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 32px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.notification-text {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: white;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ================= RIGHT COLUMN ================= */
+.profile-right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+/* Edit Profile Card */
+.edit-profile-card {
+  width: 316px;
+  height: 209px;
+  background: var(--silver);
+  border-radius: 30px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Feedback Card */
+.feedback-card {
+  width: 316px;
+  height: 284px;
+  background: var(--silver);
+  border-radius: 30px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.feedback-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-subtitle-small {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+/* Logout Button - справа знизу на рівні з Налаштування */
+.logout-button {
+  width: 316px;
+  height: 59px;
+  background: var(--green);
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 18px;
+  color: #1d3a17;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  grid-column: 3;
+  grid-row: 4;
+}
+
+.logout-button:hover {
+  background: #91B556;
+  transform: translateY(-2px);
+}
+
+.logout-button svg {
+  stroke: #1d3a17;
+  stroke-width: 2px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* Desktop Large - 1440px и выше */
+@media (min-width: 1441px) {
+  .profile-content {
+    grid-template-columns: 672px 672px 316px;
+  }
+}
+
+/* iPad Pro 12.9" Landscape и средние десктопы (1200-1440px) */
+@media (max-width: 1440px) and (min-width: 1200px) {
+  .page-header-section {
+    padding: 40px 60px;
+  }
+  
+  .profile-content {
+    padding: 0 60px 80px;
+    grid-template-columns: 1fr 1fr 300px;
+    gap: 30px;
+  }
+  
+  .user-info-card,
+  .rental-history-card,
+  .settings-button,
+  .driver-license-card,
+  .save-card-card,
+  .notifications-card,
+  .logout-button {
+    width: 100%;
+  }
+  
+  .notification-item {
+    width: 100%;
+  }
+  
+  .rental-item {
+    width: 100%;
+  }
+}
+
+/* iPad Landscape / Small Desktop (1025-1199px) */
+@media (max-width: 1199px) and (min-width: 1025px) {
+  .page-header-section {
+    padding: 30px 40px;
+  }
+  
+  .profile-content {
+    padding: 0 40px 60px;
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .user-info-card,
+  .rental-history-card,
+  .settings-button,
+  .driver-license-card,
+  .save-card-card,
+  .notifications-card,
+  .edit-profile-card,
+  .feedback-card,
+  .logout-button {
+    width: 100%;
+    max-width: 672px;
+    margin: 0 auto;
+  }
+  
+  .notification-item {
+    width: 100%;
+  }
+  
+  .rental-item {
+    width: 100%;
+  }
+  
+  .rental-action-button {
+    width: 100%;
+    max-width: 311px;
+  }
+}
+
+/* iPad Portrait / Tablet (768-1024px) */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .page-header-section {
+    padding: 30px 30px;
+  }
+  
+  .page-main-title {
+    font-size: 40px;
+  }
+  
+  .profile-content {
+    padding: 0 30px 60px;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .user-info-card,
+  .rental-history-card,
+  .settings-button,
+  .driver-license-card,
+  .save-card-card,
+  .notifications-card,
+  .edit-profile-card,
+  .feedback-card,
+  .logout-button {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .notification-item,
+  .rental-item {
+    width: 100%;
+  }
+  
+  .card-main-title {
+    font-size: 28px;
+  }
+  
+  .rental-action-button {
+    width: 100%;
+  }
+}
+
+/* Tablet Small / Mobile Large (481-767px) */
+@media (max-width: 767px) and (min-width: 481px) {
+  .page-header-section {
+    padding: 20px;
+  }
+  
+  .page-main-title {
+    font-size: 36px;
+  }
+  
+  .profile-content {
+    padding: 0 20px 40px;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .user-info-card,
+  .rental-history-card,
+  .settings-button,
+  .driver-license-card,
+  .save-card-card,
+  .notifications-card,
+  .edit-profile-card,
+  .feedback-card,
+  .logout-button {
+    width: 100%;
+  }
+  
+  .notification-item,
+  .rental-item {
+    width: 100%;
+  }
+  
+  .card-main-title {
+    font-size: 28px;
+  }
+  
+  .rental-action-button {
+    width: 100%;
+  }
+  
+  .rental-item {
+    grid-template-columns: 60px 1fr;
+    gap: 15px;
+  }
+  
+  .rental-price-section {
+    grid-column: 1 / 3;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+}
+
+/* Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  .page-header-section {
+    padding: 16px 12px;
+    gap: 12px;
+  }
+  
+  .page-main-title {
+    font-size: 26px;
+  }
+  
+  .back-button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .back-button svg {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .profile-content {
+    padding: 0 12px 30px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .user-info-card {
+    height: auto;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 20px;
+  }
+  
+  .user-photo-placeholder,
+  .user-photo {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .user-name {
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .user-subtitle {
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .bonus-badge {
+    position: static;
+    width: 100%;
+    border-radius: 15px;
+  }
+  
+  .rental-history-card {
+    height: 500px;
+    padding: 20px;
+  }
+  
+  .rental-item {
+    height: auto;
+    grid-template-columns: 1fr;
+    padding: 15px;
+    gap: 12px;
+  }
+  
+  .rental-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .rental-info {
+    width: 100%;
+  }
+  
+  .rental-price-section {
+    width: 100%;
+    align-items: stretch;
+  }
+  
+  .rental-action-button {
+    width: 100%;
+  }
+  
+  .driver-license-card,
+  .save-card-card {
+    height: auto;
+    padding: 20px;
+  }
+  
+  .card-main-title {
+    font-size: 24px;
+  }
+  
+  .notifications-card {
+    height: auto;
+    padding: 20px;
+  }
+  
+  .notification-item {
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .edit-profile-card,
+  .feedback-card {
+    height: auto;
+    min-height: 150px;
+  }
+  
+  .settings-button,
+  .logout-button {
+    height: 50px;
+  }
+}
+/* Стилі для водійського посвідчення */
+.view-document-link {
+  color: #1D3A17;
+  text-decoration: underline;
+  font-size: 14px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.view-document-link:hover {
+  color: #4CAF50;
+}
+
+.cancel-button {
+  background: #F44336;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.cancel-button:hover {
+  background: #D32F2F;
+  transform: translateY(-2px);
+}
+
+.error-message {
+  color: #F44336;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}

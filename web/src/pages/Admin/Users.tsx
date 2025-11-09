@@ -1,14 +1,5 @@
-import BackHomeButton from "../../components/BackHomeButton";
-import BackButton from "../../components/BackButton";
+import TableView from "./TableView";
 
-function Users() {
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Адмінпанель – Користувачі</h1>
-      <BackHomeButton />
-      <BackButton />
-    </div>
-  );
+export default function Users() {
+  return <TableView tableName="users" />;
 }
-
-export default Users;

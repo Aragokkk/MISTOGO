@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MistoGO.Data;
+using MistoGO.Models;
 using MistoGO.Services;
 using System;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace MistoGO.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/support_tickets")]
     public class SupportController : ControllerBase
     {
         private readonly ISupportService _supportService;
@@ -24,6 +25,28 @@ namespace MistoGO.Controllers
         {
             _supportService = supportService;
             _context = context;
+        }
+
+        /// <summary>
+        /// GET: api/support_tickets
+        /// Базовий endpoint для отримання всіх тікетів
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetTickets()
+        {
+            try
+            {
+                var tickets = await _context.SupportTickets
+                    .Include(t => t.Messages)
+                    .Include(t => t.User)
+                    .OrderByDescending(t => t.CreatedAt)
+                    .ToListAsync();
+                return Ok(tickets);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
         }
 
         // 🧪 ТЕСТОВИЙ ENDPOINT ДЛЯ TELEGRAM
@@ -155,7 +178,6 @@ namespace MistoGO.Controllers
                 catch (Exception emailEx)
                 {
                     Console.WriteLine($"❌ Email error: {emailEx.Message}");
-                    // Не кидаємо exception - тікет вже створено
                 }
 
                 // 📱 TELEGRAM NOTIFICATION
@@ -497,6 +519,20 @@ namespace MistoGO.Controllers
     }
 
     // ======= DTOs =======
+    public class CreateTicketDto
+    {
+        public string Email { get; set; } = "";
+        public string Subject { get; set; } = "";
+        public string Message { get; set; } = "";
+        public string? Category { get; set; }
+    }
+
+    public class AddMessageDto
+    {
+        public string Message { get; set; } = "";
+        public string? AuthorName { get; set; }
+    }
+
     public class UpdateStatusDto
     {
         public string Status { get; set; } = "";

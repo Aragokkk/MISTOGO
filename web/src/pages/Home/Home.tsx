@@ -2,6 +2,8 @@ import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import { useTranslation } from "react-i18next";
+// Додайте цей рядок до існуючих імпортів
+import { api } from "../../services/api";
 
 type Review = {
   id: number;
@@ -824,7 +826,7 @@ type Review = {
                       strokeWidth="3"
                       strokeLinecap="round"
                     />
-                    <path d="M2.15387 16.5В22" stroke="#4B4B4B" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M2.15387 16.5V22" stroke="#4B4B4B" strokeWidth="3" strokeLinecap="round" />
                     <path
                       d="M8.30772 16H4.15387C3.0493 16 2.15387 16.8954 2.15387 18V20V12"
                       stroke="#4B4B4B"

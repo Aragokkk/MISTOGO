@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 export default function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { t, i18n } = useTranslation();
 
   // Перевірка розміру екрану для планшета
@@ -18,6 +19,28 @@ export default function Navbar() {
     window.addEventListener('resize', checkScreenSize);
     
     return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  // Перевірка чи користувач залогінений
+  useEffect(() => {
+    const checkAuth = () => {
+      const user = localStorage.getItem('user');
+      setIsLoggedIn(user !== null);
+    };
+    
+    checkAuth();
+    
+    // Слухати зміни в localStorage (login/logout)
+    window.addEventListener('storage', checkAuth);
+    
+    // Кастомна подія для оновлення стану авторизації
+    const handleAuthChange = () => checkAuth();
+    window.addEventListener('authChange', handleAuthChange);
+    
+    return () => {
+      window.removeEventListener('storage', checkAuth);
+      window.removeEventListener('authChange', handleAuthChange);
+    };
   }, []);
 
   // Синхронізація теми при завантаженні
@@ -229,10 +252,16 @@ export default function Navbar() {
                 </span>
               </button>
 
-              {/* Кнопка входу */}
-              <NavLink to="/auth/login" className={loginLinkClass}>
-                {t("login.title")}
-              </NavLink>
+              {/* Кнопка входу або особистий кабінет */}
+              {isLoggedIn ? (
+                <NavLink to="/profile" className={loginLinkClass}>
+                  Особистий кабінет
+                </NavLink>
+              ) : (
+                <NavLink to="/auth/login" className={loginLinkClass}>
+                  {t("login.title")}
+                </NavLink>
+              )}
             </div>
           </div>
         </div>

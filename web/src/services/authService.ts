@@ -20,6 +20,7 @@ export interface UserDto {
   role: string;
   phoneVerified?: boolean;
   licenseVerified?: boolean;
+  profilePhotoUrl?: string;
 }
 
 // Відповідь від Register
@@ -44,7 +45,10 @@ export interface ForgotPasswordResponse {
   testCode?: string; // тільки для тестування
 }
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5012';
+
+console.log('🔍 API_URL:', API_URL);
+console.log('🔍 Full URL example:', `${API_URL}/api/auth/login`);
 
 async function safeParse<T>(res: Response): Promise<T> {
   const text = await res.text();
@@ -68,21 +72,44 @@ export const authService = {
   // LocalStorage для збереження користувача
   saveUser(user: UserDto): void {
     localStorage.setItem('user', JSON.stringify(user));
+    console.log('✅ User saved to localStorage:', user); // Для дебагу
+    // Відправляємо подію про зміну авторизації
+    window.dispatchEvent(new Event('authChange'));
   },
   
   getUser(): UserDto | null {
     const s = localStorage.getItem('user');
-    return s ? JSON.parse(s) as UserDto : null;
+    if (!s) {
+      console.log('⚠️ No user in localStorage');
+      return null;
+    }
+    
+    try {
+      const user = JSON.parse(s) as UserDto;
+      console.log('✅ User loaded from localStorage:', user); // Для дебагу
+      return user;
+    } catch (error) {
+      console.error('❌ Error parsing user from localStorage:', error);
+      return null;
+    }
   },
   
   logout(): void {
     localStorage.removeItem('user');
+    console.log('✅ User logged out');
+    // Відправляємо подію про зміну авторизації
+    window.dispatchEvent(new Event('authChange'));
+  },
+
+  // Перевірка чи користувач залогінений
+  isAuthenticated(): boolean {
+    return this.getUser() !== null;
   },
 
   // API методи
   async register(data: RegisterData): Promise<RegisterResponse> {
     const { email, password, fullName, phone } = data;
-    const response = await request<RegisterResponse>(`${API_URL}/api/auth/register`, {
+    const response = await request<RegisterResponse>(`${API_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password, fullName, phone })
@@ -91,7 +118,7 @@ export const authService = {
   },
 
   async login(data: LoginData): Promise<LoginResponse> {
-    const response = await request<LoginResponse>(`${API_URL}/api/auth/login`, {
+    const response = await request<LoginResponse>(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -106,7 +133,7 @@ export const authService = {
   },
 
   async forgotPassword(email: string): Promise<ForgotPasswordResponse> {
-    return request<ForgotPasswordResponse>(`${API_URL}/api/auth/forgot-password`, {
+    return request<ForgotPasswordResponse>(`${API_URL}/auth/forgot-password`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })

@@ -8,7 +8,7 @@ using MistoGO.Models;
 namespace MistoGO.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthController : ControllerBase
     {
         private readonly MistoGoContext _context;
@@ -94,7 +94,8 @@ namespace MistoGO.Controllers
                     balance = user.Balance,
                     role = user.Role,
                     phoneVerified = user.PhoneVerified,
-                    licenseVerified = user.LicenseVerified
+                    licenseVerified = user.LicenseVerified,
+                    profilePhotoUrl = user.ProfilePhotoUrl  // ← ДОДАНО ЦЕ ПОЛЕ
                 }
             });
         }

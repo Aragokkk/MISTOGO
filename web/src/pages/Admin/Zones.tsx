@@ -1,13 +1,5 @@
-import BackHomeButton from "../../components/BackHomeButton";
-import BackButton from "../../components/BackButton";
-function AdminZones() {
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Адмінпанель – Зони</h1>
-      <BackHomeButton />
-      <BackButton />
-    </div>
-  );
-}
+import TableView from "./TableView";
 
-export default AdminZones;
+export default function ZonesAdmin() {
+  return <TableView tableName="zones" />;
+}
