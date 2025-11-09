@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using MistoGO.Data;
@@ -14,7 +15,7 @@ namespace MistoGO.Controllers
         private readonly MistoGoContext _context;
         private readonly ILogger<PaymentController> _logger;
         private readonly IConfiguration _configuration;
-        
+
         private const string MERCHANT_ACCOUNT = "test_merch_n1";
         private const string MERCHANT_SECRET_KEY = "flk3409refn54t54t*FNJRET";
 
@@ -25,17 +26,14 @@ namespace MistoGO.Controllers
             _configuration = configuration;
         }
 
-        // ============================================
-        // 🎯 WAYFORPAY INTEGRATION
-        // ============================================
-
         [HttpPost("create")]
         public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentRequest request)
         {
             try
             {
-                var orderReference = $"ORDER_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}_{request.UserId}";
-                var orderDate = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                var merchantDomainName = "mistogo.online";
+                var orderDateSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                var orderReference = $"ORDER_{orderDateSeconds}_{request.UserId}";
 
                 var payment = new Payment
                 {
@@ -46,46 +44,87 @@ namespace MistoGO.Controllers
                     Status = "pending",
                     CreatedAt = DateTime.UtcNow
                 };
-
                 _context.Payments.Add(payment);
                 await _context.SaveChangesAsync();
+                _logger.LogInformation("💾 Payment created: ID={PaymentId}", payment.Id);
 
-                _logger.LogInformation($"💾 Payment created: ID={payment.Id}");
+                var productNameArray = new[] { request.ProductName };
+                var productCountArray = new[] { 1 };
+                var productPriceArray = new[] { request.Amount };
 
-                var signatureString = string.Join(";", 
-                    MERCHANT_ACCOUNT,
-                    request.MerchantDomainName,
-                    orderReference,
-                    orderDate.ToString(),
-                    request.Amount.ToString("F2"),
-                    request.Currency,
-                    request.ProductName,
-                    "1",
-                    request.Amount.ToString("F2")
-                );
+                // ✅ Якщо SaveCard = true, генеруємо підпис для VERIFY режиму
+                string merchantSignature;
+                string baseString; // ✅ Оголошуємо тут, щоб використати для логування
+                
+                if (request.SaveCard)
+                {
+                    baseString = BuildVerifySignatureBase(
+                        MERCHANT_ACCOUNT,
+                        merchantDomainName,
+                        orderReference,
+                        orderDateSeconds,
+                        request.Amount,
+                        request.Currency,
+                        productNameArray,
+                        productCountArray,
+                        productPriceArray,
+                        MERCHANT_SECRET_KEY
+                    );
+                    merchantSignature = Md5HexLower(baseString);
+                    _logger.LogInformation("🔐 VERIFY baseString: {Base}", baseString);
+                }
+                else
+                {
+                    baseString = BuildSignatureBase(
+                        MERCHANT_ACCOUNT,
+                        merchantDomainName,
+                        orderReference,
+                        orderDateSeconds,
+                        request.Amount,
+                        request.Currency,
+                        productNameArray,
+                        productCountArray,
+                        productPriceArray,
+                        MERCHANT_SECRET_KEY
+                    );
+                    merchantSignature = Md5HexLower(baseString);
+                    _logger.LogInformation("🔐 PAYMENT baseString: {Base}", baseString);
+                }
 
-                var signature = GenerateHmacSha1(signatureString, MERCHANT_SECRET_KEY);
+                var frontendUrl = _configuration["AppSettings:FrontendUrl"] ?? "https://mistogo.online";
+                var backendUrl = _configuration["AppSettings:BackendUrl"] ?? "https://api.mistogo.online";
 
-                var frontendUrl = _configuration["AppSettings:FrontendUrl"] ?? "http://localhost:5173";
-                var backendUrl = _configuration["AppSettings:BackendUrl"] ?? "http://localhost:5000";
-
+                // ✅ Формуємо відповідь
                 var response = new
                 {
                     merchantAccount = MERCHANT_ACCOUNT,
-                    merchantDomainName = request.MerchantDomainName,
-                    orderReference = orderReference,
-                    orderDate = orderDate,
-                    amount = request.Amount,
+                    merchantDomainName,
+                    orderReference,
+                    orderDate = orderDateSeconds.ToString(),
+                    amount = request.Amount.ToString("0.##", CultureInfo.InvariantCulture),
                     currency = request.Currency,
                     productName = new[] { request.ProductName },
-                    productCount = new[] { 1 },
-                    productPrice = new[] { request.Amount },
-                    merchantSignature = signature,
+                    productCount = new[] { "1" },
+                    productPrice = new[] { request.Amount.ToString("0.##", CultureInfo.InvariantCulture) },
+                    merchantSignature,
+                    
+                    // ✅ Додаємо requestType тільки якщо SaveCard = true
+                    requestType = request.SaveCard ? "VERIFY" : (string?)null,
+                    
                     returnUrl = request.ReturnUrl ?? $"{frontendUrl}/payment/success",
-                    serviceUrl = $"{backendUrl}/api/payment/callback",
-                    paymentId = payment.Id
+                    serviceUrl = $"{backendUrl}/api/Payment/callback",
+                    paymentId = payment.Id,
+                    language = "UA",
+                    clientFirstName = "Vlad",
+                    clientLastName = "Test",
+                    clientPhone = "380630000000"
                 };
 
+                _logger.LogInformation("🔍 WFP signature: {Sig} (length={Len})", merchantSignature, merchantSignature.Length);
+Console.WriteLine("=".PadLeft(50, '='));
+Console.WriteLine($"🔐 Signature: {merchantSignature}");
+Console.WriteLine($"🔐 BaseString: {baseString}");
+Console.WriteLine("=".PadLeft(50, '='));
                 return Ok(response);
             }
             catch (Exception ex)
@@ -100,20 +139,33 @@ namespace MistoGO.Controllers
         {
             try
             {
-                _logger.LogInformation($"💳 Callback: {callback.OrderReference} - {callback.TransactionStatus}");
+                _logger.LogInformation("💳 Callback: {Ref} - {Status}", callback.OrderReference, callback.TransactionStatus);
 
-                var payment = await _context.Payments
-                    .Where(p => p.Status == "pending")
-                    .OrderByDescending(p => p.CreatedAt)
-                    .FirstOrDefaultAsync();
-
-                if (payment != null)
+                var orderParts = callback.OrderReference.Split('_');
+                if (orderParts.Length >= 3 && long.TryParse(orderParts[2], out var userId))
                 {
-                    payment.Status = callback.TransactionStatus.ToLower() == "approved" ? "completed" : "failed";
-                    payment.ProcessedAt = DateTime.UtcNow;
-                    await _context.SaveChangesAsync();
-                    
-                    _logger.LogInformation($"✅ Payment {payment.Id} updated: {payment.Status}");
+                    var payment = await _context.Payments
+                        .Where(p => p.UserId == userId && p.Status == "pending")
+                        .OrderByDescending(p => p.CreatedAt)
+                        .FirstOrDefaultAsync();
+
+                    if (payment != null)
+                    {
+                        payment.Status = callback.TransactionStatus.Equals("approved", StringComparison.OrdinalIgnoreCase)
+                            ? "completed"
+                            : "failed";
+                        payment.ProcessedAt = DateTime.UtcNow;
+                        await _context.SaveChangesAsync();
+
+                        _logger.LogInformation("✅ Payment {Id} updated: {Status}", payment.Id, payment.Status);
+
+                        // ✅ Якщо є recToken - зберігаємо його (для майбутніх платежів)
+                        if (!string.IsNullOrEmpty(callback.RecToken))
+                        {
+                            _logger.LogInformation("💳 RecToken received: {Token}", callback.RecToken);
+                            // Тут можна зберегти токен в базі для користувача
+                        }
+                    }
                 }
 
                 return Ok(new { orderReference = callback.OrderReference, status = "accept" });
@@ -126,9 +178,8 @@ namespace MistoGO.Controllers
         }
 
         // ============================================
-        // 📊 CRUD OPERATIONS
+        // 📊 CRUD OPERATIONS (без змін)
         // ============================================
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Payment>>> GetPayments(
             [FromQuery] long? userId = null,
@@ -139,14 +190,9 @@ namespace MistoGO.Controllers
             {
                 var query = _context.Payments.AsQueryable();
 
-                if (userId.HasValue)
-                    query = query.Where(p => p.UserId == userId.Value);
-
-                if (tripId.HasValue)
-                    query = query.Where(p => p.TripId == tripId.Value);
-
-                if (!string.IsNullOrEmpty(status))
-                    query = query.Where(p => p.Status == status.ToLower());
+                if (userId.HasValue) query = query.Where(p => p.UserId == userId.Value);
+                if (tripId.HasValue) query = query.Where(p => p.TripId == tripId.Value);
+                if (!string.IsNullOrWhiteSpace(status)) query = query.Where(p => p.Status == status.ToLower());
 
                 var payments = await query.OrderByDescending(p => p.CreatedAt).ToListAsync();
                 return Ok(payments);
@@ -205,15 +251,15 @@ namespace MistoGO.Controllers
             try
             {
                 var query = _context.Payments.AsQueryable();
-
-                if (userId.HasValue)
-                    query = query.Where(p => p.UserId == userId.Value);
+                if (userId.HasValue) query = query.Where(p => p.UserId == userId.Value);
 
                 var total = await query.CountAsync();
                 var completed = await query.CountAsync(p => p.Status == "completed");
                 var pending = await query.CountAsync(p => p.Status == "pending");
                 var failed = await query.CountAsync(p => p.Status == "failed");
-                var totalAmount = await query.Where(p => p.Status == "completed").SumAsync(p => (decimal?)p.Amount) ?? 0;
+                var totalAmount = await query
+                    .Where(p => p.Status == "completed")
+                    .SumAsync(p => (decimal?)p.Amount) ?? 0;
 
                 return Ok(new
                 {
@@ -301,16 +347,92 @@ namespace MistoGO.Controllers
             }
         }
 
-        private string GenerateHmacSha1(string data, string key)
+        // ============ Helpers для WayForPay ============
+
+        /// <summary>
+        /// Підпис для звичайного платежу (без requestType)
+        /// </summary>
+        private static string BuildSignatureBase(
+            string merchantAccount,
+            string merchantDomainName,
+            string orderReference,
+            long orderDateSeconds,
+            decimal amount,
+            string currency,
+            string[] productName,
+            int[] productCount,
+            decimal[] productPrice,
+            string merchantSecretKey)
         {
-            var keyBytes = Encoding.UTF8.GetBytes(key);
-            var dataBytes = Encoding.UTF8.GetBytes(data);
-            
-            using (var hmac = new HMACSHA1(keyBytes))
+            var inv = CultureInfo.InvariantCulture;
+
+            var parts = new List<string>
             {
-                var hash = hmac.ComputeHash(dataBytes);
-                return BitConverter.ToString(hash).Replace("-", "").ToLower();
-            }
+                merchantAccount,
+                merchantDomainName,
+                orderReference,
+                orderDateSeconds.ToString(inv),
+                amount.ToString("0.##", inv),
+                currency
+            };
+
+            parts.AddRange(productName);
+            foreach (var c in productCount) parts.Add(c.ToString(inv));
+            foreach (var p in productPrice) parts.Add(p.ToString("0.##", inv));
+            parts.Add(merchantSecretKey);
+
+            return string.Join(";", parts);
+        }
+
+        /// <summary>
+        /// Підпис для VERIFY режиму (верифікація картки)
+        /// ВАЖЛИВО: requestType НЕ входить у підпис, але передається у payload!
+        /// Формула: merchantAccount;merchantDomainName;orderReference;orderDate;amount;currency;productName;productCount;productPrice;merchantSecretKey
+        /// </summary>
+        private static string BuildVerifySignatureBase(
+            string merchantAccount,
+            string merchantDomainName,
+            string orderReference,
+            long orderDateSeconds,
+            decimal amount,
+            string currency,
+            string[] productName,
+            int[] productCount,
+            decimal[] productPrice,
+            string merchantSecretKey)
+        {
+            var inv = CultureInfo.InvariantCulture;
+
+            var parts = new List<string>
+            {
+                merchantAccount,
+                merchantDomainName,
+                orderReference,
+                orderDateSeconds.ToString(inv),
+                amount.ToString("0.##", inv),
+                currency
+            };
+
+            parts.AddRange(productName);
+            foreach (var c in productCount) parts.Add(c.ToString(inv));
+            foreach (var p in productPrice) parts.Add(p.ToString("0.##", inv));
+            
+            // ✅ НЕ додаємо requestType до підпису!
+            // parts.Add("VERIFY");  // <-- Видалено!
+            
+            parts.Add(merchantSecretKey);
+
+            return string.Join(";", parts);
+        }
+
+        private static string Md5HexLower(string text)
+        {
+            using var md5 = MD5.Create();
+            var bytes = Encoding.UTF8.GetBytes(text);
+            var hash = md5.ComputeHash(bytes);
+            var sb = new StringBuilder(hash.Length * 2);
+            foreach (var b in hash) sb.Append(b.ToString("x2"));
+            return sb.ToString();
         }
     }
 
@@ -318,8 +440,8 @@ namespace MistoGO.Controllers
     {
         public long UserId { get; set; }
         public long? TripId { get; set; }
-        public string MerchantDomainName { get; set; } = "mistogo.ua";
-        public string ProductName { get; set; } = "Оплата MistoGO";
+        public string MerchantDomainName { get; set; } = "mistogo.online";
+        public string ProductName { get; set; } = "Card verification";  // ✅ Латиниця!
         public decimal Amount { get; set; }
         public string Currency { get; set; } = "UAH";
         public bool SaveCard { get; set; } = false;

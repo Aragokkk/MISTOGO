@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MistoGO.Data;          // ← ВИПРАВЛЕНО namespace
-using MistoGO.Models;        // ← ВИПРАВЛЕНО namespace
+using MistoGO.Data;
+using MistoGO.Models;
 
-namespace MistoGO.Controllers  // ← ВИПРАВЛЕНО namespace
+namespace MistoGO.Controllers
 {
     [ApiController]
     [Route("api/vehicles")]
@@ -24,10 +24,10 @@ namespace MistoGO.Controllers  // ← ВИПРАВЛЕНО namespace
         /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicles(
-            [FromQuery] string? type = null,           // car, bike, scooter, moped
-            [FromQuery] string? status = null,         // available, reserved, in_use
-            [FromQuery] int? minBattery = null,        // Мінімальний заряд батареї
-            [FromQuery] bool? isActive = true)         // Тільки активні за замовчуванням
+            [FromQuery] string? type = null,
+            [FromQuery] string? status = null,
+            [FromQuery] int? minBattery = null,
+            [FromQuery] bool? isActive = true)
         {
             try
             {
@@ -35,25 +35,21 @@ namespace MistoGO.Controllers  // ← ВИПРАВЛЕНО namespace
                     .Include(v => v.Type)
                     .AsQueryable();
 
-                // Фільтр за активністю
                 if (isActive.HasValue)
                 {
                     query = query.Where(v => v.IsActive == isActive.Value);
                 }
 
-                // Фільтр за типом
                 if (!string.IsNullOrEmpty(type))
                 {
                     query = query.Where(v => v.Type != null && v.Type.Code == type.ToLower());
                 }
 
-                // Фільтр за статусом
                 if (!string.IsNullOrEmpty(status))
                 {
                     query = query.Where(v => v.Status == status.ToLower());
                 }
 
-                // Фільтр за мінімальним зарядом
                 if (minBattery.HasValue)
                 {
                     query = query.Where(v => v.BatteryPct >= minBattery.Value);
@@ -135,12 +131,10 @@ namespace MistoGO.Controllers  // ← ВИПРАВЛЕНО namespace
         public async Task<ActionResult<IEnumerable<Vehicle>>> GetNearbyVehicles(
             [FromQuery] double lat,
             [FromQuery] double lng,
-            [FromQuery] int radius = 5000) // Радіус в метрах
+            [FromQuery] int radius = 5000)
         {
             try
             {
-                // Простий пошук в радіусі (без геопросторових розширень)
-                // Приблизний розрахунок: 1 градус ≈ 111 км
                 var radiusInDegrees = radius / 111000.0;
 
                 var vehicles = await _context.Vehicles
@@ -188,7 +182,6 @@ namespace MistoGO.Controllers  // ← ВИПРАВЛЕНО namespace
                     return BadRequest(new { message = $"Vehicle is not available. Current status: {vehicle.Status}" });
                 }
 
-                // Оновлюємо статус на "reserved"
                 vehicle.Status = "reserved";
                 vehicle.UpdatedAt = DateTime.UtcNow;
 
@@ -196,9 +189,9 @@ namespace MistoGO.Controllers  // ← ВИПРАВЛЕНО namespace
 
                 _logger.LogInformation("Vehicle {VehicleId} ({Code}) reserved successfully", vehicle.Id, vehicle.Code);
 
-                return Ok(new 
-                { 
-                    success = true, 
+                return Ok(new
+                {
+                    success = true,
                     message = "Vehicle reserved successfully",
                     vehicleId = vehicle.Id,
                     code = vehicle.Code
@@ -239,6 +232,136 @@ namespace MistoGO.Controllers  // ← ВИПРАВЛЕНО namespace
             {
                 _logger.LogError(ex, "Error fetching vehicle stats");
                 return StatusCode(500, new { message = "Internal server error" });
+            }
+        }
+
+        // 🟢 CREATE - Додати новий транспорт
+        [HttpPost]
+        public async Task<IActionResult> CreateVehicle([FromBody] Vehicle vehicle)
+        {
+            try
+            {
+                vehicle.CreatedAt = DateTime.UtcNow;
+                vehicle.UpdatedAt = DateTime.UtcNow;
+                
+                _context.Vehicles.Add(vehicle);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Vehicle created: {VehicleId} ({Code})", vehicle.Id, vehicle.Code);
+
+                return Ok(vehicle);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating vehicle");
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        // 🟠 UPDATE - Оновити транспорт
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateVehicle(long id, [FromBody] Vehicle updatedVehicle)
+        {
+            try
+            {
+                var vehicle = await _context.Vehicles.FindAsync(id);
+                if (vehicle == null)
+                    return NotFound(new { message = "Транспорт не знайдено" });
+
+                vehicle.Code = updatedVehicle.Code ?? vehicle.Code;
+                vehicle.DisplayName = updatedVehicle.DisplayName ?? vehicle.DisplayName;
+                vehicle.Brand = updatedVehicle.Brand ?? vehicle.Brand;
+                vehicle.Model = updatedVehicle.Model ?? vehicle.Model;
+                vehicle.Year = updatedVehicle.Year;
+                vehicle.Color = updatedVehicle.Color ?? vehicle.Color;
+                vehicle.Status = updatedVehicle.Status ?? vehicle.Status;
+                vehicle.BatteryPct = updatedVehicle.BatteryPct;
+                vehicle.UnlockFee = updatedVehicle.UnlockFee;
+                vehicle.PerMinute = updatedVehicle.PerMinute;
+                vehicle.Lat = updatedVehicle.Lat;
+                vehicle.Lng = updatedVehicle.Lng;
+                vehicle.IsActive = updatedVehicle.IsActive;
+                vehicle.TypeId = updatedVehicle.TypeId;
+                vehicle.UpdatedAt = DateTime.UtcNow;
+
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Vehicle updated: {VehicleId} ({Code})", vehicle.Id, vehicle.Code);
+
+                return Ok(vehicle);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating vehicle {VehicleId}", id);
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        // 🔴 DELETE - Видалити транспорт
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteVehicle(long id)
+        {
+            try
+            {
+                var vehicle = await _context.Vehicles.FindAsync(id);
+                if (vehicle == null)
+                    return NotFound(new { message = "Транспорт не знайдено" });
+
+                _context.Vehicles.Remove(vehicle);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Vehicle deleted: {VehicleId} ({Code})", id, vehicle.Code);
+
+                return Ok(new { message = "Видалено успішно" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting vehicle {VehicleId}", id);
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        // 📸 UPLOAD IMAGE - Завантажити картинку
+        [HttpPost("{id}/upload-image")]
+        public async Task<IActionResult> UploadImage(long id, IFormFile file)
+        {
+            try
+            {
+                if (file == null || file.Length == 0)
+                    return BadRequest(new { message = "Файл не надано" });
+
+                var vehicle = await _context.Vehicles.FindAsync(id);
+                if (vehicle == null)
+                    return NotFound(new { message = "Транспорт не знайдено" });
+
+                // Створюємо папку uploads якщо немає
+                var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "vehicles");
+                Directory.CreateDirectory(uploadsPath);
+
+                // Генеруємо унікальне ім'я файлу
+                var fileName = $"{id}_{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+                var filePath = Path.Combine(uploadsPath, fileName);
+
+                // Зберігаємо файл
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                // Оновлюємо URL в БД
+                var imageUrl = $"/uploads/vehicles/{fileName}";
+                vehicle.PhotoUrl = imageUrl;  
+                vehicle.UpdatedAt = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Image uploaded for vehicle {VehicleId}: {ImageUrl}", id, imageUrl);
+
+                return Ok(new { imageUrl });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error uploading image for vehicle {VehicleId}", id);
+                return BadRequest(new { message = ex.Message });
             }
         }
     }

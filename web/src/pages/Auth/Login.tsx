@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import BackButton from '../../components/BackButton';
 import { authService, LoginData } from '../../services/authService';
+import { getPendingVehicleId, hasPaymentCard } from '../../utils/auth.utils';
 import './Login.css';
 
 function Login() {
@@ -38,7 +39,34 @@ function Login() {
     try {
       const response = await authService.login(formData);
       if (response.success && response.user) {
-        navigate('/user/profile');
+        console.log('✅ Успішний логін, користувач:', response.user.id);
+
+        // 🔐 ПЕРЕВІРКА НА АДМІНА - ДОДАНО ЦЕ!
+        if (response.user.role === 'admin') {
+          console.log('👑 Адмін увійшов - редірект на /admin');
+          navigate('/admin');
+          return;
+        }
+
+        // 🔥 КРИТИЧНА ЧАСТИНА: Перевірка pendingVehicleId після логіну
+        const pendingVehicleId = getPendingVehicleId();
+        
+        if (pendingVehicleId) {
+          console.log('🚗 Знайдено відкладене бронювання для транспорту:', pendingVehicleId);
+          
+          const hasCard = hasPaymentCard();
+          
+          if (!hasCard) {
+            console.log('💳 Картка не прив\'язана - перехід на payment/terms');
+            navigate('/payment/terms');
+          } else {
+            console.log('✅ Картка прив\'язана - перехід на transport');
+            navigate('/transport');
+          }
+        } else {
+          console.log('📱 Немає відкладеного бронювання - перехід в профіль');
+          navigate('/user/profile');
+        }
       } else {
         setError(t('login.invalid_server_response'));
       }
@@ -52,7 +80,6 @@ function Login() {
   return (
     <div className="container">
       <div className="login-box">
-        {/* Header з кнопкою назад і заголовком */}
         <div className="login-header">
           <BackButton />
           <h1 className="login-title">{t('login.title')}</h1>
@@ -83,7 +110,6 @@ function Login() {
             className="login-input"
           />
 
-          {/* Чекбокс "Запам'ятати мене" */}
           <div className="remember-me">
             <input
               type="checkbox"
@@ -97,7 +123,6 @@ function Login() {
             </label>
           </div>
 
-          {/* Кнопка "Увійти" з іконкою */}
           <button type="submit" disabled={loading} className="login-button">
             {loading ? t('login.loading') : t('login.submit')}
             <svg 
@@ -118,7 +143,6 @@ function Login() {
           </button>
         </form>
 
-        {/* Footer з посиланнями */}
         <div className="login-footer">
           <button 
             type="button" 

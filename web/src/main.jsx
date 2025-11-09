@@ -1,11 +1,9 @@
-
 import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import App from "./App";
-import "./i18n.js";
-
-import './styles/breakpoints.css';
+import "./i18n.js"; // ⬅️ ПЕРЕМІСТІТЬ СЮДИ, ПЕРЕД App!
+import "./styles/breakpoints.css";
+import App from "./App"; // ⬅️ App після i18n!
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

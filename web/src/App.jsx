@@ -32,6 +32,12 @@ import Trips from "./pages/User/Trips";
 import Payments from "./pages/User/Payments";
 import Settings from "./pages/User/Settings";
 
+// ✅ Payment сторінки
+import PaymentTerms from "./pages/payment/PaymentTerms";
+import PaymentForm from "./pages/payment/PaymentForm";
+import PaymentSuccess from "./pages/payment/Success";
+import PaymentFail from "./pages/payment/Fail";
+
 // Адмін
 import Admin from "./pages/Admin/Admin";
 import Vehicles from "./pages/Admin/Vehicles";
@@ -81,6 +87,12 @@ export default function App() {
         <Route path="/user/trips" element={<Trips />} />
         <Route path="/user/payments" element={<Payments />} />
         <Route path="/user/settings" element={<Settings />} />
+
+        {/* ✅ Payment Flow */}
+        <Route path="/payment/terms" element={<PaymentTerms />} />
+        <Route path="/payment/form" element={<PaymentForm />} />
+        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/fail" element={<PaymentFail />} />
 
         {/* Адмін */}
         <Route path="/admin" element={<Admin />} />

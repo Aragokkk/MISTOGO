@@ -168,6 +168,11 @@ namespace MistoGO.Controllers
 
             return Ok(new { success = true, message = "Пароль успішно змінено! Тепер можете увійти." });
         }
+       [HttpGet("hash/{password}")]
+        public IActionResult GetHash(string password)
+        {
+            return Ok(new { password, hash = HashPassword(password) });
+        }
 
         private string HashPassword(string password)
         {

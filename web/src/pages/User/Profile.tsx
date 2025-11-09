@@ -28,7 +28,7 @@ function Profile() {
   // Отримуємо користувача з authService
   const [user, setUser] = useState(() => {
     const savedUser = authService.getUser();
-    const API_URL = 'http://localhost:5012';
+    const API_URL = 'http://93.127.121.78:5000';
     const photoUrl = savedUser?.profilePhotoUrl 
       ? (savedUser.profilePhotoUrl.startsWith('http') 
           ? savedUser.profilePhotoUrl 
@@ -96,7 +96,6 @@ function Profile() {
   useEffect(() => {
     const savedUser = authService.getUser();
     if (!savedUser) {
-      // Якщо користувач не залогінений - редірект на логін
       navigate('/login');
     }
   }, [navigate]);
@@ -120,7 +119,6 @@ function Profile() {
       const status = await licenseService.getStatus();
       setLicenseStatus(status);
       
-      // Оновлюємо локальний стан licenseVerified
       if (status.status === 'verified') {
         const savedUser = authService.getUser();
         if (savedUser) {
@@ -139,13 +137,11 @@ function Profile() {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Валідація розміру (5MB)
     if (file.size > 5 * 1024 * 1024) {
       setPhotoError('Розмір файлу не повинен перевищувати 5MB');
       return;
     }
 
-    // Валідація типу
     const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (!allowedTypes.includes(file.type)) {
       setPhotoError('Дозволені тільки файли JPG та PNG');
@@ -157,31 +153,20 @@ function Profile() {
 
     try {
       const response = await profileService.uploadPhoto(user.id, file);
-      console.log('📸 Upload response:', response);
       
       if (response.success && response.photoUrl) {
-        // Оновлюємо фото в UI
         const fullPhotoUrl = profileService.getPhotoUrl(response.photoUrl);
-        console.log('🖼️ Full photo URL:', fullPhotoUrl);
         setUser(prev => ({ ...prev, photo: fullPhotoUrl }));
         
-        // Оновлюємо в localStorage
         const savedUser = authService.getUser();
-        console.log('👤 Current user from localStorage:', savedUser);
-        
         if (savedUser) {
           savedUser.profilePhotoUrl = response.photoUrl;
-          console.log('💾 Saving updated user:', savedUser);
           authService.saveUser(savedUser);
-          console.log('✅ User saved! Check localStorage now.');
         }
         
         alert(response.message || 'Фото успішно завантажено!');
-      } else {
-        console.error('⚠️ Response missing photoUrl:', response);
       }
     } catch (error: any) {
-      console.error('❌ Photo upload error:', error);
       setPhotoError(error.message || 'Помилка при завантаженні фото');
       alert(error.message || 'Помилка при завантаженні фото');
     } finally {
@@ -190,18 +175,15 @@ function Profile() {
     }
   };
 
-  // Обробник вибору файлу
   const handleLicenseFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Валідація розміру (5MB)
     if (file.size > 5 * 1024 * 1024) {
       setLicenseError('Розмір файлу не повинен перевищувати 5MB');
       return;
     }
 
-    // Валідація типу
     const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
     if (!allowedTypes.includes(file.type)) {
       setLicenseError('Дозволені тільки файли JPG, PNG та PDF');
@@ -221,12 +203,10 @@ function Profile() {
       setLicenseError(error.message || 'Помилка при завантаженні документа');
     } finally {
       setIsUploadingLicense(false);
-      // Скидаємо input для можливості повторного завантаження
       event.target.value = '';
     }
   };
 
-  // Обробник скасування документа
   const handleCancelLicense = async () => {
     if (!confirm('Ви впевнені, що хочете видалити документ?')) {
       return;
@@ -243,7 +223,6 @@ function Profile() {
     }
   };
 
-  // Рендер контенту картки водійського посвідчення
   const renderLicenseCard = () => {
     const { status, documentUrl, rejectReason } = licenseStatus;
 
@@ -405,13 +384,12 @@ function Profile() {
   };
 
   const handleLogout = () => {
-    authService.logout(); // Видаляємо дані з localStorage
-    navigate('/'); // Редірект на головну сторінку
+    authService.logout();
+    navigate('/');
   };
 
   return (
     <div className="profile-page">
-      {/* Page Header */}
       <div className="page-header-section">
         <button className="back-button" onClick={() => navigate(-1)}>
           <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -422,11 +400,8 @@ function Profile() {
         <h1 className="page-main-title">Особистий кабінет</h1>
       </div>
 
-      {/* Profile Content */}
       <div className="profile-content">
-        {/* Left Column */}
         <div className="profile-left-column">
-          {/* User Info Card */}
           <div className="user-info-card">
             <div className="user-photo-section">
               {user.photo ? (
@@ -466,7 +441,6 @@ function Profile() {
             </div>
           </div>
 
-          {/* Rental History Card */}
           <div className="rental-history-card">
             <h3 className="section-card-title">Історії оренди</h3>
             <div className="rental-list">
@@ -499,9 +473,7 @@ function Profile() {
           </div>
         </div>
 
-        {/* Middle Column */}
         <div className="profile-middle-column">
-          {/* Driver License Card */}
           <div className="driver-license-card">
             {renderLicenseCard()}
             {licenseError && (
@@ -511,7 +483,6 @@ function Profile() {
             )}
           </div>
 
-          {/* Save Card */}
           <div className="save-card-card">
             <svg width="78" height="56" viewBox="0 0 78 56" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M69 1.5H9C4.85786 1.5 1.5 4.85786 1.5 9V46.5C1.5 50.6421 4.85786 54 9 54H69C73.1421 54 76.5 50.6421 76.5 46.5V9C76.5 4.85786 73.1421 1.5 69 1.5Z" stroke="#4B4B4B" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
@@ -521,25 +492,26 @@ function Profile() {
               <h3 className="card-main-title">Збережіть вашу картку</h3>
               <p className="card-description">Оплата за оренду проходить автоматично - швидко й безпечно, а ваші дані надійно захищені</p>
             </div>
-            <button className="add-button-text">Додати</button>
+            <button 
+              className="add-button-text"
+              onClick={() => navigate('/payment/terms')}
+            >
+              Додати
+            </button>
           </div>
         </div>
 
-        {/* Right Column */}
         <div className="profile-right-column">
-          {/* Edit Profile Card */}
           <div className="edit-profile-card">
             <h3 className="card-main-title">Редагувати профіль</h3>
           </div>
 
-          {/* Feedback Card */}
           <div className="feedback-card">
             <h3 className="card-main-title">Залиште відгук</h3>
             <p className="card-subtitle-small">Та отримайте 15% знижки на оренду транспорту</p>
           </div>
         </div>
 
-        {/* Notifications History - окремий блок на 2 колонки */}
         <div className="notifications-card">
           <h3 className="card-title-large">Історія повідомлень</h3>
           <div className="notifications-list">
@@ -558,7 +530,6 @@ function Profile() {
           </div>
         </div>
 
-        {/* Settings Button - окремо зліва знизу */}
         <button className="settings-button">
           Налаштування
           <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -566,7 +537,6 @@ function Profile() {
           </svg>
         </button>
 
-        {/* Logout Button - окремо справа знизу */}
         <button className="logout-button" onClick={handleLogout}>
           Вийти
           <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">

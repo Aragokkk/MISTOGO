@@ -7,7 +7,7 @@ export default function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation(); 
 
   // Перевірка розміру екрану для планшета
   useEffect(() => {
@@ -254,7 +254,7 @@ export default function Navbar() {
 
               {/* Кнопка входу або особистий кабінет */}
               {isLoggedIn ? (
-                <NavLink to="/profile" className={loginLinkClass}>
+                <NavLink to="/user/profile" className={loginLinkClass}>
                   Особистий кабінет
                 </NavLink>
               ) : (
