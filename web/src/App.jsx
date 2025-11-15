@@ -124,9 +124,10 @@ export default function App() {
         <Route path="/admin/tables/payments/edit/:id" element={<AdminPaymentForm />} />
 
         {/* Vehicles */}
+        <Route path="/admin/vehicles" element={<Vehicles />} />
        <Route path="/admin/vehicles/new" element={<VehicleForm />} />
-<Route path="/admin/vehicles/edit/:id" element={<VehicleForm />} />
-<Route path="/admin/vehicles" element={<Vehicles />} />
+       <Route path="/admin/vehicles/edit/:id" element={<VehicleForm />} />
+
 
 
         {/* Users */}
