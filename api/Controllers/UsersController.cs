@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MistoGO.Data;
 using MistoGO.Models;
+using BCrypt.Net;
 
 namespace MistoGO.Controllers
 {
@@ -122,7 +123,7 @@ namespace MistoGO.Controllers
         /// Створити нового користувача
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUser(User user)
+        public async Task<ActionResult<User>> CreateUser([FromBody]User user)
         {
             try
             {
@@ -136,11 +137,10 @@ namespace MistoGO.Controllers
                 user.CreatedAt = DateTime.UtcNow;
                 user.UpdatedAt = DateTime.UtcNow;
 
-                // Якщо пароль не вказаний - ставимо дефолтний хеш
+                // Якщо пароль не заданий - генеруємо дефолтний
                 if (string.IsNullOrEmpty(user.PasswordHash))
                 {
-                    // Це тимчасовий хеш - в реальності треба хешувати bcrypt
-                    user.PasswordHash = "$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36r/9G0K0zAhLs/z.rnAUgW"; // admin123
+                    user.PasswordHash = BCrypt.Net.BCrypt.HashPassword("DefaultPassword123!");
                 }
 
                 _context.Users.Add(user);
@@ -165,7 +165,7 @@ namespace MistoGO.Controllers
         /// Оновити існуючого користувача
         /// </summary>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(long id, User user)
+        public async Task<IActionResult> UpdateUser(long id, [FromBody] User user)
         {
             if (id != user.Id)
             {

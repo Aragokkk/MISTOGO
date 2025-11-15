@@ -8,7 +8,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 var builder = WebApplication.CreateBuilder(args);
 
 // Вибираємо connection string в залежності від середовища
-var connectionString = builder.Environment.IsDevelopment() 
+var connectionString = builder.Environment.IsDevelopment()
     ? builder.Configuration.GetConnectionString("LocalConnection")
     : builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -22,18 +22,23 @@ builder.Services.AddScoped<ISupportService, SupportService>();
 builder.Services.AddScoped<ILicenseService, LicenseService>();
 builder.Services.AddScoped<EmailNotifier>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 
 // Swagger з підтримкою файлів
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo 
-    { 
-        Title = "MistoGO API", 
-        Version = "v1" 
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "MistoGO API",
+        Version = "v1"
     });
-    
+
     // Додаємо підтримку multipart/form-data для файлів
     c.OperationFilter<FileUploadOperationFilter>();
 });
@@ -57,6 +62,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -65,8 +71,10 @@ app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+
 app.MapControllers();
 
+// ✅ Главная страница API (оставляем)
 app.MapGet("/", () => new
 {
     message = "MistoGO API",
@@ -75,6 +83,11 @@ app.MapGet("/", () => new
     environment = builder.Environment.EnvironmentName,
     database = builder.Environment.IsDevelopment() ? "mistogo_local (dev)" : "mistogo (prod)"
 });
+
+// ✅ ВАЖНО: добавляем SPA fallback для React
+// Это говорит серверу: если маршрут не найден — вернуть index.html
+// чтобы React Router взял управление
+app.MapFallbackToFile("index.html");
 
 app.Run();
 
@@ -110,7 +123,7 @@ public class FileUploadOperationFilter : IOperationFilter
 
         // Додаємо інші параметри з [FromForm]
         var otherFormParameters = context.MethodInfo.GetParameters()
-            .Where(p => p.ParameterType != typeof(IFormFile) && 
+            .Where(p => p.ParameterType != typeof(IFormFile) &&
                        p.GetCustomAttributes(typeof(FromFormAttribute), false).Any())
             .ToList();
 
@@ -118,8 +131,8 @@ public class FileUploadOperationFilter : IOperationFilter
         {
             uploadFileSchema.Properties[param.Name!] = new OpenApiSchema
             {
-                Type = param.ParameterType == typeof(long) || param.ParameterType == typeof(int) 
-                    ? "integer" 
+                Type = param.ParameterType == typeof(long) || param.ParameterType == typeof(int)
+                    ? "integer"
                     : "string"
             };
             uploadFileSchema.Required.Add(param.Name!);

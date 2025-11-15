@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import styles from "./VehicleForm.module.css";
 
-interface VehicleFormData {
+interface Vehicle {
+  id: number;
+  code: string;
   displayName: string;
   brand: string;
   model: string;
@@ -11,94 +14,69 @@ interface VehicleFormData {
   batteryPct: number;
   unlockFee: number;
   perMinute: number;
-  lat: number;
-  lng: number;
+  photoUrl?: string;
+  typeName?: string;
+  typeId?: number;
+  isActive: boolean;
+}
+
+interface VehicleType {
+  id: number;
+  name: string;
+  code: string;
 }
 
 export default function VehicleForm() {
-  const { id } = useParams();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>([]);
+  const [vehicleTypes, setVehicleTypes] = useState<VehicleType[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  const [formData, setFormData] = useState<VehicleFormData>({
-    displayName: "",
-    brand: "",
-    model: "",
-    year: new Date().getFullYear(),
-    color: "",
-    status: "available",
-    batteryPct: 100,
-    unlockFee: 0,
-    perMinute: 0,
-    lat: 50.45,
-    lng: 30.52,
-  });
+  // Фільтри
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
 
   useEffect(() => {
-    if (id) {
-      loadVehicle();
-    }
-  }, [id]);
+    fetchVehicles();
+    fetchVehicleTypes();
+  }, []);
 
-  const loadVehicle = async () => {
+  useEffect(() => {
+    filterVehicles();
+  }, [vehicles, searchQuery, statusFilter, typeFilter]);
+
+  const fetchVehicleTypes = async () => {
     try {
       const API_URL = import.meta.env.VITE_API_URL || 'https://mistogo.online/api';
-      const response = await fetch(`${API_URL}/vehicles/${id}`);
-      
-      if (!response.ok) {
-        throw new Error('Помилка завантаження');
+      const response = await fetch(`${API_URL}/vehicle_types`);
+      if (response.ok) {
+        const data = await response.json();
+        setVehicleTypes(data);
       }
-      
-      const data = await response.json();
-      setFormData({
-        displayName: data.displayName || "",
-        brand: data.brand || "",
-        model: data.model || "",
-        year: data.year || new Date().getFullYear(),
-        color: data.color || "",
-        status: data.status || "available",
-        batteryPct: data.batteryPct || 100,
-        unlockFee: data.unlockFee || 0,
-        perMinute: data.perMinute || 0,
-        lat: data.lat || 50.45,
-        lng: data.lng || 30.52,
-      });
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      console.error('Помилка завантаження типів:', err);
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
+  const fetchVehicles = async () => {
     try {
+      setLoading(true);
       const API_URL = import.meta.env.VITE_API_URL || 'https://mistogo.online/api';
       const token = localStorage.getItem('auth_token');
       
-      const url = id 
-        ? `${API_URL}/vehicles/${id}` 
-        : `${API_URL}/vehicles`;
-      
-      const method = id ? 'PUT' : 'POST';
-      
-      const response = await fetch(url, {
-        method,
+      const response = await fetch(`${API_URL}/vehicles`, {
         headers: {
-          'Content-Type': 'application/json',
           ...(token && { 'Authorization': `Bearer ${token}` }),
         },
-        body: JSON.stringify(formData),
       });
-
-      if (!response.ok) {
-        throw new Error('Помилка збереження');
-      }
-
-      alert('Збережено успішно!');
-      navigate('/admin/vehicles');
+      
+      if (!response.ok) throw new Error('Помилка завантаження');
+      
+      const data = await response.json();
+      setVehicles(data);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -106,221 +84,248 @@ export default function VehicleForm() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'number' ? parseFloat(value) : value,
-    }));
+  const filterVehicles = () => {
+    let filtered = [...vehicles];
+
+    if (searchQuery) {
+      filtered = filtered.filter(vehicle =>
+        vehicle.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        vehicle.displayName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        vehicle.brand?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        vehicle.model?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    if (statusFilter !== "all") {
+      filtered = filtered.filter(vehicle => vehicle.status === statusFilter);
+    }
+
+    if (typeFilter !== "all") {
+      filtered = filtered.filter(vehicle => vehicle.typeId === parseInt(typeFilter));
+    }
+
+    setFilteredVehicles(filtered);
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4 max-w-2xl">
-        <button
-          onClick={() => navigate("/admin/vehicles")}
-          className="text-blue-600 hover:text-blue-800 mb-4 flex items-center gap-2"
-        >
-          ← Назад до списку
-        </button>
+  const handleDelete = async (id: number) => {
+    if (!confirm('Видалити транспорт?')) return;
+    
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || 'https://mistogo.online/api';
+      const token = localStorage.getItem('auth_token');
+      
+      const response = await fetch(`${API_URL}/vehicles/${id}`, {
+        method: 'DELETE',
+        headers: {
+          ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+      });
+      
+      if (response.ok) {
+        alert('✅ Видалено успішно!');
+        fetchVehicles();
+      } else {
+        alert('❌ Помилка видалення');
+      }
+    } catch (error) {
+      alert('❌ Помилка: ' + error);
+    }
+  };
 
-        <div className="bg-white rounded-lg shadow p-6">
-          <h1 className="text-2xl font-bold mb-6">
-            {id ? 'Редагувати транспорт' : 'Додати транспорт'}
-          </h1>
+  const getStatusBadge = (status: string) => {
+    const badges = {
+      available: { text: 'Доступний', class: styles.statusAvailable },
+      in_use: { text: 'В оренді', class: styles.statusInUse },
+      maintenance: { text: 'Обслуговування', class: styles.statusMaintenance },
+    };
+    return badges[status as keyof typeof badges] || { text: status, class: '' };
+  };
 
-          {error && (
-            <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
-              <p className="text-sm text-red-700">{error}</p>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Назва
-              </label>
-              <input
-                type="text"
-                name="displayName"
-                value={formData.displayName}
-                onChange={handleChange}
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Бренд
-                </label>
-                <input
-                  type="text"
-                  name="brand"
-                  value={formData.brand}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Модель
-                </label>
-                <input
-                  type="text"
-                  name="model"
-                  value={formData.model}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Рік
-                </label>
-                <input
-                  type="number"
-                  name="year"
-                  value={formData.year}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Колір
-                </label>
-                <input
-                  type="text"
-                  name="color"
-                  value={formData.color}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Статус
-              </label>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value="available">Доступний</option>
-                <option value="in_use">В оренді</option>
-                <option value="maintenance">Обслуговування</option>
-              </select>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Заряд (%)
-                </label>
-                <input
-                  type="number"
-                  name="batteryPct"
-                  value={formData.batteryPct}
-                  onChange={handleChange}
-                  min="0"
-                  max="100"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Розблокування
-                </label>
-                <input
-                  type="number"
-                  name="unlockFee"
-                  value={formData.unlockFee}
-                  onChange={handleChange}
-                  step="0.01"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  За хвилину
-                </label>
-                <input
-                  type="number"
-                  name="perMinute"
-                  value={formData.perMinute}
-                  onChange={handleChange}
-                  step="0.01"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Широта
-                </label>
-                <input
-                  type="number"
-                  name="lat"
-                  value={formData.lat}
-                  onChange={handleChange}
-                  step="0.000001"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Довгота
-                </label>
-                <input
-                  type="number"
-                  name="lng"
-                  value={formData.lng}
-                  onChange={handleChange}
-                  step="0.000001"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div className="flex gap-4 pt-4">
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400"
-              >
-                {loading ? 'Збереження...' : 'Зберегти'}
-              </button>
-              
-              <button
-                type="button"
-                onClick={() => navigate('/admin/vehicles')}
-                className="px-6 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
-              >
-                Скасувати
-              </button>
-            </div>
-          </form>
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.loading}>
+          <div className={styles.spinner}></div>
+          <p>Завантаження транспорту...</p>
         </div>
       </div>
+    );
+  }
+
+  return (
+    <div className={styles.container}>
+      {/* Header */}
+      <div className={styles.header} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div>
+          <button 
+            onClick={() => navigate("/admin")} 
+            className={styles.backButton}
+            style={{ 
+              background: 'white', 
+              color: '#000',
+              border: '1px solid #ddd'
+            }}
+          >
+            ← Назад до панелі
+          </button>
+          
+          <div className={styles.titleSection}>
+            <h1 className={styles.title}>🚗 Транспорт</h1>
+            <p className={styles.subtitle}>
+              Показано {filteredVehicles.length} з {vehicles.length} записів
+            </p>
+          </div>
+        </div>
+
+        <button 
+          onClick={() => navigate("/admin/vehicles/new")} 
+          className={styles.addButton}
+          style={{
+            background: '#8bc34a',
+            color: 'white',
+            fontSize: '16px',
+            padding: '12px 24px'
+          }}
+        >
+          + Додати транспорт
+        </button>
+      </div>
+
+      {/* Filters */}
+      <div className={styles.filters}>
+        <div className={styles.searchBox}>
+          <span className={styles.searchIcon}>🔍</span>
+          <input
+            type="text"
+            placeholder="Пошук"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className={styles.searchInput}
+            style={{ color: '#000' }}
+          />
+        </div>
+
+        <div className={styles.filterBox}>
+          <span className={styles.filterIcon}>📊</span>
+          <span className={styles.filterLabel}>Тип</span>
+          <select 
+            value={typeFilter} 
+            onChange={(e) => setTypeFilter(e.target.value)}
+            className={styles.filterSelect}
+            style={{ color: '#000' }}
+          >
+            <option value="all" style={{ color: '#000' }}>Всі</option>
+            {vehicleTypes.map(type => (
+              <option key={type.id} value={type.id} style={{ color: '#000' }}>
+                {type.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className={styles.filterBox}>
+          <span className={styles.filterIcon}>📊</span>
+          <span className={styles.filterLabel}>Статус</span>
+          <select 
+            value={statusFilter} 
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className={styles.filterSelect}
+            style={{ color: '#000' }}
+          >
+            <option value="all" style={{ color: '#000' }}>Всі</option>
+            <option value="available" style={{ color: '#000' }}>Доступний</option>
+            <option value="in_use" style={{ color: '#000' }}>В оренді</option>
+            <option value="maintenance" style={{ color: '#000' }}>Обслуговування</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Table */}
+      {error ? (
+        <div className={styles.error}>
+          <p>❌ {error}</p>
+          <button onClick={fetchVehicles}>Спробувати ще раз</button>
+        </div>
+      ) : (
+        <div className={styles.tableContainer}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>Розблокування</th>
+                <th>За хвилину</th>
+                <th>Код</th>
+                <th>Назва</th>
+                <th>Бренд</th>
+                <th>Модель</th>
+                <th>Рік</th>
+                <th>Колір</th>
+                <th>Статус</th>
+                <th>Дії</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredVehicles.length > 0 ? (
+                filteredVehicles.map((vehicle) => {
+                  const statusBadge = getStatusBadge(vehicle.status);
+                  return (
+                    <tr 
+                      key={vehicle.id}
+                      onClick={() => navigate(`/admin/vehicles/edit/${vehicle.id}`)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <td>{vehicle.unlockFee?.toFixed(2) || '0.00'}</td>
+                      <td>{vehicle.perMinute?.toFixed(2) || '0.00'}</td>
+                      <td className={styles.code}>{vehicle.code}</td>
+                      <td>{vehicle.displayName}</td>
+                      <td>{vehicle.brand}</td>
+                      <td>{vehicle.model}</td>
+                      <td>{vehicle.year}</td>
+                      <td>{vehicle.color}</td>
+                      <td>
+                        <span className={`${styles.statusBadge} ${statusBadge.class}`}>
+                          {statusBadge.text}
+                        </span>
+                      </td>
+                      <td onClick={(e) => e.stopPropagation()}>
+                        <div className={styles.actions}>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              console.log('🔍 Клік на редагування, ID:', vehicle.id);
+                              console.log('🔍 Навігація до:', `/admin/vehicles/edit/${vehicle.id}`);
+                              navigate(`/admin/vehicles/edit/${vehicle.id}`);
+                            }}
+                            className={styles.editButton}
+                            title="Редагувати"
+                          >
+                            ✏️
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDelete(vehicle.id);
+                            }}
+                            className={styles.deleteButton}
+                            title="Видалити"
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={10} className={styles.noData}>
+                    🔍 Транспорт не знайдено
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

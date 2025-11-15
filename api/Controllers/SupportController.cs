@@ -44,6 +44,28 @@ namespace MistoGO.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTicketById(long id)
+        {
+            try
+            {
+                var ticket = await _context.SupportTickets
+                    .Include(t => t.User)
+                    .FirstOrDefaultAsync(t => t.Id == id);
+
+                if (ticket == null)
+                {
+                    return NotFound(new { message = $"Ticket with ID {id} not found" });
+                }
+
+                return Ok(ticket);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
+
         [HttpGet("test-telegram")]
         public async Task<IActionResult> TestTelegram()
         {
@@ -99,8 +121,30 @@ namespace MistoGO.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateTicket([FromBody] SupportTicket ticket)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(ticket.Email) || string.IsNullOrEmpty(ticket.Subject))
+                    return BadRequest(new { message = "Email and subject are required" });
+
+                ticket.CreatedAt = DateTime.UtcNow;
+                ticket.UpdatedAt = DateTime.UtcNow;
+
+                _context.SupportTickets.Add(ticket);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetTicketById), new { id = ticket.Id }, ticket);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
+
         [HttpPost("tickets")]
-        public async Task<IActionResult> CreateTicket([FromBody] CreateTicketDto dto, [FromHeader(Name = "User-Id")] long? userId)
+        public async Task<IActionResult> CreateTicketOld([FromBody] CreateTicketDto dto, [FromHeader(Name = "User-Id")] long? userId)
         {
             try
             {
@@ -139,6 +183,62 @@ namespace MistoGO.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTicket(long id, [FromBody] SupportTicket ticket)
+        {
+            if (id != ticket.Id)
+            {
+                return BadRequest(new { message = "ID mismatch" });
+            }
+
+            try
+            {
+                var existingTicket = await _context.SupportTickets.FindAsync(id);
+                if (existingTicket == null)
+                {
+                    return NotFound(new { message = $"Ticket with ID {id} not found" });
+                }
+
+                // Оновлюємо поля
+                existingTicket.Email = ticket.Email;
+                existingTicket.Subject = ticket.Subject;
+                existingTicket.Category = ticket.Category;
+                existingTicket.Priority = ticket.Priority;
+                existingTicket.Status = ticket.Status;
+                existingTicket.UpdatedAt = DateTime.UtcNow;
+
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTicket(long id)
+        {
+            try
+            {
+                var ticket = await _context.SupportTickets.FindAsync(id);
+                if (ticket == null)
+                {
+                    return NotFound(new { message = $"Ticket with ID {id} not found" });
+                }
+
+                _context.SupportTickets.Remove(ticket);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
 

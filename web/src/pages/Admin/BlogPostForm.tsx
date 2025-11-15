@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
+import BackButton from "../../components/BackButton";
 interface BlogPostFormData {
   title: string;
   slug: string;
   excerpt: string;
-  content: string;
+  body: string;
   authorId: number;
-  imageUrl: string;
-  isPublished: boolean;
+  category: string;
+  status: string;
   tags: string;
+  
 }
 
 export default function BlogPostForm() {
@@ -22,10 +23,10 @@ export default function BlogPostForm() {
     title: "",
     slug: "",
     excerpt: "",
-    content: "",
-    authorId: 1,
-    imageUrl: "",
-    isPublished: false,
+    body: "",
+    authorId: 13,
+    category: "news",
+    status: "draft",
     tags: "",
   });
 
@@ -38,7 +39,7 @@ export default function BlogPostForm() {
   const loadPost = async () => {
     try {
       const API_URL = import.meta.env.VITE_API_URL || 'https://mistogo.online/api';
-      const response = await fetch(`${API_URL}/blog/${id}`);
+      const response = await fetch(`${API_URL}/blog_posts/${id}`);
       
       if (!response.ok) {
         throw new Error('Помилка завантаження');
@@ -49,10 +50,10 @@ export default function BlogPostForm() {
         title: data.title || "",
         slug: data.slug || "",
         excerpt: data.excerpt || "",
-        content: data.content || "",
-        authorId: data.authorId || data.author_id || 1,
-        imageUrl: data.imageUrl || data.image_url || "",
-        isPublished: data.isPublished !== undefined ? data.isPublished : data.is_published !== undefined ? data.is_published : false,
+        body: data.body || "",
+        authorId: data.authorId || data.author_id || 13,
+        category: data.category || "news",
+        status: data.status || "draft",
         tags: data.tags || "",
       });
     } catch (err: any) {
@@ -70,8 +71,8 @@ export default function BlogPostForm() {
       const token = localStorage.getItem('auth_token');
       
       const url = id 
-        ? `${API_URL}/blog/${id}` 
-        : `${API_URL}/blog`;
+        ? `${API_URL}/blog_posts/${id}` 
+        : `${API_URL}/blog_posts`;
       
       const method = id ? 'PUT' : 'POST';
       
@@ -97,7 +98,7 @@ export default function BlogPostForm() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     
     if (type === 'checkbox') {
@@ -199,8 +200,8 @@ export default function BlogPostForm() {
                 Зміст статті *
               </label>
               <textarea
-                name="content"
-                value={formData.content}
+                name="body"
+                value={formData.body}
                 onChange={handleChange}
                 required
                 rows={12}
@@ -212,31 +213,50 @@ export default function BlogPostForm() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  URL зображення
+                  Категорія *
                 </label>
-                <input
-                  type="text"
-                  name="imageUrl"
-                  value={formData.imageUrl}
+                <select
+                  name="category"
+                  value={formData.category}
                   onChange={handleChange}
-                  placeholder="/images/blog/post.jpg"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                />
+                >
+                  <option value="news">Новини</option>
+                  <option value="updates">Оновлення</option>
+                  <option value="tips">Поради</option>
+                  <option value="events">Події</option>
+                </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  ID автора
+                  Статус *
                 </label>
-                <input
-                  type="number"
-                  name="authorId"
-                  value={formData.authorId}
+                <select
+                  name="status"
+                  value={formData.status}
                   onChange={handleChange}
-                  required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                />
+                >
+                  <option value="draft">Чернетка</option>
+                  <option value="published">Опубліковано</option>
+                  <option value="archived">Архів</option>
+                </select>
               </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                ID автора
+              </label>
+              <input
+                type="number"
+                name="authorId"
+                value={formData.authorId}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+              />
             </div>
 
             <div>
@@ -254,20 +274,6 @@ export default function BlogPostForm() {
               <p className="text-xs text-gray-500 mt-1">
                 Розділіть теги комами
               </p>
-            </div>
-
-            <div className="flex items-center gap-2 p-4 bg-blue-50 rounded-md">
-              <input
-                type="checkbox"
-                id="isPublished"
-                name="isPublished"
-                checked={formData.isPublished}
-                onChange={handleChange}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-              />
-              <label htmlFor="isPublished" className="text-sm font-medium text-gray-700">
-                📢 Опублікувати статтю (видима для всіх)
-              </label>
             </div>
 
             <div className="flex gap-4 pt-4">

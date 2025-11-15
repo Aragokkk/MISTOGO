@@ -15,10 +15,14 @@ function Admin() {
 
   const tables: Table[] = [
     { name: 'users', label: 'користувачі', icon: '👥' },
+    { name: 'password_resets', label: 'відновлення паролю', icon: '🔑' },
+    { name: 'vehicle_types', label: 'типи транспорту', icon: '🚗' },
     { name: 'vehicles', label: 'транспорт', icon: '🛴' },
     { name: 'trips', label: 'поїздки', icon: '🗺️' },
     { name: 'payments', label: 'платежі', icon: '💳' },
+    { name: 'zones', label: 'зони', icon: '📍' },
     { name: 'blog_posts', label: 'блог', icon: '📝' },
+    { name: 'faq_items', label: 'FAQ', icon: '❓' },
     { name: 'support_tickets', label: 'підтримка', icon: '🎫' },
   ];
 
@@ -41,6 +45,8 @@ function Admin() {
       {/* Header */}
       <header className="admin-header">
         <h1>Адміністрування БД MistoGO</h1>
+        
+       
       </header>
 
       {/* Navigation Tabs */}
@@ -71,18 +77,7 @@ function Admin() {
                 <button
                   key={table.name}
                   className="table-card"
-                  onClick={() => {
-                    if (table.name === 'blog_posts') {
-                      navigate('/admin/blog');
-                    } else if (table.name === 'vehicles') {
-                      navigate('/admin/vehicles/new');
-                    } else if (table.name === 'users') {
-                      // ⭐ ЗМІНЕНО: тепер відкриває /admin/users/new
-                      navigate('/admin/users/new');
-                    } else {
-                      navigate(`/admin/tables/${table.name}`);
-                    }
-                  }}
+                  onClick={() => navigate(`/admin/tables/${table.name}`)}
                 >
                   <span className="table-icon">{table.icon}</span>
                   <div className="table-info">
@@ -258,7 +253,7 @@ function Admin() {
                 </thead>
                 <tbody>
                   <tr>
-                    <td><code>DATETIME</code></td>
+                    <td><code>TINYINT</code></td>
                     <td>created_at, started_at, ended_at, published_at</td>
                     <td>Використовується для більшості дат у системі. Зручно зберігати повний timestamp.</td>
                   </tr>
@@ -311,8 +306,8 @@ function Admin() {
 
         {activeTab === 'constraints' && (
           <div className="data-types-section">
-            <h2>Обмеження таблиць</h2>
-            <p>Обмеження для забезпечення цілісності даних</p>
+            <h2>Логічні типи даних</h2>
+            <p>Типи даних для зберігання булевих значень у БД MistoGO</p>
             
             <div className="types-table">
               <table>

@@ -1,3 +1,4 @@
+
 import { NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./Navbar.css";
@@ -8,6 +9,16 @@ export default function Navbar() {
   const [isTablet, setIsTablet] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { t, i18n } = useTranslation(); 
+
+  // Функція для визначення URL особистого кабінету
+  const getUserDashboardUrl = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      return user.role === 'admin' ? '/admin' : '/user/profile';
+    } catch {
+      return '/user/profile';
+    }
+  };
 
   // Перевірка розміру екрану для планшета
   useEffect(() => {
@@ -254,7 +265,7 @@ export default function Navbar() {
 
               {/* Кнопка входу або особистий кабінет */}
               {isLoggedIn ? (
-                <NavLink to="/user/profile" className={loginLinkClass}>
+                <NavLink to={getUserDashboardUrl()} className={loginLinkClass}>
                   Особистий кабінет
                 </NavLink>
               ) : (

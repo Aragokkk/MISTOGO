@@ -18,118 +18,55 @@ namespace MistoGO.Controllers
             _logger = logger;
         }
 
-        /// <summary>
-        /// GET: api/blog
-        /// Отримати список всіх постів
-        /// </summary>
+        // GET: api/blog_posts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BlogPost>>> GetBlogPosts(
-            [FromQuery] string? status = null,
-            [FromQuery] long? authorId = null)
+        public async Task<ActionResult<IEnumerable<BlogPost>>> GetBlogPosts()
         {
-            try
-            {
-                var query = _context.BlogPosts.AsQueryable();
+            var posts = await _context.BlogPosts
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
 
-                if (!string.IsNullOrEmpty(status))
-                {
-                    query = query.Where(p => p.Status == status);
-                }
-
-                if (authorId.HasValue)
-                {
-                    query = query.Where(p => p.AuthorId == authorId.Value);
-                }
-
-                var posts = await query
-                    .OrderByDescending(p => p.CreatedAt)
-                    .ToListAsync();
-
-                return Ok(posts);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error fetching blog posts");
-                return StatusCode(500, new { message = "Internal server error" });
-            }
+            return Ok(posts);
         }
 
-        /// <summary>
-        /// GET: api/blog/5
-        /// Отримати деталі одного поста за ID
-        /// </summary>
+        // GET: api/blog_posts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<BlogPost>> GetBlogPost(long id)
         {
-            try
-            {
-                var post = await _context.BlogPosts.FindAsync(id);
+            var post = await _context.BlogPosts.FindAsync(id);
 
-                if (post == null)
-                {
-                    return NotFound(new { message = $"Blog post with ID {id} not found" });
-                }
+            if (post == null)
+                return NotFound(new { message = $"Blog post with ID {id} not found" });
 
-                // Збільшуємо лічильник переглядів
-                post.ViewsCount++;
-                await _context.SaveChangesAsync();
+            post.ViewsCount++;
+            await _context.SaveChangesAsync();
 
-                return Ok(post);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error fetching blog post {PostId}", id);
-                return StatusCode(500, new { message = "Internal server error" });
-            }
+            return Ok(post);
         }
 
-        /// <summary>
-        /// GET: api/blog/slug/my-post-slug
-        /// Отримати пост за slug
-        /// </summary>
-        [HttpGet("slug/{slug}")]
-        public async Task<ActionResult<BlogPost>> GetBlogPostBySlug(string slug)
-        {
-            try
-            {
-                var post = await _context.BlogPosts
-                    .FirstOrDefaultAsync(p => p.Slug == slug);
-
-                if (post == null)
-                {
-                    return NotFound(new { message = $"Blog post with slug '{slug}' not found" });
-                }
-
-                // Збільшуємо лічильник переглядів
-                post.ViewsCount++;
-                await _context.SaveChangesAsync();
-
-                return Ok(post);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error fetching blog post with slug {Slug}", slug);
-                return StatusCode(500, new { message = "Internal server error" });
-            }
-        }
-
-        /// <summary>
-        /// POST: api/blog
-        /// Створити новий пост
-        /// </summary>
+        // POST: api/blog_posts
         [HttpPost]
-        public async Task<ActionResult<BlogPost>> CreateBlogPost(BlogPost post)
+        public async Task<ActionResult<BlogPost>> CreateBlogPost([FromBody] BlogPost post)
         {
             try
             {
+                post.Id = 0;
                 post.CreatedAt = DateTime.UtcNow;
                 post.UpdatedAt = DateTime.UtcNow;
                 post.ViewsCount = 0;
 
+                // нормализуем теги: если пришли как "a,b" — сделаем ["a","b"]
+                if (!string.IsNullOrEmpty(post.Tags) && !post.Tags.Trim().StartsWith("["))
+                {
+                    var tagsArray = post.Tags
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(t => t.Trim())
+                        .ToArray();
+                    post.Tags = System.Text.Json.JsonSerializer.Serialize(tagsArray);
+                }
+
                 _context.BlogPosts.Add(post);
                 await _context.SaveChangesAsync();
-
-                _logger.LogInformation("Blog post {PostId} ({Title}) created successfully", post.Id, post.Title);
 
                 return CreatedAtAction(nameof(GetBlogPost), new { id = post.Id }, post);
             }
@@ -140,80 +77,54 @@ namespace MistoGO.Controllers
             }
         }
 
-        /// <summary>
-        /// PUT: api/blog/5
-        /// Оновити існуючий пост
-        /// </summary>
+        // PUT: api/blog_posts/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBlogPost(long id, BlogPost post)
+        public async Task<IActionResult> UpdateBlogPost(long id, [FromBody] BlogPost updated)
         {
-            if (id != post.Id)
-            {
+            if (id != updated.Id)
                 return BadRequest(new { message = "Blog post ID mismatch" });
+
+            var post = await _context.BlogPosts.FindAsync(id);
+            if (post == null)
+                return NotFound(new { message = $"Blog post with ID {id} not found" });
+
+            post.Title = updated.Title;
+            post.Excerpt = updated.Excerpt;
+            post.Body = updated.Body;
+            post.Category = updated.Category;
+            post.Status = updated.Status;
+            post.ImageUrl = updated.ImageUrl;
+            post.UpdatedAt = DateTime.UtcNow;
+
+            // теги
+            if (!string.IsNullOrEmpty(updated.Tags) && !updated.Tags.Trim().StartsWith("["))
+            {
+                var tagsArray = updated.Tags
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(t => t.Trim())
+                    .ToArray();
+                post.Tags = System.Text.Json.JsonSerializer.Serialize(tagsArray);
+            }
+            else
+            {
+                post.Tags = updated.Tags;
             }
 
-            try
-            {
-                post.UpdatedAt = DateTime.UtcNow;
-                _context.Entry(post).State = EntityState.Modified;
-                
-                // Не змінюємо CreatedAt та ViewsCount
-                _context.Entry(post).Property(p => p.CreatedAt).IsModified = false;
-                _context.Entry(post).Property(p => p.ViewsCount).IsModified = false;
-                
-                await _context.SaveChangesAsync();
-
-                _logger.LogInformation("Blog post {PostId} updated successfully", id);
-
-                return NoContent();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await BlogPostExists(id))
-                {
-                    return NotFound(new { message = $"Blog post with ID {id} not found" });
-                }
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating blog post {PostId}", id);
-                return StatusCode(500, new { message = "Internal server error" });
-            }
+            await _context.SaveChangesAsync();
+            return Ok(post);
         }
 
-        /// <summary>
-        /// DELETE: api/blog/5
-        /// Видалити пост
-        /// </summary>
+        // DELETE: api/blog_posts/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBlogPost(long id)
         {
-            try
-            {
-                var post = await _context.BlogPosts.FindAsync(id);
-                if (post == null)
-                {
-                    return NotFound(new { message = $"Blog post with ID {id} not found" });
-                }
+            var post = await _context.BlogPosts.FindAsync(id);
+            if (post == null)
+                return NotFound();
 
-                _context.BlogPosts.Remove(post);
-                await _context.SaveChangesAsync();
-
-                _logger.LogInformation("Blog post {PostId} deleted successfully", id);
-
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error deleting blog post {PostId}", id);
-                return StatusCode(500, new { message = "Internal server error" });
-            }
-        }
-
-        private async Task<bool> BlogPostExists(long id)
-        {
-            return await _context.BlogPosts.AnyAsync(e => e.Id == id);
+            _context.BlogPosts.Remove(post);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

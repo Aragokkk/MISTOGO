@@ -93,7 +93,7 @@ function validateWfpPayload(data) {
 export default function PaymentForm() {
   const navigate = useNavigate();
   const [amount, setAmount] = useState(1);
-  const [desc] = useState("Card verification");  // ✅ Латиниця!
+  const [desc] = useState("Card verification");
   const [loading, setLoading] = useState(false);
   const [saveCard, setSaveCard] = useState(true);
   const [userId, setUserId] = useState(null);
@@ -167,8 +167,6 @@ export default function PaymentForm() {
       const data = resp?.data;
       console.log("✅ Backend response (type):", typeof data);
       console.log("✅ Backend response (keys):", data && Object.keys(data));
-      
-      // 🔍 ДІАГНОСТИКА
       console.log("📊 FULL RESPONSE:", JSON.stringify(data, null, 2));
       console.log("🔐 merchantSignature:", data.merchantSignature);
       console.log("🔐 signature length:", data.merchantSignature?.length);
@@ -187,35 +185,35 @@ export default function PaymentForm() {
         throw new Error("WayForPay SDK не ініціалізований після завантаження.");
       }
 
-      const wfp = new window.Wayforpay();
-
-      // ✅ КРИТИЧНО: Передаємо ТІЛЬКИ ті поля, які потрібні WayForPay
-      // Не передаємо paymentId, та інші внутрішні поля
-      const launchData = {
-        merchantAccount: data.merchantAccount,
-        merchantDomainName: data.merchantDomainName,
-        orderReference: data.orderReference,
-        orderDate: data.orderDate,
-        amount: data.amount,
-        currency: data.currency,
-        productName: data.productName,
-        productCount: data.productCount,
-        productPrice: data.productPrice,
-        merchantSignature: data.merchantSignature,
-        returnUrl: data.returnUrl,
-        serviceUrl: data.serviceUrl,
-        
-        // ✅ Додаткові поля (якщо є в відповіді)
-        ...(data.requestType && { requestType: data.requestType }),
-        language: data.language || "UA",
-        clientFirstName: data.clientFirstName || "User",
-        clientLastName: data.clientLastName || "MistoGO",
-        clientPhone: data.clientPhone || "380630000000",
-      };
+      // 🔧 НОРМАЛІЗАЦІЯ ТИПІВ ПЕРЕД ВИКЛИКОМ ВІДЖЕТА:
+      // orderDate → Number, amount → Number, productCount → Number[], productPrice → Number[]
+const launchData = {
+  merchantAccount: data.merchantAccount,
+  merchantDomainName: data.merchantDomainName,
+  orderReference: data.orderReference,
+  orderDate: Number(data.orderDate),
+  amount: Number(data.amount),              // ← ЧИСЛО для віджета
+  currency: data.currency,
+  productName: data.productName,
+  productCount: data.productCount.map(x => Number(x)),  // ← ЧИСЛА [1]
+  productPrice: data.productPrice.map(x => Number(x)),  // ← ЧИСЛА [1.00]
+  merchantSignature: data.merchantSignature,
+  returnUrl: data.returnUrl,
+  serviceUrl: data.serviceUrl,
+  ...(data.requestType && { requestType: data.requestType }),
+  language: data.language || "UA",
+  clientFirstName: data.clientFirstName || "User",
+  clientLastName: data.clientLastName || "MistoGO",
+  clientPhone: data.clientPhone || "380630000000",
+};
 
       console.log("🚀 Відкриваємо WayForPay run() з даними:", launchData);
       console.log("🔐 Final signature for WFP:", launchData.merchantSignature);
+      console.log("🔥 launchData.productCount:", launchData.productCount, typeof launchData.productCount[0]);
+console.log("🔥 launchData.productPrice:", launchData.productPrice, typeof launchData.productPrice[0]);
+console.log("🔥 launchData.amount:", launchData.amount, typeof launchData.amount);
 
+      const wfp = new window.Wayforpay();
       wfp.run(
         launchData,
         // success
@@ -236,7 +234,7 @@ export default function PaymentForm() {
         // fail
         (resp) => {
           console.log("❌ Відхилено:", resp);
-          console.log("❌ Reason:", resp.reason);
+          console.log("❌ Reason:", resp?.reason);
           navigate("/payment/fail", {
             state: { orderReference: data.orderReference, amount, desc, resp },
             replace: true,
@@ -259,6 +257,7 @@ export default function PaymentForm() {
         }
       );
 
+      // Діагностика iframe
       setTimeout(() => {
         const iframes = Array.from(document.querySelectorAll("iframe")).map(
           (f) => ({

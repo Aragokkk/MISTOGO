@@ -5,6 +5,7 @@ import styles from "./PostDetail.module.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://mistogo.online/api";
 
+// ---- Тип для поста ----
 interface BlogPost {
   id: number;
   title: string;
@@ -24,6 +25,7 @@ export default function PostDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // --- Завантаження поста ---
   useEffect(() => {
     if (!id) return;
 
@@ -45,7 +47,10 @@ export default function PostDetail() {
             ? JSON.parse(data.tags || "[]")
             : [],
           createdAt: data.createdAt,
-          imageUrl: data.imageUrl || data.image_url || "/image/Blog2.png",
+          imageUrl:
+            data.imageUrl ||
+            data.image_url ||
+            "/image/Blog2.png", // fallback
         });
       } catch (err) {
         console.error(err);
@@ -58,6 +63,7 @@ export default function PostDetail() {
     fetchPost();
   }, [id]);
 
+  // --- Стан завантаження ---
   if (loading)
     return (
       <div className="text-center mt-10 text-gray-500">
@@ -65,6 +71,7 @@ export default function PostDetail() {
       </div>
     );
 
+  // --- Помилка ---
   if (error)
     return (
       <div className="text-center mt-10 text-red-600">
@@ -80,6 +87,7 @@ export default function PostDetail() {
       </div>
     );
 
+  // --- Якщо пост не знайдено ---
   if (!post)
     return (
       <div className="text-center mt-10 text-gray-500">
@@ -87,6 +95,7 @@ export default function PostDetail() {
       </div>
     );
 
+  // --- Рендер контенту ---
   return (
     <div className={styles.postDetailContainer}>
       <div className={styles.postDetailHero}>

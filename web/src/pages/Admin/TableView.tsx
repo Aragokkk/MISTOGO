@@ -34,15 +34,11 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
       setLoading(true);
       setError(null);
       
-      // ✅ ВИПРАВЛЕНО: Чітке формування URL
       const BASE_URL = import.meta.env.VITE_API_URL || 'https://mistogo.online/api';
-      
-      // Прибираємо зайві слеші
       const cleanBaseUrl = BASE_URL.replace(/\/+$/, '');
       const fullUrl = `${cleanBaseUrl}/${tableName}`;
       
       console.log('🔄 TableView - Fetching table:', tableName);
-      console.log('🔗 BASE_URL:', BASE_URL);
       console.log('🌐 Full URL:', fullUrl);
       
       const response = await fetch(fullUrl, {
@@ -53,9 +49,7 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
       });
       
       console.log('📡 Response status:', response.status);
-      console.log('📡 Response ok:', response.ok);
       
-      // ✅ ВИПРАВЛЕНО: Детальна обробка помилок
       if (!response.ok) {
         const errorText = await response.text();
         console.error('❌ Error response:', errorText);
@@ -64,9 +58,7 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
       
       const result = await response.json();
       console.log('✅ Data received:', result);
-      console.log('✅ Data length:', Array.isArray(result) ? result.length : 'Not an array');
       
-      // ✅ ВИПРАВЛЕНО: Перевірка чи це масив
       if (!Array.isArray(result)) {
         console.error('❌ Result is not an array:', result);
         throw new Error('Відповідь від сервера не є масивом');
@@ -74,7 +66,6 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
       
       setData(result);
       
-      // ✅ Налаштовуємо колонки
       if (result.length > 0) {
         const filteredColumns = Object.keys(result[0]).filter(key => 
           !['type', 'photos', 'descriptionDynamics', 'descriptionEngine', 'descriptionTransmission', 'passwordHash'].includes(key)
@@ -88,7 +79,6 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
       setLoading(false);
     } catch (err: any) {
       console.error('❌ API Error:', err);
-      console.error('❌ Error stack:', err.stack);
       setError(`Помилка завантаження: ${err.message}`);
       setLoading(false);
     }
@@ -97,7 +87,6 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
   const filterData = () => {
     let filtered = [...data];
 
-    // Пошук
     if (searchQuery) {
       filtered = filtered.filter(row => {
         return Object.values(row).some(value =>
@@ -106,7 +95,6 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
       });
     }
 
-    // Фільтр по статусу
     if (statusFilter !== 'all' && filtered.length > 0 && 'status' in filtered[0]) {
       filtered = filtered.filter(row => row.status === statusFilter);
     }
@@ -143,6 +131,87 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
     }
   };
 
+  // ⭐ НОВА ФУНКЦІЯ: Рендер кнопок дій
+  const renderActionButtons = (row: any) => {
+    // Спеціальна логіка для support_tickets - тільки "Перегляд"
+    if (tableName === 'support_tickets') {
+      return (
+        <button 
+          onClick={() => navigate(`/admin/tables/support_tickets/view/${row.id}`)}
+          className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm font-medium"
+          title="Переглянути деталі тікета"
+        >
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M10 3.75C5.83333 3.75 2.275 6.34167 1 10C2.275 13.6583 5.83333 16.25 10 16.25C14.1667 16.25 17.725 13.6583 19 10C17.725 6.34167 14.1667 3.75 10 3.75Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M10 13.125C11.7259 13.125 13.125 11.7259 13.125 10C13.125 8.27411 11.7259 6.875 10 6.875C8.27411 6.875 6.875 8.27411 6.875 10C6.875 11.7259 8.27411 13.125 10 13.125Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          Перегляд
+        </button>
+      );
+    }
+
+    // Спеціальна логіка для trips - тільки "Перегляд"
+    if (tableName === 'trips') {
+      return (
+        <button 
+          onClick={() => navigate(`/admin/trips/view/${row.id}`)}
+          className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm font-medium"
+          title="Переглянути деталі поїздки"
+        >
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M10 3.75C5.83333 3.75 2.275 6.34167 1 10C2.275 13.6583 5.83333 16.25 10 16.25C14.1667 16.25 17.725 13.6583 19 10C17.725 6.34167 14.1667 3.75 10 3.75Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M10 13.125C11.7259 13.125 13.125 11.7259 13.125 10C13.125 8.27411 11.7259 6.875 10 6.875C8.27411 6.875 6.875 8.27411 6.875 10C6.875 11.7259 8.27411 13.125 10 13.125Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          Перегляд
+        </button>
+      );
+    }
+
+    // Стандартні кнопки Edit + Delete для інших таблиць
+    return (
+      <div className="flex items-center gap-2 justify-end">
+        <button 
+          onClick={() => navigate(`/admin/${tableName}/edit/${row.id}`)}
+          className="text-blue-600 hover:text-blue-900 text-xl"
+          title="Редагувати"
+        >
+          ✏️
+        </button>
+        <button 
+          onClick={() => handleDelete(row.id)}
+          className="text-red-600 hover:text-red-900 text-xl"
+          title="Видалити"
+        >
+          🗑️
+        </button>
+      </div>
+    );
+  };
+
   const formatValue = (value: any): string => {
     if (value === null || value === undefined) return '-';
     if (typeof value === 'boolean') return value ? '✓' : '✗';
@@ -158,7 +227,10 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
       zones: "Зони",
       posts: "Блог",
       trips: "Поїздки",
-      payments: "Платежі"
+      payments: "Платежі",
+      support_tickets: "Тікети підтримки",
+      faq_items: "FAQ",
+      vehicle_types: "Типи транспорту"
     };
     return titles[tableName] || tableName;
   };
@@ -169,8 +241,31 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
       in_use: "bg-blue-100 text-blue-800",
       maintenance: "bg-yellow-100 text-yellow-800",
       reserved: "bg-purple-100 text-purple-800",
+      // Support tickets статуси
+      open: "bg-green-100 text-green-800",
+      pending: "bg-yellow-100 text-yellow-800",
+      in_progress: "bg-blue-100 text-blue-800",
+      resolved: "bg-purple-100 text-purple-800",
+      closed: "bg-gray-100 text-gray-800"
     };
     return statusClasses[status] || "bg-gray-100 text-gray-800";
+  };
+
+  // ⭐ НОВА ФУНКЦІЯ: Визначення чи показувати кнопку "Додати"
+  const shouldShowAddButton = (): boolean => {
+    // Не показуємо кнопку "Додати" для trips та support_tickets
+    return !['trips', 'support_tickets'].includes(tableName);
+  };
+
+  // ⭐ НОВА ФУНКЦІЯ: Отримати URL для створення нового запису
+  const getNewRecordUrl = (): string => {
+    const customUrls: Record<string, string> = {
+      faq_items: '/admin/tables/faq_items/new',
+      vehicle_types: '/admin/tables/vehicle_types/new',
+      support_tickets: '/admin/tables/support_tickets/new'
+    };
+    
+    return customUrls[tableName] || `/admin/${tableName}/new`;
   };
 
   if (loading) {
@@ -199,12 +294,16 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
               Показано {displayData.length} з {data.length} записів
             </p>
           </div>
-          <button 
-            onClick={() => navigate(`/admin/${tableName}/new`)}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
-          >
-            + Додати
-          </button>
+          
+          {/* ⭐ ОНОВЛЕНО: Кнопка "Додати" показується не для всіх таблиць */}
+          {shouldShowAddButton() && (
+            <button 
+              onClick={() => navigate(getNewRecordUrl())}
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+            >
+              + Додати
+            </button>
+          )}
         </div>
 
         {/* Фільтри */}
@@ -225,7 +324,7 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
             </div>
 
             {/* Фільтр по статусу */}
-            {tableName === 'vehicles' && (
+            {(tableName === 'vehicles' || tableName === 'support_tickets') && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   📊 Статус
@@ -236,16 +335,29 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">Всі</option>
-                  <option value="available">Доступні</option>
-                  <option value="in_use">В оренді</option>
-                  <option value="maintenance">Обслуговування</option>
+                  {tableName === 'vehicles' && (
+                    <>
+                      <option value="available">Доступні</option>
+                      <option value="in_use">В оренді</option>
+                      <option value="maintenance">Обслуговування</option>
+                    </>
+                  )}
+                  {tableName === 'support_tickets' && (
+                    <>
+                      <option value="open">Відкрито</option>
+                      <option value="pending">Очікує</option>
+                      <option value="in_progress">В роботі</option>
+                      <option value="resolved">Вирішено</option>
+                      <option value="closed">Закрито</option>
+                    </>
+                  )}
                 </select>
               </div>
             )}
           </div>
         </div>
 
-        {/* ✅ ДОДАНО: Блок для відображення помилок */}
+        {/* Блок для відображення помилок */}
         {error && (
           <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
             <div className="flex">
@@ -309,20 +421,8 @@ export default function TableView({ tableName: propTableName }: TableViewProps) 
                         </td>
                       ))}
                       <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
-                        <button 
-                          onClick={() => navigate(`/admin/${tableName}/edit/${row.id}`)}
-                          className="text-blue-600 hover:text-blue-900 mr-3"
-                          title="Редагувати"
-                        >
-                          ✏️
-                        </button>
-                        <button 
-                          onClick={() => handleDelete(row.id)}
-                          className="text-red-600 hover:text-red-900"
-                          title="Видалити"
-                        >
-                          🗑️
-                        </button>
+                        {/* ⭐ ВИКОРИСТОВУЄМО НОВУ ФУНКЦІЮ */}
+                        {renderActionButtons(row)}
                       </td>
                     </tr>
                   ))}

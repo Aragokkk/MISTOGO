@@ -16,6 +16,7 @@ namespace MistoGO.Controllers
         private readonly ILogger<PaymentController> _logger;
         private readonly IConfiguration _configuration;
 
+        // ✅ Тестові реквізити WayForPay
         private const string MERCHANT_ACCOUNT = "test_merch_n1";
         private const string MERCHANT_SECRET_KEY = "flk3409refn54t54t*FNJRET";
 
@@ -26,15 +27,24 @@ namespace MistoGO.Controllers
             _configuration = configuration;
         }
 
+        // ============================================
+        // 🎯 Створення інвойсу (платіж / VERIFY)
+        // ============================================
         [HttpPost("create")]
         public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentRequest request)
         {
             try
             {
-                var merchantDomainName = "mistogo.online";
+                // Домен мерчанта (публічний)
+                var merchantDomainName = "www.market.ua";
+
+                // orderDate — UNIX seconds (long, число)
                 var orderDateSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+                // orderReference — унікальний
                 var orderReference = $"ORDER_{orderDateSeconds}_{request.UserId}";
 
+                // Зберігаємо запис у нашій БД
                 var payment = new Payment
                 {
                     UserId = request.UserId,
@@ -46,85 +56,75 @@ namespace MistoGO.Controllers
                 };
                 _context.Payments.Add(payment);
                 await _context.SaveChangesAsync();
+
                 _logger.LogInformation("💾 Payment created: ID={PaymentId}", payment.Id);
 
-                var productNameArray = new[] { request.ProductName };
-                var productCountArray = new[] { 1 };
-                var productPriceArray = new[] { request.Amount };
+                // Для підпису — працюємо з decimal/int масивами
+                var productName = new[] { request.ProductName };
+                var productCount = new[] { 1 };
+                var productPrice = new[] { request.Amount };
 
-                // ✅ Якщо SaveCard = true, генеруємо підпис для VERIFY режиму
-                string merchantSignature;
-                string baseString; // ✅ Оголошуємо тут, щоб використати для логування
-                
-                if (request.SaveCard)
-                {
-                    baseString = BuildVerifySignatureBase(
-                        MERCHANT_ACCOUNT,
-                        merchantDomainName,
-                        orderReference,
-                        orderDateSeconds,
-                        request.Amount,
-                        request.Currency,
-                        productNameArray,
-                        productCountArray,
-                        productPriceArray,
-                        MERCHANT_SECRET_KEY
-                    );
-                    merchantSignature = Md5HexLower(baseString);
-                    _logger.LogInformation("🔐 VERIFY baseString: {Base}", baseString);
-                }
-                else
-                {
-                    baseString = BuildSignatureBase(
-                        MERCHANT_ACCOUNT,
-                        merchantDomainName,
-                        orderReference,
-                        orderDateSeconds,
-                        request.Amount,
-                        request.Currency,
-                        productNameArray,
-                        productCountArray,
-                        productPriceArray,
-                        MERCHANT_SECRET_KEY
-                    );
-                    merchantSignature = Md5HexLower(baseString);
-                    _logger.LogInformation("🔐 PAYMENT baseString: {Base}", baseString);
-                }
+                // ВАЖЛИВО: формуємо підпис за правильною формулою WayForPay
+                // Порядок: productName[] → productCount[] → productPrice[]
+                string baseString = BuildSignatureBase(
+                    MERCHANT_ACCOUNT,
+                    merchantDomainName,
+                    orderReference,
+                    orderDateSeconds,
+                    request.Amount,
+                    request.Currency,
+                    productName,
+                    productCount,
+                    productPrice,
+                    MERCHANT_SECRET_KEY
+                );
 
+                var merchantSignature = Md5HexLower(baseString);
+
+                // Тестова перевірка з правильним порядком
+                var testBase = "test_merch_n1;www.market.ua;DH1762697005;1415379863;1547.36;UAH;Процесор Intel Core i5-4670 3.4GHz;Kingston DDR3-1600 4096MB PC3-12800;1;1;1000;547.36;flk3409refn54t54t*FNJRET";
+                var testSig = Md5HexLower(testBase);
+                _logger.LogInformation("🧪 Test signature (with correct order): {Test}", testSig);
+
+                // Публічні URL-и
                 var frontendUrl = _configuration["AppSettings:FrontendUrl"] ?? "https://mistogo.online";
                 var backendUrl = _configuration["AppSettings:BackendUrl"] ?? "https://api.mistogo.online";
 
-                // ✅ Формуємо відповідь
+                // У відповіді уніфікуємо формат: amount / productPrice як "0.00", orderDate — число
+                var inv = CultureInfo.InvariantCulture;
+                var amountStr = request.Amount.ToString("0.00", inv);
+
+                _logger.LogInformation("🔐 WFP signature: {Sig} (len={Len})", merchantSignature, merchantSignature.Length);
+                _logger.LogInformation("🔐 BaseString: {Base}", baseString);
+
                 var response = new
                 {
                     merchantAccount = MERCHANT_ACCOUNT,
                     merchantDomainName,
+                    authorizationType = "SimpleSignature",  // ← ДОДАЙ ЦЕ
                     orderReference,
-                    orderDate = orderDateSeconds.ToString(),
-                    amount = request.Amount.ToString("0.##", CultureInfo.InvariantCulture),
+                    orderDate = orderDateSeconds,                         // ← число
+                    amount = amountStr,                                   // ← "1.00"
                     currency = request.Currency,
                     productName = new[] { request.ProductName },
-                    productCount = new[] { "1" },
-                    productPrice = new[] { request.Amount.ToString("0.##", CultureInfo.InvariantCulture) },
+                    productCount = new[] { "1" },                         // ← як рядок
+                    productPrice = new[] { amountStr },                   // ← "1.00"
                     merchantSignature,
-                    
-                    // ✅ Додаємо requestType тільки якщо SaveCard = true
-                    requestType = request.SaveCard ? "VERIFY" : (string?)null,
-                    
+
+                    // requestType передаємо ТІЛЬКИ у payload, у підпис не входить
+                    requestType = request.SaveCard ? "VERIFY" : null,
+
                     returnUrl = request.ReturnUrl ?? $"{frontendUrl}/payment/success",
                     serviceUrl = $"{backendUrl}/api/Payment/callback",
                     paymentId = payment.Id,
+
+                    // Додаткові поля
                     language = "UA",
                     clientFirstName = "Vlad",
                     clientLastName = "Test",
                     clientPhone = "380630000000"
                 };
 
-                _logger.LogInformation("🔍 WFP signature: {Sig} (length={Len})", merchantSignature, merchantSignature.Length);
-Console.WriteLine("=".PadLeft(50, '='));
-Console.WriteLine($"🔐 Signature: {merchantSignature}");
-Console.WriteLine($"🔐 BaseString: {baseString}");
-Console.WriteLine("=".PadLeft(50, '='));
                 return Ok(response);
             }
             catch (Exception ex)
@@ -134,6 +134,9 @@ Console.WriteLine("=".PadLeft(50, '='));
             }
         }
 
+        // ============================================
+        // 🔁 Callback від WayForPay
+        // ============================================
         [HttpPost("callback")]
         public async Task<IActionResult> PaymentCallback([FromBody] PaymentCallbackRequest callback)
         {
@@ -141,7 +144,8 @@ Console.WriteLine("=".PadLeft(50, '='));
             {
                 _logger.LogInformation("💳 Callback: {Ref} - {Status}", callback.OrderReference, callback.TransactionStatus);
 
-                var orderParts = callback.OrderReference.Split('_');
+                // Витягуємо userId з нашого orderReference: ORDER_{ts}_{userId}
+                var orderParts = callback.OrderReference?.Split('_') ?? Array.Empty<string>();
                 if (orderParts.Length >= 3 && long.TryParse(orderParts[2], out var userId))
                 {
                     var payment = await _context.Payments
@@ -159,15 +163,15 @@ Console.WriteLine("=".PadLeft(50, '='));
 
                         _logger.LogInformation("✅ Payment {Id} updated: {Status}", payment.Id, payment.Status);
 
-                        // ✅ Якщо є recToken - зберігаємо його (для майбутніх платежів)
-                        if (!string.IsNullOrEmpty(callback.RecToken))
+                        if (!string.IsNullOrWhiteSpace(callback.RecToken))
                         {
                             _logger.LogInformation("💳 RecToken received: {Token}", callback.RecToken);
-                            // Тут можна зберегти токен в базі для користувача
+                            // TODO: Зберегти токен до профілю користувача (для майбутніх списань)
                         }
                     }
                 }
 
+                // WayForPay очікує { status: "accept" }
                 return Ok(new { orderReference = callback.OrderReference, status = "accept" });
             }
             catch (Exception ex)
@@ -178,7 +182,7 @@ Console.WriteLine("=".PadLeft(50, '='));
         }
 
         // ============================================
-        // 📊 CRUD OPERATIONS (без змін)
+        // 📊 CRUD / Stats
         // ============================================
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Payment>>> GetPayments(
@@ -188,14 +192,13 @@ Console.WriteLine("=".PadLeft(50, '='));
         {
             try
             {
-                var query = _context.Payments.AsQueryable();
+                var q = _context.Payments.AsQueryable();
+                if (userId.HasValue) q = q.Where(p => p.UserId == userId.Value);
+                if (tripId.HasValue) q = q.Where(p => p.TripId == tripId.Value);
+                if (!string.IsNullOrWhiteSpace(status)) q = q.Where(p => p.Status == status.ToLower());
 
-                if (userId.HasValue) query = query.Where(p => p.UserId == userId.Value);
-                if (tripId.HasValue) query = query.Where(p => p.TripId == tripId.Value);
-                if (!string.IsNullOrWhiteSpace(status)) query = query.Where(p => p.Status == status.ToLower());
-
-                var payments = await query.OrderByDescending(p => p.CreatedAt).ToListAsync();
-                return Ok(payments);
+                var list = await q.OrderByDescending(p => p.CreatedAt).ToListAsync();
+                return Ok(list);
             }
             catch (Exception ex)
             {
@@ -214,9 +217,7 @@ Console.WriteLine("=".PadLeft(50, '='));
                     .Include(p => p.Trip)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-                if (payment == null)
-                    return NotFound(new { message = $"Payment {id} not found" });
-
+                if (payment == null) return NotFound(new { message = $"Payment {id} not found" });
                 return Ok(payment);
             }
             catch (Exception ex)
@@ -250,16 +251,14 @@ Console.WriteLine("=".PadLeft(50, '='));
         {
             try
             {
-                var query = _context.Payments.AsQueryable();
-                if (userId.HasValue) query = query.Where(p => p.UserId == userId.Value);
+                var q = _context.Payments.AsQueryable();
+                if (userId.HasValue) q = q.Where(p => p.UserId == userId.Value);
 
-                var total = await query.CountAsync();
-                var completed = await query.CountAsync(p => p.Status == "completed");
-                var pending = await query.CountAsync(p => p.Status == "pending");
-                var failed = await query.CountAsync(p => p.Status == "failed");
-                var totalAmount = await query
-                    .Where(p => p.Status == "completed")
-                    .SumAsync(p => (decimal?)p.Amount) ?? 0;
+                var total = await q.CountAsync();
+                var completed = await q.CountAsync(p => p.Status == "completed");
+                var pending = await q.CountAsync(p => p.Status == "pending");
+                var failed = await q.CountAsync(p => p.Status == "failed");
+                var totalAmount = await q.Where(p => p.Status == "completed").SumAsync(p => (decimal?)p.Amount) ?? 0;
 
                 return Ok(new
                 {
@@ -337,7 +336,6 @@ Console.WriteLine("=".PadLeft(50, '='));
 
                 _context.Payments.Remove(payment);
                 await _context.SaveChangesAsync();
-
                 return NoContent();
             }
             catch (Exception ex)
@@ -350,7 +348,17 @@ Console.WriteLine("=".PadLeft(50, '='));
         // ============ Helpers для WayForPay ============
 
         /// <summary>
-        /// Підпис для звичайного платежу (без requestType)
+        /// Формуємо базову строку підпису за формулою WayForPay (з документації):
+        /// merchantAccount;merchantDomainName;orderReference;orderDate;amount;currency;
+        /// productName[0];productName[1]...productName[n];
+        /// productCount[0];productCount[1]...productCount[n];
+        /// productPrice[0];productPrice[1]...productPrice[n];
+        /// merchantSecretKey
+        /// 
+        /// КРИТИЧНО ВАЖЛИВО: порядок productName[] → productCount[] → productPrice[]
+        /// (НЕ productName[] → productPrice[] → productCount[]!)
+        /// 
+        /// УВАГА: amount та productPrice обов'язково у форматі "0.00"
         /// </summary>
         private static string BuildSignatureBase(
             string merchantAccount,
@@ -372,54 +380,22 @@ Console.WriteLine("=".PadLeft(50, '='));
                 merchantDomainName,
                 orderReference,
                 orderDateSeconds.ToString(inv),
-                amount.ToString("0.##", inv),
+                amount.ToString("0.00", inv),
                 currency
             };
 
+            // 1. Додаємо всі productName[]
             parts.AddRange(productName);
-            foreach (var c in productCount) parts.Add(c.ToString(inv));
-            foreach (var p in productPrice) parts.Add(p.ToString("0.##", inv));
-            parts.Add(merchantSecretKey);
 
-            return string.Join(";", parts);
-        }
+            // 2. Додаємо всі productCount[] (згідно документації WayForPay)
+            foreach (var c in productCount)
+                parts.Add(c.ToString(inv));
 
-        /// <summary>
-        /// Підпис для VERIFY режиму (верифікація картки)
-        /// ВАЖЛИВО: requestType НЕ входить у підпис, але передається у payload!
-        /// Формула: merchantAccount;merchantDomainName;orderReference;orderDate;amount;currency;productName;productCount;productPrice;merchantSecretKey
-        /// </summary>
-        private static string BuildVerifySignatureBase(
-            string merchantAccount,
-            string merchantDomainName,
-            string orderReference,
-            long orderDateSeconds,
-            decimal amount,
-            string currency,
-            string[] productName,
-            int[] productCount,
-            decimal[] productPrice,
-            string merchantSecretKey)
-        {
-            var inv = CultureInfo.InvariantCulture;
+            // 3. Додаємо всі productPrice[]
+            foreach (var p in productPrice)
+                parts.Add(p.ToString("0.00", inv));
 
-            var parts = new List<string>
-            {
-                merchantAccount,
-                merchantDomainName,
-                orderReference,
-                orderDateSeconds.ToString(inv),
-                amount.ToString("0.##", inv),
-                currency
-            };
-
-            parts.AddRange(productName);
-            foreach (var c in productCount) parts.Add(c.ToString(inv));
-            foreach (var p in productPrice) parts.Add(p.ToString("0.##", inv));
-            
-            // ✅ НЕ додаємо requestType до підпису!
-            // parts.Add("VERIFY");  // <-- Видалено!
-            
+            // 4. Додаємо секретний ключ
             parts.Add(merchantSecretKey);
 
             return string.Join(";", parts);
@@ -436,15 +412,17 @@ Console.WriteLine("=".PadLeft(50, '='));
         }
     }
 
+    // ===== DTOs =====
+
     public class CreatePaymentRequest
     {
         public long UserId { get; set; }
         public long? TripId { get; set; }
         public string MerchantDomainName { get; set; } = "mistogo.online";
-        public string ProductName { get; set; } = "Card verification";  // ✅ Латиниця!
-        public decimal Amount { get; set; }
+        public string ProductName { get; set; } = "Card verification"; // латиниця
+        public decimal Amount { get; set; } = 1.00m;
         public string Currency { get; set; } = "UAH";
-        public bool SaveCard { get; set; } = false;
+        public bool SaveCard { get; set; } = true;
         public string? ReturnUrl { get; set; }
     }
 

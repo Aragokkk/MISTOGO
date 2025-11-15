@@ -136,7 +136,7 @@ namespace MistoGO.Controllers
         /// Оновити існуючий тип транспорту
         /// </summary>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVehicleType(int id, VehicleType vehicleType)
+        public async Task<IActionResult> UpdateVehicleType(byte id, VehicleType vehicleType)
         {
             if (id != vehicleType.Id)
             {

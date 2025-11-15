@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WayForPay Test</title>
+</head>
+<body>
+    <h1>Test WayForPay Widget</h1>
+    <button onclick="pay()">Тест оплати</button>
+
+    <script src="https://secure.wayforpay.com/server/pay-widget.js"></script>
+    <script>
+        function pay() {
+            var wayforpay = new Wayforpay();
+            wayforpay.run({
+                merchantAccount: "test_merch_n1",
+                merchantDomainName: "mistogo.online",
+                authorizationType: "SimpleSignature",
+                merchantSignature: "693e591afca69d05a6296671a15d863e",
+                orderReference: "TEST_" + Date.now(),
+                orderDate: Math.floor(Date.now() / 1000),
+                amount: "1.00",
+                currency: "UAH",
+                productName: ["Card verification"],
+                productPrice: ["1.00"],
+                productCount: ["1"],
+                requestType: "VERIFY",
+                clientFirstName: "Test",
+                clientLastName: "User",
+                clientEmail: "test@test.com",
+                clientPhone: "380631234567",
+                language: "UA"
+            },
+            function(response) {
+                console.log("✅ Approved:", response);
+            },
+            function(response) {
+                console.error("❌ Declined:", response);
+            });
+        }
+    </script>
+</body>
+</html>

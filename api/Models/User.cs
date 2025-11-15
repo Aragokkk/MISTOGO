@@ -9,7 +9,7 @@ namespace MistoGO.Models
     {
         [Key] [Column("id")] public long Id { get; set; }
         [Required, MaxLength(120)] [Column("email")] public string Email { get; set; } = null!;
-        [Required, MaxLength(255)] [Column("password_hash")] public string PasswordHash { get; set; } = null!;
+        [MaxLength(255)] [Column("password_hash")] public string? PasswordHash { get; set; }
         [MaxLength(120)] [Column("full_name")] public string? FullName { get; set; }
         [MaxLength(20)]  [Column("phone")]     public string? Phone { get; set; }
         [Column("phone_verified")]  public bool PhoneVerified { get; set; } = false;
